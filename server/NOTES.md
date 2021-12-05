@@ -17,6 +17,10 @@ $ docker-compose up -d --build
 docker-compose logs web # see logs
 ```
 
+entrypoint chmod:
+```bash
+$ chmod +x project/entrypoint.sh
+```
 
 Copy & run db script
 ```bash

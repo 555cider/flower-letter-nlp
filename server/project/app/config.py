@@ -2,9 +2,9 @@
 FastAPI server configuration
 """
 
-from decouple import config
 from pydantic import BaseSettings, AnyUrl
 from fastapi_mail import ConnectionConfig
+import os
 
 import logging
 from functools import lru_cache
@@ -15,24 +15,24 @@ log = logging.getLogger("uvicorn")
 class Settings(BaseSettings):
     """Server config settings"""
 
-    environment: str = config("ENVIRONMENT", "dev")  # defaults to dev env
-    testing: bool = config("TESTING", 0)  # whether testing mode
+    environment: str = os.getenv("ENVIRONMENT", "dev")  # defaults to dev env
+    testing: bool = os.getenv("TESTING", 0)  # whether testing mode
 
     # Database settings
-    sqldb_uri: AnyUrl = config("SQL_DB_DEV")
-    mongo_uri: str = config("MONGO_URI")
-    mongo_db = config("MONGO_DB_DEV")
+    sqldb_uri: AnyUrl = os.getenv("SQL_DB_URL")
+    mongo_uri: str = os.getenv("MONGO_URL")
+    mongo_db = os.getenv("MONGO_DB")
 
     # Email settings
     email_config = ConnectionConfig(
-        MAIL_USERNAME=config("MAIL_USERNAME"),
-        MAIL_PASSWORD=config("MAIL_PASSWORD"),
-        MAIL_PORT=config("MAIL_PORT"),
-        MAIL_SERVER=config("MAIL_SERVER"),
-        MAIL_TLS=config("MAIL_TLS"),
-        MAIL_SSL=config("MAIL_SSL"),
-        MAIL_FROM=config("MAIL_FROM"),
-        USE_CREDENTIALS=config("USE_CREDENTIALS"),
+        MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
+        MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
+        MAIL_PORT=os.getenv("MAIL_PORT"),
+        MAIL_SERVER=os.getenv("MAIL_SERVER"),
+        MAIL_TLS=os.getenv("MAIL_TLS"),
+        MAIL_SSL=os.getenv("MAIL_SSL"),
+        MAIL_FROM=os.getenv("MAIL_FROM"),
+        USE_CREDENTIALS=os.getenv("USE_CREDENTIALS"),
     )
 
 

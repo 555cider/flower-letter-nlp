@@ -13,7 +13,7 @@
 [accessLog]
 
 [api]
-dashboard = true
+  dashboard = true
 
 [providers]
   [providers.docker]

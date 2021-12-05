@@ -4,30 +4,33 @@ from beanie.odm.fields import PydanticObjectId
 from pydantic import BaseModel, Field
 from typing import List, Union, Literal
 
-
-class FlowerModel(Document):
-    """Flower DB representation"""
-
+# =================
+# Poem & Flower
+# =================
+class Flower(BaseModel):
     name: str
     symbol: str
     image_url: str
+
+
+class FlowerModel(Flower, Document):
+    """Flower DB representation"""
+
     keywords: List[str]
 
     class Collection:
         name = "flowers"
 
 
-class Flower(FlowerModel):
-    pass
-
-
-class PoemModel(Document):
-    """Poem DB representation"""
-
+class PoemIn(BaseModel):
     title: str
     author: str
     content: str
     keywords: List[str]
+
+
+class PoemModel(PoemIn, Document):
+    """Poem DB representation"""
 
     class Collection:
         name = "poems"
@@ -41,11 +44,15 @@ class Letter(BaseModel):
     content: str
 
 
+# For returning analyzed results
 class PoemFlowerList(BaseModel):
     poems: List[Poem] = []
     flowers: List[Flower] = []
 
 
+# =================
+# Book Order
+# =================
 class PoemPage(BaseModel):
     type: str = Field("poem", const=True)
     poem_id: str
@@ -60,12 +67,14 @@ class FreePage(BaseModel):
     text_content: str
 
 
+# For OrderIn Schema
 class Book(BaseModel):
     letter: str
     flower_id: str
     contents: List[Union[PoemPage, FreePage]]
 
 
+# For saving ordered book to DB
 class BookModel(Document, Book):
     """Book DB representation"""
 

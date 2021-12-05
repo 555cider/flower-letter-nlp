@@ -5,13 +5,18 @@ services:
     build: 
       context: ./project
       dockerfile: Dockerfile.prod
-    ports:
-      - 8009:80
+    expose:
+      - 80
     env_file:
       - .env.prod
     depends_on:
       - postgres_db
       - mongo_db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastapi.rule=Host(`api.flowerletter.co.kr`)"
+      - "traefik.http.routers.fastapi.tls=true" # HTTPS
+      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
 
   postgres_db:
     build:
@@ -38,7 +43,27 @@ services:
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=root
       - MONGODB_INITDB_ROOT_PASSWORD=password123
+  
+  traefik:
+    build:
+      context: .
+      dockerfile: Dockerfile.traefik
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      -"/var/run/docker.sock:/var/run/docker.sock:ro"
+      -"./traefik-public-certificates:/certificates"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard-api.flowerletter.co.kr`) && (PathPrefix(`/`)" # Dashboard can be accessed at $Host/dashboard/
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt" # Let's Encrypt
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth" # HTTP BasicAuth middleware
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASS}" # Username & hashed password for login
 
 volumes:
   postgres_data:
   mongo_data:
+  traefik-public-certificates:

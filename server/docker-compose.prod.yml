@@ -63,7 +63,7 @@ services:
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt" # Let's Encrypt
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.middlewares=auth" # HTTP BasicAuth middleware
-      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASS}" # Username & hashed password for login
+      - "traefik.http.middlewares.auth.basicauth.users=testuser:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1" # Username & hashed password for login
 
 volumes:
   postgres_data:

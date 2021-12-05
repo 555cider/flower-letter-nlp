@@ -58,7 +58,7 @@ services:
       -./traefik-public-certificates:/certificates
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard-api.flowerletter.co.kr`) && (PathPrefix(`/`)" # Dashboard can be accessed at $Host/dashboard/
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard-api.flowerletter.co.kr`) && PathPrefix(`/`)" # Dashboard can be accessed at $Host/dashboard/
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt" # Let's Encrypt
       - "traefik.http.routers.dashboard.service=api@internal"

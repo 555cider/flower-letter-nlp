@@ -2,11 +2,12 @@ from beanie.odm.fields import PydanticObjectId
 from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
 from fastapi_mail import FastMail, MessageSchema
 
-from config import CONFIG
+from app.config import Settings, get_config
 
 
-from models.book import (
+from app.models.book import (
     Poem,
+    PoemIn,
     PoemModel,
     PoemPageModel,
     Letter,
@@ -14,17 +15,20 @@ from models.book import (
     PoemFlowerList,
     BookModel,
 )
-from models.order import OrderIn, OrderOut, create_order
-import db
-from sqlalchemy.orm import Session
+from app.models.order import OrderIn, OrderOut, create_order
+from app.db import get_db
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/api", tags=["Routes"])
 
-get_db = db.get_db
+
+# ================
+# API Routes
+# ================
 
 
 @router.post("/poems", response_model=Poem)
-async def create_poem(request: Poem):
+async def create_poem(request: PoemIn):
     poem = PoemModel(**request.dict())
     return await poem.create()
 
@@ -60,12 +64,15 @@ async def get_analyzed_results(request: Letter):
     return results
 
 
-@router.post("/orders", response_model=OrderOut)
+@router.post("/orders", response_model=OrderOut, status_code=201)
 async def post_order(
-    background_tasks: BackgroundTasks, request: OrderIn, db: Session = Depends(get_db)
+    background_tasks: BackgroundTasks,
+    request: OrderIn,
+    db: AsyncSession = Depends(get_db),
 ):
     new_contents = []
     for req_content in request.book.contents:
+        # TODO: use enum class
         if req_content.type == "poem":
             poem = PoemPageModel(poem_id=PydanticObjectId(req_content.poem_id))
             new_contents.append(poem)
@@ -79,7 +86,7 @@ async def post_order(
     )
 
     await new_book.create()
-    new_order = await create_order(request.order, new_book.id, db)
+    new_order = await create_order(request.order, str(new_book.id), db)
 
     # 주문확인 이메일 전송
     background_tasks.add_task(send_email, "yuliekorea@gmail.com", new_order)
@@ -87,7 +94,9 @@ async def post_order(
     return new_order
 
 
-async def send_email(email: str, order_details: OrderOut):
+async def send_email(
+    email: str, order_details: OrderOut, config: Settings = Depends(get_config)
+):
     # TODO: 예쁜 이메일 템플릿 만들기
 
     html = """
@@ -103,6 +112,6 @@ async def send_email(email: str, order_details: OrderOut):
         subtype="html",
     )
 
-    fm = FastMail(CONFIG.email_config)
+    fm = FastMail(config.email_config)
     await fm.send_message(message)
     print("email sent successfully.")

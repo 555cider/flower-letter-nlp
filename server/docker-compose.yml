@@ -15,7 +15,7 @@ services:
       - mongo_db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fastapi.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.fastapi.rule=Host(`${TEST_DOMAIN}`)"
 
   postgres_db:
     build:

@@ -7,15 +7,14 @@ from typing import List, Union, Literal
 # =================
 # Poem & Flower
 # =================
-class Flower(BaseModel):
+
+
+class FlowerModel(Document):
+    """Flower DB representation"""
+
     name: str
     symbol: str
     image_url: str
-
-
-class FlowerModel(Flower, Document):
-    """Flower DB representation"""
-
     keywords: List[str]
 
     class Collection:
@@ -36,18 +35,14 @@ class PoemModel(PoemIn, Document):
         name = "poems"
 
 
-class Poem(PoemModel):
-    pass
-
-
 class Letter(BaseModel):
     content: str
 
 
 # For returning analyzed results
 class PoemFlowerList(BaseModel):
-    poems: List[Poem] = []
-    flowers: List[Flower] = []
+    poems: List[PoemModel] = []
+    flowers: List[FlowerModel] = []
 
 
 # =================

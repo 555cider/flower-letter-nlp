@@ -14,4 +14,7 @@ done
 
 echo "MongoDB started"
 
+# Migration
+alembic upgrade head
+
 exec "$@"

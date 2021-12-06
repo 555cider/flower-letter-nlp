@@ -19,7 +19,7 @@ from app.models.order import OrderIn, OrderOut, create_order
 from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 
-router = APIRouter(prefix="/api", tags=["Routes"])
+router = APIRouter(tags=["Routes"])
 
 
 # ================

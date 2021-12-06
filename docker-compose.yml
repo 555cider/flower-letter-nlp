@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.prod
     container_name: ml_container
     expose:
-      -80
+      - 80
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mlapi.rule=Host(`${ML_DOMAIN}`)"

@@ -13,7 +13,8 @@ class Keywords(BaseModel):
 
 
 # import model
-model = pickle.load(open("model.pkl", "rb"))
+model = pickle.load(open("./model.pkl", "rb"))
+print("loaded pickle!")
 
 app = FastAPI(title="API service for model")
 

@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  ml_service:
+    build:
+      context: ./ml/model-api
+      dockerfile: Dockerfile.prod
+    container_name: ml_container
+    expose:
+      -80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mlapi.rule=Host(`${ML_DOMAIN}`)"
+      - "traefik.http.routers.mlapi.tls=true" # HTTPS
+      - "traefik.http.routers.mlapi.tls.certresolver=letsencrypt"
+
   web_prod:
     build: 
       context: ./server/project

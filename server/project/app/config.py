@@ -17,6 +17,7 @@ class Settings(BaseSettings):
 
     environment: str = os.getenv("ENVIRONMENT", "dev")  # defaults to dev env
     testing: bool = os.getenv("TESTING", 0)  # whether testing mode
+    allowed_origins: str = os.getenv("ALLOWED_ORIGINS")
 
     # Database settings
     sqldb_uri: AnyUrl = os.getenv("SQL_DB_URL")

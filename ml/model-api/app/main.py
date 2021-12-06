@@ -30,4 +30,4 @@ def classify_letter(data: Letter):
 
     print(data.text)
 
-    return ["우정, 사랑, 여행"]
+    return ["우정, 사랑, 여행", "낭만", "도시", "일탈"]

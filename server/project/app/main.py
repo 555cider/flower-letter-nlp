@@ -36,4 +36,4 @@ async def app_init():
 
 @app.get("/ping")
 async def say_hi():
-    return {"hello": "world!"}
+    return {"ping": "hello world!"}

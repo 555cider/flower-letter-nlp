@@ -11,37 +11,51 @@ services:
       - .env.prod
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fastapi.rule=Host(`api.flowerletter.co.kr`)"
+      - "traefik.http.routers.fastapi.rule=Host(`${PROD_DOMAIN}`)"
       - "traefik.http.routers.fastapi.tls=true" # HTTPS
       - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
 
-  # postgres_db:
-  #   build:
-  #     context: ./project/db
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data/
-  #   expose:
-  #     - 5432
-  #   # ports:
-  #   #   - 5432:5432
-  #   environment:
-  #     - POSTGRES_USER=flower_letter
-  #     - POSTGRES_PASSWORD=flower_letter
+  web_test:
+    build: ./project
+    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./project:/usr/src/app # for automatic reloading of container after code change
+    expose:
+      - 8000
+    env_file:
+      - .env.test
+    depends_on:
+      - postgres_db
+      - mongo_db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.testapi.rule=Host(`${TEST_DOMAIN}`)"
+      - "traefik.http.routers.testapi.tls=true" # HTTPS
+      - "traefik.http.routers.testapi.tls.certresolver=letsencrypt"
 
-  # mongo_db:
-  #   image: mongo:5.0.4
-  #   # ports: 
-  #   #   - 27017:27017
-  #   expose:
-  #     - 27017
-  #   volumes:
-  #     - mongo_data:/var/lib/mongodb/data/
-  #   environment:
-  #     - MONGODB_INITDB_ROOT_USERNAME=root
-  #     - MONGODB_INITDB_ROOT_PASSWORD=password123
+  postgres_db:
+    build:
+      context: ./project/db
+      dockerfile: Dockerfile
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=flower_letter
+      - POSTGRES_PASSWORD=flower_letter
+
+  mongo_db:
+    image: mongo:5.0.4
+    expose:
+      - 27017
+    volumes:
+      - mongo_data_test:/var/lib/mongodb/data/
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=root
+      - MONGODB_INITDB_ROOT_PASSWORD=password123
   
-  traefik_prod:
+  traefik:
     build:
       context: .
       dockerfile: Dockerfile.traefik
@@ -63,4 +77,7 @@ services:
       - "traefik.http.middlewares.auth.basicauth.users=testuser:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1" # Username & hashed password for login
 
 volumes:
+  postgres_data_test:
+  mongo_data_test:
   traefik-public-certificates:
+

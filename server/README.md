@@ -53,7 +53,7 @@ $ docker-compose down -v
 NOTE: If you remove database volumes, you will need to seed database again on restart.
 
 ## Production environment
-- Currently the production environment docker container includes:
+- Currently the production environment docker compose includes:
   - a production web server
   - a test web server
   - db images (for test web server)
@@ -76,6 +76,11 @@ TEST_DOMAIN = testapi.flowerletter.co.kr
 ```
 - Requests to HTTP are automatically routed to HTTPS. `traefik.prod.toml` 
 - certificate will be stored at `/traefik-public-certificates`
+
+### Composing production containers
+```bash
+$ docker-compose up -f docker-compose.prod.yml -d --build
+```
 
 ### Access
 - Production API server can be accessed at `https://api.flowerletter.co.kr/docs`

@@ -9,7 +9,7 @@ services:
     expose:
       - 8000
     env_file:
-      - .env
+      - .env.test
     depends_on:
       - postgres_db
       - mongo_db

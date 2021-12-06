@@ -18,7 +18,6 @@
 ```bash
 $ chmod +x project/entrypoint.sh
 ```
-- Create an environment variable file `.env`. Copy contents from `.env.example`
 - Run docker container with following command:
 ```bash
 $ docker-compose up -d --build
@@ -54,26 +53,33 @@ $ docker-compose down -v
 NOTE: If you remove database volumes, you will need to seed database again on restart.
 
 ## Production environment
+- Currently the production environment docker container includes:
+  - a production web server
+  - a test web server
+  - db images (for test web server)
+  - traefik for routing & encrypting
 ### Related files:
-- `project/Dockerfile.prod`
-- `project/db` // this may change to use managed database service
-- `project/prestart.sh` // this may change
 - `docker-compose.prod.yml`
 - `Dockerfile.traefik`
+- `project/Dockerfile.prod`
+- `project/prestart.sh` // any startup scripts
 - `traefik.prod.toml`
+- `project/db` // db for test web service
   
 ### About production env
 - Production environment utilizes `Let's Encrypt` to automatically acquire certificates via Traefik. This enables secure `https` connection.
-- Domain name is required for this, which are outlined in `docker-compose.prod.yml`
+- https is enabled for both `web_prod` and `web_test`
+- Domain name is required for this. Domain for each environment is outlined in `.env`, which is used in creating `docker-compose.prod.yml`. Create .env if it's not there.
+```sh
+PROD_DOMAIN = api.flowerletter.co.kr
+TEST_DOMAIN = testapi.flowerletter.co.kr
+```
 - Requests to HTTP are automatically routed to HTTPS. `traefik.prod.toml` 
 - certificate will be stored at `/traefik-public-certificates`
 
 ### Access
-- API server can be accessed at `https://api.flowerletter.co.kr/docs`
+- Production API server can be accessed at `https://api.flowerletter.co.kr/docs`
+- Test API server can be accessed at `https://testapi.flowerletter.co.kr/docs`
 
 ## Todo:
-- After development finishes, change CORS settings in production env file.
-- Maybe better to run a separate container for dev purposes:
-  - separate CORS
-  - separate DB
-  - separate public address e.g. `http://test.flowerletter.co.kr`
+- After deploying frontend, change CORS settings in production env file.

@@ -15,7 +15,7 @@ function SidebarComponent() {
   return (
     <>
       <Box position='fixed' ref={btnRef} onClick={onOpen} w='60px' h='60px' align='center' pt='1' m='3' ml='5'>
-        <Icon as={HamburgerIcon} w={12} h={12} color={'#A49393'} backgroundColor={'#FBEDE0'} borderRadius='10px' border='2px' borderColor='#A49393' />
+        <Icon as={HamburgerIcon} w={12} h={12} color={'#A49393'} backgroundColor={'#FBEDE0'} borderRadius='10px' border='2px' borderColor='#A49393' style={{ cursor: 'pointer' }} />
       </Box>
       <Drawer isOpen={isOpen} placement='left' onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />

@@ -1,4 +1,4 @@
-import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, Link, VStack, Box, Image } from '@chakra-ui/react';
+import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, Link, VStack, Box, Image, Icon } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { Button } from '@chakra-ui/react';
@@ -14,9 +14,9 @@ function SidebarComponent() {
 
   return (
     <>
-      <Button ref={btnRef} colorScheme='teal' onClick={onOpen} backgroundColor={'#D3B1C2'}>
-        <HamburgerIcon />
-      </Button>
+      <Box position='fixed' ref={btnRef} onClick={onOpen} w='60px' h='60px' align='center' pt='1' m='3' ml='5'>
+        <Icon as={HamburgerIcon} w={12} h={12} color={'#A49393'} backgroundColor={'#FBEDE0'} borderRadius='10px' border='2px' borderColor='#A49393' />
+      </Box>
       <Drawer isOpen={isOpen} placement='left' onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
         <DrawerContent bgGradient='linear(to-b, rgba(212, 187, 221, 1),  rgba(251, 237, 224, 1),  )'>

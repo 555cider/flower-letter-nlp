@@ -1,21 +1,39 @@
-from fastapi import FastAPI
-from api import main_router
-from motor.motor_asyncio import AsyncIOMotorClient
-from beanie import init_beanie
-from config import CONFIG
-from models.book import PoemModel, FlowerModel, BookModel
+from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from app.api import main_router
+
+from app.db import init_mongo
+from app.config import get_config
+
+config = get_config()
 
 
-app = FastAPI()
+def create_application() -> FastAPI:
+    application = FastAPI()
+    application.include_router(main_router)
+
+    return application
+
+
+app = create_application()
+
+origins = config.allowed_origins.split(",")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
 async def app_init():
     """Initialize application services"""
-    mongo_client = AsyncIOMotorClient(CONFIG.mongo_uri)
-    await init_beanie(
-        mongo_client[CONFIG.mongo_db],
-        document_models=[PoemModel, FlowerModel, BookModel],
-    )
+    await init_mongo()
 
-    app.include_router(main_router)
+
+@app.get("/ping")
+async def say_hi():
+    return {"ping": "hello world!"}

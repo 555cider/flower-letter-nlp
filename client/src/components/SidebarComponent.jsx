@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { HamburgerIcon } from '@chakra-ui/icons';
+import { NavLink } from 'react-router-dom';
 
 function SidebarComponent() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,7 +54,9 @@ function SidebarComponent() {
                 onClick={() => {
                   navigate('/about');
                 }}>
-                About us
+                <NavLink exact end to='/about'>
+                  About us
+                </NavLink>
               </Link>
               <br />
               <Link
@@ -64,8 +67,11 @@ function SidebarComponent() {
                 onClick={() => {
                   navigate('/howtouse');
                 }}>
-                How To use
+                <NavLink exact end to='/howtouse'>
+                  How To use
+                </NavLink>
               </Link>
+
               <br />
               <Link
                 _hover={{ color: '#613659', fontWeight: '600' }}
@@ -75,18 +81,9 @@ function SidebarComponent() {
                 onClick={() => {
                   navigate('/question');
                 }}>
-                FAQ
-              </Link>
-              <br />
-              <Link
-                _hover={{ color: '#613659', fontWeight: '600' }}
-                fontSize='30px'
-                fontWeight='400'
-                color='#A49393'
-                onClick={() => {
-                  navigate('/question');
-                }}>
-                문의하기
+                <NavLink exact end to='/question'>
+                  문의하기
+                </NavLink>
               </Link>
               <br />
             </VStack>

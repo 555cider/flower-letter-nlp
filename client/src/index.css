@@ -1,13 +1,45 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.active {
+  /* create페이지 상단 바의 선택부분 디자인 */
+  background-color: blue;
+}
+
+.keywordrange {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.scrollbox {
+  overflow: auto;
+  width: 90%;
+  height: 95%;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+@font-face {
+  font-family: "NanumMom";
+  font-weight: 50;
+  src: url("./fonts/NanumfromMomToDaughter.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NanumGrandfather";
+  font-weight: 50;
+  src: url("./fonts/NanumGrandFather.ttf") format("truetype");
 }

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import main_router
+from app.api.order import order_router
 
 from app.db import init_mongo
 from app.config import get_config
@@ -11,6 +12,7 @@ config = get_config()
 def create_application() -> FastAPI:
     application = FastAPI()
     application.include_router(main_router)
+    application.include_router(order_router)
 
     return application
 

@@ -1,3 +1,5 @@
+# Docker compose for local development
+
 version: '3.8'
 
 services:

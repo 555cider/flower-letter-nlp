@@ -12,7 +12,9 @@ services:
       - ./client/.env.prod
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend-http.rule=PathPrefix(`/`)"
+      # - "traefik.http.routers.frontend-http.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.frontend-http.rule=HOST(`www.flowerletter.com`)"
+      # - "traefik.http.routers.myapplication.entrypoints=websecure"
       - "traefik.http.routers.frontend-http.tls=true" # HTTPS
       - "traefik.http.routers.frontend-http.tls.certresolver=letsencrypt"
       

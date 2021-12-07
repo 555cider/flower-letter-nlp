@@ -1,32 +1,40 @@
+from os import name
 from beanie.odm.fields import PydanticObjectId
-from fastapi import APIRouter, Depends, status, HTTPException
-from models import schemas
-from models.book import (
-    Poem,
+from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
+from fastapi_mail import FastMail, MessageSchema
+from sqlalchemy.util.langhelpers import symbol
+
+from app.config import Settings, get_config
+
+
+from app.models.book import (
+    PoemIn,
     PoemModel,
     PoemPageModel,
     Letter,
     FlowerModel,
     PoemFlowerList,
     BookModel,
-    Order,
 )
-from models import order
-import db
-from sqlalchemy.orm import Session
+from app.models.order import OrderIn, OrderOut, create_order
+from app.db import get_db
+from sqlalchemy.ext.asyncio import AsyncSession
 
-router = APIRouter(prefix="/api", tags=["Routes"])
-
-get_db = db.get_db
+router = APIRouter(tags=["Routes"])
 
 
-@router.post("/poems", response_model=Poem)
-async def create_poem(request: Poem):
+# ================
+# API Routes
+# ================
+
+
+@router.post("/poems", response_model=PoemModel)
+async def create_poem(request: PoemIn):
     poem = PoemModel(**request.dict())
     return await poem.create()
 
 
-@router.get("/results", response_model=PoemFlowerList)
+@router.post("/results", response_model=PoemFlowerList)
 async def get_analyzed_results(request: Letter):
     fake_model_results = ["사랑", "결혼", "고백", "낭만", "남편"]
 
@@ -41,26 +49,85 @@ async def get_analyzed_results(request: Letter):
     # TODO: 랜덤으로 가져올 것.
     for keyword in keywords:
         # 키워드별로 시 100개 가져오기
-        keyword_poems = (
-            await PoemModel.find(keyword in PoemModel.keywords).limit(100).to_list()
-        )
+        keyword_poems = await PoemModel.find({"keywords": keyword}).limit(100).to_list()
         poem_list += keyword_poems
 
         # 키워드별로 꽃말 5개 가져오기
         keyword_flowers = (
-            await FlowerModel.find(keyword in FlowerModel.keywords).limit(5).to_list()
+            await FlowerModel.find({"keywords": keyword}).limit(5).to_list()
         )
         flower_list += keyword_flowers
 
     results.poems = poem_list
     results.flowers = flower_list
-    return results
+    # return results
+
+    dummy_poem1 = PoemModel(
+        _id=PydanticObjectId(),
+        title="너를 위해",
+        author="임재범",
+        content="내 거친생각과 불안한 눈빛과",
+        keywords=["사랑", "이별"],
+    )
+    dummy_poem2 = PoemModel(
+        _id=PydanticObjectId(),
+        title="안녕하세요",
+        author="김시인",
+        content="조약돌을 주웠다.",
+        keywords=["사랑", "이별"],
+    )
+    dummy_poem3 = PoemModel(
+        _id=PydanticObjectId(),
+        title="여름바다",
+        author="윤시인",
+        content="여행가고싶다",
+        keywords=["여행", "이별"],
+    )
+
+    dummy_results = PoemFlowerList()
+
+    dummy_poem_sample = [dummy_poem1, dummy_poem2, dummy_poem3]
+    dummy_poems = dummy_poem_sample * 30
+    dummy_results.poems = dummy_poems
+
+    dummy_flower_sample = [
+        FlowerModel(
+            _id=PydanticObjectId(),
+            name="장미",
+            symbol="열렬한 사랑",
+            image_url="http://db.kookje.co.kr/news2000/photo/2020/0520/L20200520.22021005678i1.jpg",
+            keywords=["사랑", "이별"],
+        ),
+        FlowerModel(
+            _id=PydanticObjectId(),
+            name="해바라기",
+            symbol="너만 바라봐",
+            image_url="http://db.kookje.co.kr/news2000/photo/2020/0520/L20200520.22021005678i1.jpg",
+            keywords=["사랑", "이별"],
+        ),
+        FlowerModel(
+            _id=PydanticObjectId(),
+            name="튤립",
+            symbol="청초한 눈망울",
+            image_url="http://db.kookje.co.kr/news2000/photo/2020/0520/L20200520.22021005678i1.jpg",
+            keywords=["사랑", "이별"],
+        ),
+    ]
+    dummy_flowers = dummy_flower_sample * 5
+    dummy_results.flowers = dummy_flowers
+
+    return dummy_results
 
 
-@router.post("/orders")
-async def create_order(request: Order, db: Session = Depends(get_db)):
+@router.post("/orders", response_model=OrderOut, status_code=201)
+async def post_order(
+    background_tasks: BackgroundTasks,
+    request: OrderIn,
+    db: AsyncSession = Depends(get_db),
+):
     new_contents = []
     for req_content in request.book.contents:
+        # TODO: use enum class
         if req_content.type == "poem":
             poem = PoemPageModel(poem_id=PydanticObjectId(req_content.poem_id))
             new_contents.append(poem)
@@ -74,5 +141,32 @@ async def create_order(request: Order, db: Session = Depends(get_db)):
     )
 
     await new_book.create()
+    new_order = await create_order(request.order, str(new_book.id), db)
 
-    return order.create_order(request.order, new_book.id, db)
+    # 주문확인 이메일 전송
+    background_tasks.add_task(send_email, "yuliekorea@gmail.com", new_order)
+
+    return new_order
+
+
+async def send_email(
+    email: str, order_details: OrderOut, config: Settings = Depends(get_config)
+):
+    # TODO: 예쁜 이메일 템플릿 만들기
+
+    html = """
+    <b>주문이 완료되었습니다.</b> 
+    <p>주문번호는 </p> 
+    """ + str(
+        order_details.id
+    )
+    message = MessageSchema(
+        subject="주문이 완료되었습니다~~~",
+        recipients=[email],  # List of recipients
+        body=html,
+        subtype="html",
+    )
+
+    fm = FastMail(config.email_config)
+    await fm.send_message(message)
+    print("email sent successfully.")

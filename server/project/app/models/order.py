@@ -1,20 +1,13 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
-from sqlalchemy.sql.expression import null
 from datetime import datetime
-from db import Base
-from sqlalchemy.orm import relationship, Session
-from models.book import OrderDetail
+from app.db import Base
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.models.book import Book
+from pydantic import BaseModel
 
 
-class Blog(Base):
-    __tablename__ = "blogs"
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    title = Column(String(50))
-    body = Column(String(255))
-
-
-class Order(Base):
+class OrderModel(Base):
     """
     주문서.
 
@@ -42,7 +35,7 @@ class Order(Base):
     book_id = Column(String(24), nullable=False)
 
 
-class OrderStatus(Base):
+class OrderStatusModel(Base):
     """
     주문상태.
 
@@ -55,7 +48,30 @@ class OrderStatus(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     status_name = Column(String(10), nullable=False)
-    orders = relationship("Order", backref="status", lazy=True)
+    orders = relationship("OrderModel", backref="status", lazy=True)
+
+
+# ===============
+# SCHEMAS
+# ===============
+class OrderDetail(BaseModel):
+    price: float
+    name: str
+    address: str
+    email: str
+    phone: str
+
+
+class OrderIn(BaseModel):
+    order: OrderDetail
+    book: Book
+
+
+class OrderOut(OrderDetail):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 
 # ===========
@@ -63,13 +79,14 @@ class OrderStatus(Base):
 # ===========
 
 
-def create_order(order: OrderDetail, book_id: str, db: Session):
-    new_order = Order(**order.dict())
+async def create_order(order: OrderDetail, book_id: str, db: AsyncSession):
+    # TODO: Add constructor
+    new_order = OrderModel(**order.dict())
     new_order.order_status = 1  # 결제완료 상태
     new_order.order_date = datetime.now()
     new_order.book_id = book_id
 
     db.add(new_order)
-    db.commit()
-    db.refresh(new_order)
+    await db.commit()
+    await db.refresh(new_order)
     return new_order

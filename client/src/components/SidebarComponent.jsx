@@ -1,4 +1,4 @@
-import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton,Link } from '@chakra-ui/react';
+import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton,Link,VStack } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { Button } from '@chakra-ui/react';
@@ -18,12 +18,13 @@ function SidebarComponent() {
       </Button>
       <Drawer isOpen={isOpen} placement='left' onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent backgroundColor='#FBEDE0'>
           <DrawerCloseButton />
           <DrawerHeader fontSize='50px'>꽃편지</DrawerHeader>
 
-          <DrawerBody flexDirection='column' justifyContent='space-between'>
+          <DrawerBody flexDirection='column' justifyContent='space-between' >
             <br />
+            <VStack>
             <Link fontSize='40px'
               onClick={() => {
                 navigate('/about');
@@ -51,6 +52,9 @@ function SidebarComponent() {
               }}>
               문의하기
             </Link>
+            <br/>
+            <Button onClick={()=>navigate('/start')} backgroundColor="#D3B1C2">시집 만들러</Button>
+            </VStack>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

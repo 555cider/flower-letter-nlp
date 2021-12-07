@@ -31,3 +31,15 @@ code {
   border: 1px solid black;
   border-radius: 15px;
 }
+
+@font-face {
+  font-family: "NanumMom";
+  font-weight: 50;
+  src: url("./fonts/NanumfromMomToDaughter.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NanumGrandfather";
+  font-weight: 50;
+  src: url("./fonts/NanumGrandFather.ttf") format("truetype");
+}

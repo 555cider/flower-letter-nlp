@@ -53,21 +53,6 @@ export default function WithBackgroundImage({
           {text}
         </Text>
 
-       
-        
-        {/* <Stack direction={"row"}> */}
-        {
-          /*
-          <Button
-          bg={"blue.400"}
-          rounded={"full"}
-          color={"white"}
-          _hover={{ bg: "blue.500" }}
-        >
-          {buttonName}
-        </Button>
-          */ 
-        }
         {isbutton ? <Button
           bg={buttonColor}
           rounded={"full"}

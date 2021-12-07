@@ -13,6 +13,14 @@ export default function FreeContent() {
   const { free_content } = useSelector((state) => ({
     free_content:state.free_content
   }));
+
+  const {font, color} = useSelector((state)=>({
+    font:state.userfont,
+    color:state.usercolor
+  }));
+
+  console.log('리덕스 font', font)
+  console.log('리덕스 color',color)
   
   const [content, setContent] = useState(free_content)
 

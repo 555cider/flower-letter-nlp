@@ -12,7 +12,7 @@ services:
       - ./client/.env.prod
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend-http.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.frontend-http.rule=HOST(`www.flowerletter.co.kr`,`flowerletter.co.kr`)"
       - "traefik.http.routers.frontend-http.tls=true" # HTTPS
       - "traefik.http.routers.frontend-http.tls.certresolver=letsencrypt"
       

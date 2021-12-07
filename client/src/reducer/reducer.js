@@ -1,5 +1,5 @@
 import { AlertTitle } from '@chakra-ui/alert';
-import { SAVE_FREECONTENT, SAVE_LETTER} from './actions';
+import { SAVE_FREECONTENT, SAVE_LETTER, SAVE_FONT, SAVE_COLOR} from './actions';
 
 const initialState = {
     name: '',
@@ -8,7 +8,9 @@ const initialState = {
     phone: '',
     letter_title:'',
     letter_content:'',
-    free_content:''
+    free_content:'',
+    userfont:'',
+    usercolor:''
 
 }
 
@@ -27,6 +29,19 @@ const reducer = (state=initialState, action)=>{
             return{
                 ...state,
                 free_content:action.content
+            }
+        }
+        
+        case SAVE_FONT:{
+            return{
+                ...state,
+                userfont:action.userFont
+            }
+        }
+        case SAVE_COLOR:{
+            return{
+                ...state,
+                usercolor:action.userColor
             }
         }
         

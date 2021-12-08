@@ -132,7 +132,7 @@ async def send_email(
             <div>
               <img src="https://flower-letter-resources.s3.ap-northeast-2.amazonaws.com/sample_img.png" style="height: 180px;"/>
             </div>
-            <div style="margin-left: 10px; border-bottom: 2px solid #846c6c; border-top: 2px solid #846c6c;">
+            <div style="margin-left: 10px; border-bottom: 2px solid #846c6c; border-top: 2px solid #846c6c; padding:0; height: 176px;">
               <table style="width: 300px; min-width: 180px; border-bottom: 1px solid #846c6c; padding: 15px; display: flex; flex-direction: column;">
                 <tr style="display: flex; justify-content: space-between; width: 270px;">
                   <td style="font-weight: bold; text-align: left; width: 135px;">Book Color</td>
@@ -151,7 +151,7 @@ async def send_email(
                   <td style="text-align: right; width: 135px;">너에게 쓰는 편지</td>
                 </tr>
               </table>
-              <table style="width: 300px; min-width: 180px; padding: 16px;">
+              <table style="width: 300px; min-width: 180px; padding: 15px;">
                 <tr style="display: flex; justify-content: space-between; width: 270px">
                   <td style="font-weight: bold; text-align: left; width: 135px;">Price</td>
                   <td style="text-align: right; width: 135px;">₩ 45,000</td>
@@ -198,7 +198,7 @@ async def send_email(
     """
 
     message = MessageSchema(
-        subject="주문확인서",
+        subject="주문확인서 - 정율리님",
         recipients=[email],  # List of recipients
         html=html,
         subtype="html",

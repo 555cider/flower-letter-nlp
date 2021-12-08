@@ -6,10 +6,12 @@ deploy-to-server:
     - echo 'start deployment'
     - whoami
   script:
+    - echo pwd
+    - echo ls
     - cd /home/yuliejung_dev_gmail_com/nlp3
-    - git checkout dev
-    - git pull
-    - sudo docker-compose up -d --build
+    - echo pwd
+    - echo ls
+    # - sudo docker-compose up -d --build
   after_script:
     - echo 'deployment is done'
   tags:

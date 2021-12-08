@@ -1,0 +1,15 @@
+deploy-to-server:
+  stage: deploy
+  only:
+    - dev
+  before_script:
+    - echo 'start deployment'
+    - whoami
+  script:
+    - cd /home/yuliejung_dev_gmail_com/nlp3
+    - git pull origin dev
+    - sudo docker-compose up -d --build
+  after_script:
+    - echo 'deployment is done'
+  tags:
+    - deploy

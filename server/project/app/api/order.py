@@ -101,23 +101,33 @@ async def post_order(
 
 
 async def send_email(
-    email: str, order_details: OrderOut, config: Settings = Depends(get_config)
+    email: str, config: Settings = Depends(get_config)
 ):
     # TODO: 예쁜 이메일 템플릿 만들기
 
     html = """
     <b>주문이 완료되었습니다.</b> 
     <p>주문번호는 </p> 
-    """ + str(
-        order_details.id
-    )
+    """ 
     message = MessageSchema(
         subject="주문이 완료되었습니다~~~",
         recipients=[email],  # List of recipients
         body=html,
         subtype="html",
     )
-
+    print(config)
     fm = FastMail(config.email_config)
     await fm.send_message(message)
     print("email sent successfully.")
+
+
+
+@order_router.post(
+    "/mailtest", summary="메일보내기 테스트"
+)
+async def confirm_mail(
+    background_tasks: BackgroundTasks):
+
+    background_tasks.add_task(send_email, "sanghunkim.nz@gmail.com")
+
+    return "mail sent"

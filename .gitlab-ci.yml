@@ -6,8 +6,7 @@ deploy-to-server:
     - echo 'start deployment'
     - whoami
   script:
-    - echo pwd
-    - echo ls
+    - pwd
     - cd /home/yuliejung_dev_gmail_com/nlp3
     - echo pwd
     - echo ls

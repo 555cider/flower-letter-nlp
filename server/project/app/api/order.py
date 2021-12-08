@@ -26,7 +26,7 @@ from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-order_router = APIRouter(tags=["Order"])
+order_router = APIRouter(tags=["Orders"])
 
 clientId = "S2_93226cc455504b0a910b7ab5a804683b"
 secretKey = "4696da89c2d64cea80ad520ac1974195"

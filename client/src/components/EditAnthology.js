@@ -1,14 +1,21 @@
-import React, { useEffect } from "react";
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import StepsLetter from "./StepsLetter";
-import { useNavigate, useParams } from "react-router";
-import { useSelector } from "react-redux";
-import PoemContainer from "./create/PoemContainer";
-import EditContainer from "./create/EditContainer";
-import { Button, HStack, VStack, Flex, Box, Spacer } from "@chakra-ui/react";
+import React, { useEffect } from 'react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import StepsLetter from './StepsLetter';
+import { useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+import PoemContainer from './create/PoemContainer';
+
+import { Button, HStack, VStack, Flex, Box, Spacer } from '@chakra-ui/react';
 
 function EditAnthology() {
   const navigate = useNavigate();
+  const { flowersList, poems } = useSelector((state) => ({
+    flowersList: state.flowersList,
+    poems: state.poems,
+  }));
+
+  //console.log('리덕스로 꽃말 잘 들어왔나 확인',flowersList)
+  //console.log('리덕스로 시데이터 잘 들어왔나 확인',poems)
 
   const { title, content } = useSelector((state) => ({
     title: state.letter_title,
@@ -82,6 +89,7 @@ function EditAnthology() {
           </HStack>
         </VStack>
       </HStack>
+
       <Flex pl="6" pr="6" h="10%" w="100%">
         <Box>
           <Button
@@ -91,7 +99,7 @@ function EditAnthology() {
             color="white"
             fontSize="3vh"
             onClick={() => {
-              navigate("/create");
+              navigate('/create');
             }}
           >
             이전 단계
@@ -106,7 +114,7 @@ function EditAnthology() {
             color="white"
             fontSize="3vh"
             onClick={() => {
-              navigate("/create/flowerlang");
+              navigate('/create/flowerlang');
             }}
           >
             다음 단계

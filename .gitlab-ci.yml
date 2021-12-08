@@ -1,0 +1,17 @@
+deploy-to-server:
+  stage: deploy
+  only:
+    - dev
+  before_script:
+    - echo 'start deployment'
+    - whoami
+  script:
+    # - pwd
+    # - cd /home/yuliejung_dev_gmail_com/nlp3
+    # - pwd
+    # - ls
+    - sudo docker-compose up -d --build
+  after_script:
+    - echo 'deployment is done'
+  tags:
+    - flowerletter-deploy

@@ -18,8 +18,10 @@ export default function FreeContent() {
     color:state.usercolor
   }));
 
+
   //console.log('리덕스 font', font)
   //console.log('리덕스 color',color)
+
   
   const [content, setContent] = useState(free_content)
 

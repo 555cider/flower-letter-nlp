@@ -11,7 +11,10 @@ code {
 
 .active {
   /* create페이지 상단 바의 선택부분 디자인 */
-  background-color: blue;
+  border: solid 3px white;
+  border-right: none;
+  border-left: none;
+  color: white;
 }
 
 .keywordrange {
@@ -30,13 +33,15 @@ code {
 }
 
 @font-face {
-  font-family: "NanumMom";
+
+  font-family: 'NanumMom';
   font-weight: 50;
-  src: url("./fonts/NanumfromMomToDaughter.ttf") format("truetype");
+  src: url('./fonts/NanumfromMomToDaughter.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "NanumGrandfather";
+  font-family: 'NanumGrandfather';
   font-weight: 50;
-  src: url("./fonts/NanumGrandFather.ttf") format("truetype");
+  src: url('./fonts/NanumGrandFather.ttf') format('truetype');
 }
+

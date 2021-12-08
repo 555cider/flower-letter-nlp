@@ -1,5 +1,7 @@
 import { AlertTitle } from '@chakra-ui/alert';
+
 import { SAVE_FREECONTENT, SAVE_LETTER, SAVE_FONT, SAVE_COLOR, SAVE_FLOWER_DATA, SAVE_USER_FLOWER, SAVE_POEMS} from './actions';
+
 
 const initialState = {
     name: '',
@@ -10,10 +12,12 @@ const initialState = {
     letter_content:'',
     free_content:'',
     userfont:'',
+
     usercolor:'',
     flowersList:[],
     poems:[],
     user_flower:''
+
 
 
 }
@@ -48,6 +52,7 @@ const reducer = (state=initialState, action)=>{
                 usercolor:action.userColor
             }
         }
+
         case SAVE_FLOWER_DATA:{
             return{
                 ...state,
@@ -65,8 +70,7 @@ const reducer = (state=initialState, action)=>{
                 ...state,
                 user_flower:action.user_flower
             }
-        }
-        
+        }        
         default:
             return state;
     }

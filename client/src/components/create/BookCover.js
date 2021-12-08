@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import StepsLetter from "../StepsLetter";
-import EditContainer from "./EditContainer";
+import React, { useState } from 'react';
+import StepsLetter from '../StepsLetter';
 import {
   Flex,
   HStack,
@@ -10,27 +9,30 @@ import {
   useRadioGroup,
   VStack,
   Text,
-} from "@chakra-ui/react";
-import { useNavigate } from "react-router";
-import { useDispatch, batch } from "react-redux";
+} from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
+import { useDispatch, batch, useSelector } from 'react-redux';
 
 export default function BookCover() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [userFont, setUserFont] = useState("");
-  const [userColor, setUserColor] = useState("");
+  const [userFont, setUserFont] = useState('');
+  const [userColor, setUserColor] = useState('');
+
+  const { user_flower } = useSelector((state) => ({
+    user_flower: state.user_flower,
+  }));
 
   const clickNextButton = () => {
-    navigate("/create/freecontent");
+    navigate('/create/freecontent');
     batch(() => {
-      dispatch({ type: "SAVE_FONT", userFont });
-      dispatch({ type: "SAVE_COLOR", userColor });
+      dispatch({ type: 'SAVE_FONT', userFont });
+      dispatch({ type: 'SAVE_COLOR', userColor });
     });
   };
 
-  console.log("선택된 컬러", userColor);
-  console.log("선택된 폰트", userFont);
+  console.log('꽃말 리덕스 확인', user_flower);
 
   return (
     <div>
@@ -64,7 +66,7 @@ export default function BookCover() {
                 color="white"
                 backgroundColor="red"
                 onClick={() => {
-                  setUserColor("red");
+                  setUserColor('red');
                 }}
               >
                 Red
@@ -79,13 +81,14 @@ export default function BookCover() {
                 color="white"
                 backgroundColor="blue"
                 onClick={() => {
-                  setUserColor("blue");
+                  setUserColor('blue');
                 }}
               >
-                Blue
+                \ Blue
               </Button>
             </div>
             <Text>폰트</Text>
+
             <div className="scrollbox" align="center">
               <Button
                 className="flowerbutton"
@@ -98,7 +101,7 @@ export default function BookCover() {
                 fontFamily="NanumGrandfather"
                 fontSize="30px"
                 onClick={() => {
-                  setUserFont("NanumGrandfather");
+                  setUserFont('NanumGrandfather');
                 }}
               >
                 나눔 할아버지체
@@ -114,7 +117,7 @@ export default function BookCover() {
                 fontFamily="NanumMom"
                 fontSize="30px"
                 onClick={() => {
-                  setUserFont("NanumMom");
+                  setUserFont('NanumMom');
                 }}
               >
                 나눔 엄마체
@@ -133,7 +136,7 @@ export default function BookCover() {
             color="white"
             fontSize="3vh"
             onClick={() => {
-              navigate("/create/flowerlang");
+              navigate('/create/flowerlang');
             }}
           >
             이전 단계
@@ -149,7 +152,6 @@ export default function BookCover() {
             fontSize="3vh"
             onClick={clickNextButton}
           >
-            {" "}
             다음 단계
           </Button>
         </Box>

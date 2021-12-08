@@ -23,23 +23,39 @@ const store = createStore(reducer);
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <Provider store={store}>
         <Routes>
-          <Route exact={true} path='/' element={<Home />} />
-          <Route exact={true} path='/about' element={<About />} />
-          <Route exact={true} path='/create' element={<Create />} />
-          <Route exact={true} path='/create/keyword' element={<EditAnthology />} />
-          <Route exact={true} path='/create/flowerlang' element={<FlowerLang />} />
-          <Route exact={true} path='/create/bookcover' element={<BookCover />} />
-          <Route exact={true} path='/create/freecontent' element={<FreeContent />} />
-          <Route exact={true} path='/create/final' element={<FinalReview />} />
-          <Route exact={true} path='/question' element={<Question />} />
-          <Route exact={true} path='/orders' element={<Orders />} />
-          <Route exact={true} path='/checkout' element={<Checkout />} />
-          <Route exact={true} path='/start' element={<Start />} />
-          <Route exact={true} path='/loading' element={<Loading />} />
-          <Route exact={true} path='/howtouse' element={<HowToUse />} />
+          <Route exact={true} path="/" element={<Home />} />
+          <Route exact={true} path="/about" element={<About />} />
+          <Route exact={true} path="/create" element={<Create />} />
+          <Route
+            exact={true}
+            path="/create/keyword"
+            element={<EditAnthology />}
+          />
+          <Route
+            exact={true}
+            path="/create/flowerlang"
+            element={<FlowerLang />}
+          />
+          <Route
+            exact={true}
+            path="/create/bookcover"
+            element={<BookCover />}
+          />
+          <Route
+            exact={true}
+            path="/create/freecontent"
+            element={<FreeContent />}
+          />
+          <Route exact={true} path="/create/final" element={<FinalReview />} />
+          <Route exact={true} path="/question" element={<Question />} />
+          <Route exact={true} path="/orders" element={<Orders />} />
+          <Route exact={true} path="/checkout" element={<Checkout />} />
+          <Route exact={true} path="/start" element={<Start />} />
+          <Route exact={true} path="/loading" element={<Loading />} />
+          <Route exact={true} path="/howtouse" element={<HowToUse />} />
         </Routes>
       </Provider>
     </div>

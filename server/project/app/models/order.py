@@ -115,3 +115,16 @@ async def create_order(order: OrderDetail, book_id: str, db: AsyncSession):
     await db.commit()
     await db.refresh(new_order)
     return new_order
+
+
+async def get_order(order_id: int, db: AsyncSession):
+    return await db.query(OrderModel).filter(OrderModel.id == order_id).first()
+
+
+async def update_order_status(order_id: int, db: AsyncSession, status: int):
+    order = await db.query(OrderModel).filter(OrderModel.id == order_id).first()
+    order.order_status = status
+
+    await db.commit()
+    await db.refresh(order)
+    return order

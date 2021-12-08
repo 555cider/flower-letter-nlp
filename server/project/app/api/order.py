@@ -164,7 +164,7 @@ async def send_email(
           <div style="font-size: 1.2rem; font-weight: bold; padding: 20px; margin-left: auto; margin-right: auto; text-align: center;">
             Delivery Info
           </div>
-          <table style="border-left: 2px solid #846c6c; padding-left: 20px; margin-left: auto; margin-right: auto; width: 400px;">
+          <table style="border-left: 2px solid #846c6c; padding-left: 20px; margin-left: auto; margin-right: auto; width: 430px;">
             <tr style="width: 360px; padding: 3px;">
               <td style="font-size: 0.9rem; font-weight: bold; width: 80px;"> 받는분 </td>
               <td>김상훈</td>

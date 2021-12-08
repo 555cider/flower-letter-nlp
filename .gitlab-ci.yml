@@ -10,7 +10,7 @@ deploy-to-server:
     # - cd /home/yuliejung_dev_gmail_com/nlp3
     # - pwd
     # - ls
-    - sudo docker-compose up -d --build
+    - docker-compose up -d --build
   after_script:
     - echo 'deployment is done'
   tags:

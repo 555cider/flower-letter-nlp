@@ -1,7 +1,9 @@
 from typing import List
 from fastapi import FastAPI
-import pickle
 from pydantic import BaseModel
+
+from classify_emotion import predict as predict_emotion
+from classify_keywords import predict as predict_keywords
 
 
 class Letter(BaseModel):
@@ -11,10 +13,6 @@ class Letter(BaseModel):
 class Keywords(BaseModel):
     keywords: List[str]
 
-
-# import model
-model = pickle.load(open("./model.pkl", "rb"))
-print("loaded pickle!")
 
 app = FastAPI(title="API service for model")
 

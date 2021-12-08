@@ -18,6 +18,8 @@ export default function LeftImage({
   text,
   imgUrl,
   backgroundImg,
+  bgGradient,
+  backgroundcolor,
 }) {
   return (
     <HStack
@@ -29,6 +31,8 @@ export default function LeftImage({
       backgroundPosition="center"
       backgroundSize="cover"
       backgroundImage={backgroundImg}
+      backgroundColor={backgroundcolor}
+      bgGradient={bgGradient}
     >
       <Center w="40vh" h="full">
         <Image src={imgUrl} boxSize="500px" />

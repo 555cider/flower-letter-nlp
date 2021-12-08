@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 export default function WithBackgroundImage({
   buttonName,
   backgroundImg,
+  bgGradient,
   text,
   w = 'full',
   h = 'full',
@@ -35,6 +36,7 @@ export default function WithBackgroundImage({
       backgroundPosition="center"
       backgroundSize="cover"
       backgroundColor={backgroundcolor}
+      bgGradient={bgGradient}
     >
       <Stack
         align={'flex-start'}

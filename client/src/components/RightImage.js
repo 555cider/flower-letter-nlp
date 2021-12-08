@@ -18,6 +18,7 @@ export default function RightImage({
   imgUrl,
   backgroundImg,
   backgroundcolor,
+  bgGradient,
 }) {
   return (
     <HStack
@@ -30,6 +31,7 @@ export default function RightImage({
       backgroundSize="cover"
       backgroundImage={backgroundImg}
       backgroundColor={backgroundcolor}
+      bgGradient={bgGradient}
     >
       <Center w="40%" h="full">
         <Text

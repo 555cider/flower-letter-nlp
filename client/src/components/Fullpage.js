@@ -89,35 +89,40 @@ function Fullpage() {
 
   return (
     <div style={{ height: '100vh', overflow: 'auto' }}>
+      {/* 첫번째 스크롤 */}
       <WithBackgroundImage
         //buttonName={"About us"}
         text={'당신의 소중한 사람에게 가장 특별한 시집을 선물해보세요'}
-        backgroundImg={'/img/mainPageFirstImg.png'}
-        textcolor={'white'}
+        textcolor={'black'}
+        background={''}
+        bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
       />
-
-      <WithBackgroundImage
-        h="full"
-        text={'편지를 쓰면 시집이 됩니다.'}
-        link={'더 알아보기'}
-      />
-
+      {/* 두번째 스크롤 */}
       <RightImage
         w="full"
         h="700px"
         imgUrl={'/img/mainPageFirstImg.png'}
         text={'늘 당신과 함께하고 싶습니다'}
-        backgroundcolor={'#FBEDE0'}
+        bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
       />
 
+      {/* 세번째 스크롤 */}
       <LeftImage
         w="full"
         h="700px"
         imgUrl={'/img/mainPageFirstImg.png'}
         text={'시의 각 단계별 커스터마이징 기능'}
-        backgroundImg={'/img/backgroundImg2_fall.png'}
+        backgroundcolor={'#FFE6A8'}
       />
-
+      {/* 네번째 스크롤 */}
+      <WithBackgroundImage
+        //buttonName={"About us"}
+        text={'당신의 소중한 사람에게 가장 특별한 시집을 선물해보세요'}
+        textcolor={'black'}
+        background={''}
+        bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
+      />
+      {/* 다섯번째 스크롤 */}
       <WithBackgroundImage
         h="1400px"
         text={'수아야 안녕? 나와 늘 함께해줘서 고마워'}
@@ -126,16 +131,27 @@ function Fullpage() {
         buttonName={'바로 시작하기'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/start'}
+        bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
       />
-      <ReviewComponent backgroundcolor={'#613659'} />
-
+      {/* 여섯번째 스크롤 */}
       <WithBackgroundImage
         text={'더 궁금한 사항이 있으신가요?'}
         isbutton={true}
         buttonName={'바로가기'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/question'}
+        bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
       />
+      {/* 일곱번째 스크롤 */}
+      <WithBackgroundImage
+        text={'더 궁금한 사항이 있으신가요?'}
+        isbutton={true}
+        buttonName={'바로가기'}
+        buttonColor={'#FBEDE0'}
+        buttonUrl={'/question'}
+        bgGradient={'linear(to-b, #D4BBDD, #613659)'}
+      />
+      <ReviewComponent backgroundcolor={'#613659'} />
     </div>
   );
 }

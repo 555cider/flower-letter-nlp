@@ -1,32 +1,38 @@
-
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import StepsLetter from '../StepsLetter';
-import { Flex, HStack, Box, Button, Spacer, useRadioGroup, VStack, Text } from '@chakra-ui/react';
+import {
+  Flex,
+  HStack,
+  Box,
+  Button,
+  Spacer,
+  useRadioGroup,
+  VStack,
+  Text,
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, batch, useSelector } from 'react-redux';
-
 
 export default function BookCover() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [ userFont, setUserFont] = useState('')
-  const [ userColor, setUserColor] = useState('')
+  const [userFont, setUserFont] = useState('');
+  const [userColor, setUserColor] = useState('');
 
-  const {user_flower} = useSelector((state)=>({
-    user_flower:state.user_flower
-  }))
+  const { user_flower } = useSelector((state) => ({
+    user_flower: state.user_flower,
+  }));
 
-  const clickNextButton = () =>{
-    navigate('/create/freecontent')
-    batch(()=>{
-      dispatch({type:'SAVE_FONT', userFont})
-      dispatch({type:'SAVE_COLOR',userColor})
-    })
-  }
+  const clickNextButton = () => {
+    navigate('/create/freecontent');
+    batch(() => {
+      dispatch({ type: 'SAVE_FONT', userFont });
+      dispatch({ type: 'SAVE_COLOR', userColor });
+    });
+  };
 
-  console.log('꽃말 리덕스 확인',user_flower)
-
+  console.log('꽃말 리덕스 확인', user_flower);
 
   return (
     <div>
@@ -49,23 +55,71 @@ export default function BookCover() {
           {/* 오른쪽 박스 */}
           <VStack w="100%" h="90%" align="center" border="1px" p="3" m="2">
             <Text>컬러</Text>
-            <div className='scrollbox' align='center'>
-              <Button className='flowerbutton' m='2' w='90%' h='60px' bg='skyblue' fontWeight='600' color='white' backgroundColor='red' onClick={()=>{setUserColor('red')}}>
+            <div className="scrollbox" align="center">
+              <Button
+                className="flowerbutton"
+                m="2"
+                w="90%"
+                h="60px"
+                bg="skyblue"
+                fontWeight="600"
+                color="white"
+                backgroundColor="red"
+                onClick={() => {
+                  setUserColor('red');
+                }}
+              >
                 Red
               </Button>
-              <Button className='flowerbutton' m='2' w='90%' h='60px' bg='skyblue' fontWeight='600' color='white' backgroundColor='blue' onClick={()=>{setUserColor('blue')}}>
-\
-                Blue
+              <Button
+                className="flowerbutton"
+                m="2"
+                w="90%"
+                h="60px"
+                bg="skyblue"
+                fontWeight="600"
+                color="white"
+                backgroundColor="blue"
+                onClick={() => {
+                  setUserColor('blue');
+                }}
+              >
+                \ Blue
               </Button>
             </div>
             <Text>폰트</Text>
 
-            <div className='scrollbox' align='center'>
-              <Button className='flowerbutton' m='2' w='90%' h='60px' bg='skyblue' fontWeight='600' color='white' fontFamily='NanumGrandfather' fontSize='30px' onClick={()=>{setUserFont('NanumGrandfather')}}>
+            <div className="scrollbox" align="center">
+              <Button
+                className="flowerbutton"
+                m="2"
+                w="90%"
+                h="60px"
+                bg="skyblue"
+                fontWeight="600"
+                color="white"
+                fontFamily="NanumGrandfather"
+                fontSize="30px"
+                onClick={() => {
+                  setUserFont('NanumGrandfather');
+                }}
+              >
                 나눔 할아버지체
               </Button>
-              <Button className='flowerbutton' m='2' w='90%' h='60px' bg='skyblue' fontWeight='600' color='white' fontFamily='NanumMom' fontSize='30px' onClick={()=>{setUserFont('NanumMom')}}>
-
+              <Button
+                className="flowerbutton"
+                m="2"
+                w="90%"
+                h="60px"
+                bg="skyblue"
+                fontWeight="600"
+                color="white"
+                fontFamily="NanumMom"
+                fontSize="30px"
+                onClick={() => {
+                  setUserFont('NanumMom');
+                }}
+              >
                 나눔 엄마체
               </Button>
             </div>
@@ -75,14 +129,29 @@ export default function BookCover() {
 
       <Flex pl="6" pr="6" h="10%" w="100%">
         <Box>
-          <Button w='30vh' h='7vh' bg='skyblue' color='white' fontSize='3vh' onClick={() => { navigate('/create/flowerlang'); }}>
+          <Button
+            w="30vh"
+            h="7vh"
+            bg="skyblue"
+            color="white"
+            fontSize="3vh"
+            onClick={() => {
+              navigate('/create/flowerlang');
+            }}
+          >
             이전 단계
           </Button>
         </Box>
         <Spacer />
         <Box>
-
-          <Button w='30vh' h='7vh' bg='skyblue' color='white' fontSize='3vh' onClick={clickNextButton}> 
+          <Button
+            w="30vh"
+            h="7vh"
+            bg="skyblue"
+            color="white"
+            fontSize="3vh"
+            onClick={clickNextButton}
+          >
             다음 단계
           </Button>
         </Box>

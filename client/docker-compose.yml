@@ -4,7 +4,7 @@ version: '3.8'
 
 services:
   web_ui:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.prod
     container_name: web_ui_container

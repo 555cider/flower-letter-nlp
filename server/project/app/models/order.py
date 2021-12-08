@@ -66,6 +66,31 @@ class OrderIn(BaseModel):
     order: OrderDetail
     book: Book
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "order": {
+                    "price": 47000,
+                    "name": "김철수",
+                    "address": "서울시 강남구 강남동 11번지",
+                    "email": "test@test.com",
+                    "phone": "01012341234",
+                },
+                "book": {
+                    "letter": "편지 내용...",
+                    "flower_id": "61b065c6dd874c208dee0bc3",
+                    "contents": [
+                        {"type": "poem", "poem_id": "61b065c6dd874c208dee0bc3"},
+                        {"type": "poem", "poem_id": "61b066202f194ac7dd807aef"},
+                        {"type": "text", "text_content": "자유글 내용..."},
+                        {"type": "text", "text_content": "자유글 내용 222..."},
+                    ],
+                    "font": "바른글씨체",
+                    "color": "beige",
+                },
+            }
+        }
+
 
 class OrderOut(OrderDetail):
     id: int

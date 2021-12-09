@@ -20,10 +20,13 @@ services:
   ml_service:
     build:
       context: ./ml/model-api
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.transformer
+    command: uvicorn app.main:app --host 0.0.0.0 --reload
+    volumes:
+      - ./ml/model-api:/app # for auto reload
     container_name: ml_container
     expose:
-      - 80
+      - 8000
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mlapi.rule=Host(`${ML_DOMAIN}`)"

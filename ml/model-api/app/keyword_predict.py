@@ -82,7 +82,7 @@ def predict(predict_sentence):
     model2 = AutoModel.from_config(config)
 
     model2.load_state_dict(torch.load("./model.bin", map_location=device), strict=False)
-    model2 = model2.cuda()
+    #model2 = model2.cuda()
 
     model2 = BERTClassifier(model2, dr_rate=0.5).to(device)
 

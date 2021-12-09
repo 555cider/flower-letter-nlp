@@ -33,4 +33,4 @@ def classify_letter(data: Letter):
 
     keyword_predict_test(data.text)
 
-    return ["우정, 사랑, 여행", "낭만@", "도시", "일탈"]
+    return {"keywords": ["우정", "사랑", "여행", "낭만@", "도시", "일탈"]}

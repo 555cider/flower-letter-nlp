@@ -2,7 +2,7 @@ fastapi==0.63.0
 uvicorn==0.13.4
 
 gluonnlp >= 0.6.0
-# # torch >= 1.7.1
-# transformers >= 4.8.1
+torch >= 1.7.1
+transformers >= 4.8.1
 git+https://git@github.com/SKTBrain/KoBERT.git@master
 

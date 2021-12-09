@@ -20,6 +20,7 @@ export default function LeftImage({
   backgroundImg,
   bgGradient,
   backgroundcolor,
+  textColor,
 }) {
   return (
     <HStack
@@ -34,11 +35,13 @@ export default function LeftImage({
       backgroundColor={backgroundcolor}
       bgGradient={bgGradient}
     >
-      <Center w="40vh" h="full">
+      <Center w="80vh" h="full">
         <Image src={imgUrl} boxSize="500px" />
       </Center>
       <Center w="60vh" h="full">
         <Text
+          className="sa sa-left"
+          color={textColor}
           fontWeight={700}
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}

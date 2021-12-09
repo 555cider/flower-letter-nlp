@@ -9,6 +9,7 @@ import {
   Link,
   Container,
   Spacer,
+  HStack,
 } from '@chakra-ui/react';
 
 export default function ReviewComponent({
@@ -16,6 +17,7 @@ export default function ReviewComponent({
   h = 'full',
 
   backgroundcolor,
+  bgGradient,
 }) {
   return (
     <VStack
@@ -27,6 +29,7 @@ export default function ReviewComponent({
       backgroundPosition="center"
       backgroundSize="cover"
       backgroundColor={backgroundcolor}
+      bgGradient={bgGradient}
     >
       <Stack
         align={'flex-start'}
@@ -57,29 +60,31 @@ export default function ReviewComponent({
 
         <Container display={'flex'} justifyContent={'space-evenly'}>
           <Flex justify={'space-evenly'}>
-            <Box
-              w="100px"
-              h="100px"
-              bg="white"
-              borderRadius="30px"
-              boxSize="200px"
-            />
-            <Spacer />
-            <Box
-              w="100px"
-              h="100px"
-              bg="white"
-              borderRadius="30px"
-              boxSize="200px"
-            />
-            <Spacer />
-            <Box
-              w="100px"
-              h="100px"
-              bg="white"
-              borderRadius="30px"
-              boxSize="200px"
-            />
+            <HStack w="100%" h="100%">
+              <Box
+                w="200px"
+                h="200px"
+                bg="white"
+                borderRadius="30px"
+                boxSize="200px"
+              />
+              <Spacer />
+              <Box
+                w="200px"
+                h="200px"
+                bg="white"
+                borderRadius="30px"
+                boxSize="200px"
+              />
+              <Spacer />
+              <Box
+                w="200px"
+                h="200px"
+                bg="white"
+                borderRadius="30px"
+                boxSize="200px"
+              />
+            </HStack>
           </Flex>
         </Container>
 

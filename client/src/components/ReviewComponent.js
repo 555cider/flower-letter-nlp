@@ -60,30 +60,18 @@ export default function ReviewComponent({
 
         <Container display={'flex'} justifyContent={'space-evenly'}>
           <Flex justify={'space-evenly'}>
-            <HStack w="100%" h="100%">
-              <Box
-                w="200px"
-                h="200px"
-                bg="white"
-                borderRadius="30px"
-                boxSize="200px"
-              />
+            <HStack w="150vh" h="100%">
+              <Box bg="white" borderRadius="30px" boxSize="400px" p="4">
+                <Text>유저리뷰내용</Text>
+              </Box>
               <Spacer />
-              <Box
-                w="200px"
-                h="200px"
-                bg="white"
-                borderRadius="30px"
-                boxSize="200px"
-              />
+              <Box bg="white" borderRadius="30px" boxSize="400px" p="4">
+                <Text>유저리뷰내용</Text>
+              </Box>
               <Spacer />
-              <Box
-                w="200px"
-                h="200px"
-                bg="white"
-                borderRadius="30px"
-                boxSize="200px"
-              />
+              <Box bg="white" borderRadius="30px" boxSize="400px" p="4">
+                <Text>유저리뷰내용</Text>
+              </Box>
             </HStack>
           </Flex>
         </Container>

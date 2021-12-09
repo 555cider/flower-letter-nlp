@@ -6,6 +6,7 @@ import WithBackgroundImage from './WithBackgroundImage';
 import LeftImage from './LeftImage';
 import ReviewComponent from './ReviewComponent';
 import RightImage from './RightImage';
+import WritingAnima from './WritingAnima';
 
 const DIVIDER_HEIGHT = 5;
 
@@ -22,7 +23,7 @@ function Fullpage() {
         textcolor={'white'}
         bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
         isbutton={true}
-        buttonName={'바로가기'}
+        buttonName={'/start로'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/start'}
         // buttonBorder={'2px'}
@@ -55,20 +56,21 @@ function Fullpage() {
         background={''}
         bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
         isbutton={true}
-        buttonName={'바로가기'}
+        buttonName={'/howtouse로'}
         buttonColor={'#FBEDE0'}
-        buttonUrl={'/start'}
+        buttonUrl={'/howtouse'}
         // buttonBorder={'2px'}
         // buttonBorderColor={'#A49393'}
         buttonTextColor={'#A49393'}
       />
       {/* 다섯번째 스크롤 */}
-      <WithBackgroundImage
-        h="1400px"
-        text={'편지작성애니메이션'}
+      <WritingAnima
+        h={'100%'}
+        text={'편지작성예시'}
         textcolor={'#613659'}
+        backgroundImg={''}
         isbutton={true}
-        buttonName={'바로 시작하기'}
+        buttonName={'/start로'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/start'}
         // buttonBorder={'2px'}
@@ -83,7 +85,7 @@ function Fullpage() {
         text={'더 궁금한 사항이 있으신가요?'}
         textcolor={'white'}
         isbutton={true}
-        buttonName={'문의하기'}
+        buttonName={'/question으로'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/question'}
         // buttonBorder={'2px'}

@@ -28,6 +28,7 @@ export default function WithBackgroundImage({
   const navigate = useNavigate();
 
   const button_Url = buttonUrl;
+  // 스크롤 애니메이션
   const saTriggerMargin = 300;
   const saElementList = document.querySelectorAll('.sa');
 

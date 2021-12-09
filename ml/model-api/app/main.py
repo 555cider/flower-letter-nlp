@@ -2,8 +2,8 @@ from typing import List
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from classify_emotion import predict as predict_emotion
-from classify_keywords import predict as predict_keywords
+from app.classify_emotion import predict as predict_emotion
+from app.classify_keywords import predict as predict_keywords
 
 
 class Letter(BaseModel):

@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   mlweb:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.test
     command: uvicorn app.main:app --host 0.0.0.0
     volumes:
       - .:/app # for auto reload

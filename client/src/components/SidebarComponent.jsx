@@ -79,24 +79,7 @@ function SidebarComponent() {
                   borderColor="#A49393"
                 />
               </Link>
-              <Button
-                _hover={{
-                  backgroundColor: '#A49393',
-                  color: 'white',
-                  fontWeight: '600',
-                }}
-                onClick={() => navigate('/start')}
-                w="140px"
-                backgroundColor="white"
-                border="1px"
-                borderColor="#A49393"
-                color="#A49393"
-                borderRadius="20px"
-                fontWeight="500"
-              >
-                시집 만들러 가기
-              </Button>
-              <Box h="10"></Box>
+
               <Link
                 _hover={{ color: '#613659', fontWeight: '600' }}
                 fontSize="30px"
@@ -140,6 +123,27 @@ function SidebarComponent() {
                 </NavLink>
               </Link>
               <br />
+
+              <Box h="7"></Box>
+              <Button
+                _hover={{
+                  backgroundColor: '#A49393',
+                  color: 'white',
+                  fontWeight: '600',
+                }}
+                onClick={() => navigate('/start ')}
+                w="220px"
+                h="50px"
+                backgroundColor="white"
+                border="2px"
+                borderColor="#A49393"
+                color="#A49393"
+                borderRadius="20px"
+                fontWeight="600"
+                fontSize="xl"
+              >
+                시집 만들러 가기
+              </Button>
             </VStack>
           </DrawerBody>
         </DrawerContent>

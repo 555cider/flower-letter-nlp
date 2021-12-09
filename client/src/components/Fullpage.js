@@ -66,9 +66,9 @@ function Fullpage() {
       {/* 다섯번째 스크롤 */}
       <WritingAnima
         h={'100%'}
-        text={'편지작성예시'}
+        // text={'편지작성예시'}
         textcolor={'#613659'}
-        backgroundImg={''}
+        backgroundImg={'/img/letterpaper.png'}
         isbutton={true}
         buttonName={'/start로'}
         buttonColor={'#FBEDE0'}

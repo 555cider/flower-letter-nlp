@@ -8,11 +8,7 @@ const About = () => {
   return (
     <div style={{ height: '100vh', overflow: 'auto' }}>
       <SidebarComponent></SidebarComponent>
-      <WithBackgroundImage
-        text={'꽃 편지 About us'}
-        textcolor={'black'}
-        backgroundImg={'/img/lavenderBook.png'}
-      />
+      <WithBackgroundImage text={'꽃 편지 About us'} textcolor={'black'} />
       <WithBackgroundImage
         h={'700px'}
         text={

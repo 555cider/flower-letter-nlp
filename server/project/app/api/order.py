@@ -67,7 +67,7 @@ async def pay(
 
         # 결제 비즈니스 로직 구현
         orderId = resDict["orderId"]
-        order = await update_order_status(2)  # 결제 완료 상태
+        order = await update_order_status(order_id=orderId, status=2)  # 결제 완료 상태
         background_tasks.add_task(send_email, order.email, order)  # 이메일 전송
 
         return Response(status_code=200)

@@ -42,7 +42,10 @@ export default function FinalReview() {
 
   const handleChange = (e) => {
     setFinalTitle(e.target.value);
+    dispatch({ type: 'SAVE_TITLE', finalTitle });
   };
+
+  console.log('finalTitle', finalTitle);
 
   return (
     <div>
@@ -62,13 +65,6 @@ export default function FinalReview() {
               placeholder="시집 제목을 입력하세요"
               onChange={handleChange}
             />
-            <Button
-              onClick={() => {
-                dispatch({ type: 'SAVE_TITLE', finalTitle });
-              }}
-            >
-              저장
-            </Button>
             {poemsTitleList}
             <Button
               m="2"

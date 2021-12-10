@@ -97,3 +97,9 @@ code {
   src: url('./fonts/KyoHandwriting.ttf') format('truetype');
   font-weight: 50;
 }
+
+@font-face {
+  font-family: 'EnglishHandy';
+  src: url('./fonts/Amarillo.ttf') format('truetype');
+  font-weight: 50;
+}

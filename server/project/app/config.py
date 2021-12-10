@@ -36,6 +36,10 @@ class Settings(BaseSettings):
         USE_CREDENTIALS=os.getenv("USE_CREDENTIALS"),
     )
 
+    # Payment settings
+    client_id: str = (os.getenv("CLIENT_ID"),)
+    secret_key: str = os.getenv("SECRET_KEY")
+
 
 @lru_cache()
 def get_config() -> BaseSettings:

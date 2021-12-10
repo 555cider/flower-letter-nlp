@@ -87,3 +87,15 @@ code {
   font-weight: 50;
   src: url('./fonts/NanumGrandFather.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'EliceBold';
+  src: url('./fonts/EliceDigitalBaeum_Bold.ttf') format('truetype');
+  font-weight: 50;
+}
+
+@font-face {
+  font-family: 'EliceRegular';
+  src: url('./fonts/EliceDigitalBaeum_Regular.ttf') format('truetype');
+  font-weight: 50;
+}

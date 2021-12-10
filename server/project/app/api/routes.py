@@ -3,9 +3,6 @@ from beanie.odm.fields import PydanticObjectId
 from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
 from fastapi_mail import FastMail, MessageSchema
 
-from app.config import Settings, get_config
-
-
 from app.models.book import (
     PoemIn,
     PoemModel,
@@ -19,7 +16,7 @@ from app.models.order import OrderIn, OrderOut, create_order
 from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 
-router = APIRouter(tags=["Routes"])
+router = APIRouter(tags=["편지 분석"])
 
 
 # ================

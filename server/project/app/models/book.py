@@ -67,6 +67,8 @@ class Book(BaseModel):
     letter: str
     flower_id: str
     contents: List[Union[PoemPage, FreePage]]
+    font: str
+    color: str
 
 
 # For saving ordered book to DB

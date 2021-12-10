@@ -7,7 +7,9 @@ alembic revision --autogenerate -m "init" # generate migration
 
 alembic upgrade head # apply migration
 ```
-NOTE: if for some reason generating migration doesn't work, try opening new shell.
+NOTE: 
+- To add new models for generation, add them manually to `migrations/env.py`
+- Run in docker shell `docker-compose exec web alembic...`
 
 ### docker:
 ```bash

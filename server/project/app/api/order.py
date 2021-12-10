@@ -28,7 +28,7 @@ from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-order_router = APIRouter(tags=["Order"])
+order_router = APIRouter(tags=["주문"])
 
 
 @order_router.post("/pay", summary="결제")

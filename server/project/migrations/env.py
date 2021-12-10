@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from alembic import context
 
 from app.models.order import OrderModel, OrderStatusModel
+from app.models.question import QuestionModel
 from app.db import Base
 
 import os

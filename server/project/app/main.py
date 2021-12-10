@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import main_router
 from app.api.order import order_router
+from app.api.question import question_router
 
 from app.db import init_mongo
 from app.config import get_config
@@ -10,9 +11,12 @@ config = get_config()
 
 
 def create_application() -> FastAPI:
-    application = FastAPI()
+    application = FastAPI(title="꽃편지 API", description="꽃편지 서비스의 API 목록입니다.")
+
+    # Register routes
     application.include_router(main_router)
     application.include_router(order_router)
+    application.include_router(question_router)
 
     return application
 
@@ -36,6 +40,6 @@ async def app_init():
     await init_mongo()
 
 
-@app.get("/ping")
+@app.get("/")
 async def say_hi():
-    return {"ping": "hello world!"}
+    return {"Message": "꽃편지 API 문서를 보려면 /docs 를 이용해주세요!"}

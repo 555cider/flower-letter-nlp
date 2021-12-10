@@ -1,23 +1,13 @@
-# 라이브러리 임포트
 import torch
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 import gluonnlp as nlp
 from kobert.utils import get_tokenizer
-from kobert.pytorch_kobert import get_pytorch_kobert_model
-from transformers import AutoConfig, AutoModel
-
-bertmodel, vocab = get_pytorch_kobert_model(cachedir=".cache")
 
 MAX_LEN = 128
 TRAIN_BATCH_SIZE = 1
 
-tokenizer = get_tokenizer()
-tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
-
-# device = torch.device("cuda")
 device = torch.device("cpu")
-
 
 class BERTClassifier(nn.Module):
     def __init__(
@@ -77,30 +67,26 @@ class BERTDataset(Dataset):
         }
 
 
-def predict(predict_sentence):
-    config = AutoConfig.from_pretrained("bert-base-uncased", return_dict=False)
-    model2 = AutoModel.from_config(config)
-
-    model2.load_state_dict(torch.load("./model.bin", map_location=device), strict=False)
-    #model2 = model2.cuda()
-
-    model2 = BERTClassifier(model2, dr_rate=0.5).to(device)
-
+def predict(saved_model, vocab, predict_sentence):
     data = [predict_sentence]
 
+    #모델 정보 이식
+    saved_model.load_state_dict(torch.load('model_test_dict', map_location=device))
+
+    tokenizer = get_tokenizer()
+    tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
+    
     another_test = BERTDataset(data, tok, MAX_LEN)
-    test_dataloader = DataLoader(
-        another_test, batch_size=TRAIN_BATCH_SIZE, num_workers=4
-    )
+    test_dataloader = DataLoader(another_test, batch_size=TRAIN_BATCH_SIZE, num_workers=4)
 
-    model2.eval()
+    saved_model.eval()
     for _, data in enumerate(test_dataloader, 0):
-        ids = data["ids"].to(device, dtype=torch.long)
-        token_type_ids = data["token_type_ids"].to(device, dtype=torch.long)
-        mask = data["mask"].to(device, dtype=torch.long)
-
-        outputs = model2(ids, mask, token_type_ids)
-
+        ids = data['ids'].to(device, dtype = torch.long)
+        token_type_ids = data['token_type_ids'].to(device, dtype = torch.long)
+        mask = data['mask'].to(device, dtype = torch.long)
+        
+        outputs = saved_model(ids, mask, token_type_ids)
+        
     print(outputs)
 
 

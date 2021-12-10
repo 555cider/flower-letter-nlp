@@ -1,5 +1,6 @@
 import React from 'react';
 import StepsLetter from '../StepsLetter';
+import Preview from '../Preview';
 
 import { Flex, HStack, Box, Button, Spacer } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
@@ -41,7 +42,7 @@ export default function FlowerLang() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          꽃말선택 단계
+          <Preview />
         </Flex>
         <Flex
           w="40%"

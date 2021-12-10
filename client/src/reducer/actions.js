@@ -12,3 +12,5 @@ export const SAVE_FLOWER_DATA = 'SAVE_FLOWER_DATA';
 export const SAVE_POEMS = 'SAVE_POEMS';
 // 사용자가 선택한 꽃말 저장
 export const SAVE_USER_FLOWER = 'SAVE_USER_FLOWER';
+// 시집 제목 저장
+export const SAVE_TITLE = 'SAVE_TITLE';

@@ -14,28 +14,28 @@ import StepsLetter from './StepsLetter';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import axios from 'axios';
+import PreviewImageUrls from './PreviewImageUrls';
 
 function WriteLetter({ history }) {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { letter_title, letter_content } = useSelector((state) => ({
-    letter_title: state.letter_title,
+  const { letter_content, color } = useSelector((state) => ({
     letter_content: state.letter_content,
+    color: state.usercolor,
   }));
 
   const [inputs, setInputs] = useState({
-    title: letter_title,
     content: letter_content,
   });
 
   const { title, content } = inputs;
 
   const clickNextButton = () => {
-    dispatch({ type: 'SAVE_LETTER', title, content });
+    dispatch({ type: 'SAVE_LETTER', content });
     sendLetter();
 
-    navigate('/create/keyword');
+    navigate('/loading');
   };
 
   const handleChange = (e) => {
@@ -72,6 +72,9 @@ function WriteLetter({ history }) {
       });
   };
 
+  console.log(PreviewImageUrls.covers[color]);
+  console.log('color', color);
+
   return (
     <div>
       <StepsLetter></StepsLetter>
@@ -88,6 +91,7 @@ function WriteLetter({ history }) {
           {/* 왼쪽 박스 */}
           <Box p="6" w="100%">
             <Stack spacing={3} h="100%">
+              {/*
               <Input
                 placeholder="편지 제목"
                 h="7vh"
@@ -97,6 +101,7 @@ function WriteLetter({ history }) {
                 name="title"
                 value={title}
               />
+  */}
               <Textarea
                 h="100%"
                 borderColor="black"

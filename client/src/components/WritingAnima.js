@@ -76,6 +76,17 @@ export default function WritingAnima({
           <ReactTypingEffectDemo></ReactTypingEffectDemo>
           {text}
         </Text>
+        <Box h="160px"></Box>
+        <Text
+          ml="20"
+          color={'#613659'}
+          fontWeight={600}
+          fontSize="xl"
+          fontFamily={'HandWrite'}
+          mt="40"
+        >
+          편지를 쓰고 나만의 시집을 선물해보세요!
+        </Text>
       </Box>
       {isbutton ? (
         <Button

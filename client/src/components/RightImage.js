@@ -36,7 +36,7 @@ export default function RightImage({
     >
       <Center w="60vh" h="full">
         <Text
-          className="sa sa-right"
+          // className="sa sa-right" 스크롤애니메이션 클래스
           lineHeight={1.2}
           color={textColor}
           fontWeight={600}

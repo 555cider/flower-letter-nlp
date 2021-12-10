@@ -67,7 +67,7 @@ export default function WithBackgroundImage({
         whiteSpace={'pre-line'}
       >
         <Text
-          className="sa sa-up"
+          // className="sa sa-up" 스크롤 애니메이션 클래스
           color={textcolor}
           fontWeight={600}
           lineHeight={1.2}

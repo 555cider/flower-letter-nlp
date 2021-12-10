@@ -65,6 +65,17 @@ export default function FinalReview() {
               placeholder="시집 제목을 입력하세요"
               onChange={handleChange}
             />
+            <Button
+              m="2"
+              w="90%"
+              h="60px"
+              bg="skyblue"
+              fontWeight="600"
+              color="white"
+            >
+              내가 작성한 편지
+            </Button>
+
             {poemsTitleList}
             <Button
               m="2"

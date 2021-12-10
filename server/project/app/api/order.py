@@ -1,19 +1,14 @@
-from os import name
 from typing import Any
 import json
 from beanie.odm.fields import PydanticObjectId
 from fastapi import (
     APIRouter,
     Depends,
-    Body,
-    HTTPException,
     BackgroundTasks,
     requests,
-    Request,
     Response,
 )
 from requests.auth import HTTPBasicAuth
-from fastapi_mail import FastMail, MessageSchema
 
 from app.config import Settings, get_config
 
@@ -22,27 +17,33 @@ from app.models.book import (
     PoemPageModel,
     BookModel,
 )
-from app.models.schemas import ResponseMessage
-from app.models.order import OrderIn, OrderOut, create_order, update_order_status
+from app.models.order import (
+    OrderIn,
+    OrderOut,
+    create_order,
+    update_order_status,
+    get_order,
+)
 from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from app.helpers.email import send_email
+from app.models.book import FlowerModel
 
 order_router = APIRouter(tags=["주문"])
 
 
 @order_router.post("/pay", summary="결제")
 async def pay(
-    request: Request,
+    request: Any,
     background_tasks: BackgroundTasks,
-    response: Response,
     config: Settings = Depends(get_config),
+    db: AsyncSession = Depends(get_db),
 ):
     """
     결제요청.
 
     - FE에서 주문번호로 결제요청을 보내면, PG사를 거쳐 Server side auth를 위해 이 주소로 POST요청이 오게 된다.
-    - 인증을 거친 후 pg사의 결제승인 API로 요청을 보내 결제 성공/실패 메시지를 받는다.
+    - 인증을 거친 후 pg사의 결제 API로 요청을 보내 결제 성공/실패 메시지를 받는다.
     - 결제 성공시 주문의 상태를 '결제완료'로 변경 후, 사용자에게 이메일 발송.
     - 결제 성공/실패 여부를 반환.
     """
@@ -66,9 +67,17 @@ async def pay(
             raise requests.exceptions.RequestException
 
         # 결제 비즈니스 로직 구현
-        orderId = resDict["orderId"]
-        order = await update_order_status(order_id=orderId, status=2)  # 결제 완료 상태
-        background_tasks.add_task(send_email, order.email, order)  # 이메일 전송
+        order_id = resDict["orderId"]
+        order = await get_order(order_id, db)
+        book = await BookModel.get(PydanticObjectId(order.book_id))
+        await update_order_status(order_id, db, 2)  # 결제 완료 상태
+
+        # 꽃 이름
+        flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
+
+        background_tasks.add_task(
+            send_email, config, order, book, flower.name
+        )  # 이메일 전송
 
         return Response(status_code=200)
 
@@ -109,26 +118,3 @@ async def post_order(
     new_order = await create_order(request.order, str(new_book.id), db)
 
     return new_order
-
-
-async def send_email(
-    email: str, order_details: OrderOut, config: Settings = Depends(get_config)
-):
-    # TODO: 예쁜 이메일 템플릿 만들기
-
-    html = """
-    <b>주문이 완료되었습니다.</b> 
-    <p>주문번호는 </p> 
-    """ + str(
-        order_details.id
-    )
-    message = MessageSchema(
-        subject="주문이 완료되었습니다~~~",
-        recipients=[email],  # List of recipients
-        body=html,
-        subtype="html",
-    )
-
-    fm = FastMail(config.email_config)
-    await fm.send_message(message)
-    print("email sent successfully.")

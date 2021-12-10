@@ -19,7 +19,7 @@ function Fullpage() {
       {/* 첫번째 스크롤 */}
       <WithBackgroundImage
         //buttonName={"About us"}
-        text={'당신의 소중한 사람에게 가장 특별한 시집을 선물해보세요'}
+        text={'세상에 단 하나 밖에 없는 시집을 선물해보세요.'}
         textcolor={'white'}
         bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
         isbutton={true}
@@ -35,7 +35,7 @@ function Fullpage() {
         w="full"
         h="700px"
         imgUrl={'/img/mainpageFirstImg.png'}
-        text={'늘 당신과 함께하고 싶습니다'}
+        text={'편지에 마음을 담아서, 마음의 편지.'}
         textColor="white"
         bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
       />
@@ -51,7 +51,7 @@ function Fullpage() {
       {/* 네번째 스크롤 */}
       <WithBackgroundImage
         //buttonName={"About us"}
-        text={'당신의 소중한 사람에게 가장 특별한 시집을 선물해보세요'}
+        text={'편지 내용을 분석해서 가장 잘 어울리는 시집! 어떻게 되나요?'}
         textcolor={'white'}
         background={''}
         bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
@@ -66,7 +66,6 @@ function Fullpage() {
       {/* 다섯번째 스크롤 */}
       <WritingAnima
         h={'100%'}
-        // text={'편지작성예시'}
         textcolor={'#613659'}
         backgroundImg={'/img/letterpaper.png'}
         isbutton={true}

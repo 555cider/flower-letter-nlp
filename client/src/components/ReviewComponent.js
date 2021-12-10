@@ -10,6 +10,7 @@ import {
   Container,
   Spacer,
   HStack,
+  Avatar,
 } from '@chakra-ui/react';
 
 export default function ReviewComponent({
@@ -61,17 +62,65 @@ export default function ReviewComponent({
         <Container display={'flex'} justifyContent={'space-evenly'}>
           <Flex justify={'space-evenly'}>
             <HStack w="150vh" h="100%">
-              <Box bg="white" borderRadius="30px" boxSize="400px" p="4">
-                <Text>유저리뷰내용</Text>
-              </Box>
+              <VStack
+                bg="white"
+                borderRadius="30px"
+                boxSize="400px"
+                p="10"
+                justify={'center'}
+                align={'center'}
+              >
+                <Box w="100%">
+                  <Text fontFamily={'EliceRegular'} fontSize={'lg'}>
+                    "친구에게 시집을 선물하려고 했는데, 어떤 시집을 사야하나
+                    고민하다가 찾게 됐어요. 결과적으로 대만족입니다. 편지만
+                    작성해도 시집을 알아서 구성해주니까 서점에 하루종일 서서
+                    시를 고를 필요가 없어졌어요!"
+                  </Text>
+                </Box>
+                <Box h="2"></Box>
+                <Avatar src="https://bit.ly/broken-link" />
+                <Text>Python님,</Text>
+              </VStack>
               <Spacer />
-              <Box bg="white" borderRadius="30px" boxSize="400px" p="4">
-                <Text>유저리뷰내용</Text>
-              </Box>
+              <VStack
+                bg="white"
+                borderRadius="30px"
+                boxSize="400px"
+                p="10"
+                justify={'center'}
+                align={'center'}
+              >
+                <Box w="100%">
+                  <Text fontFamily={'EliceRegular'} fontSize={'lg'}>
+                    "ㄴ"
+                  </Text>
+                </Box>
+                <Box h="2"></Box>
+                <Avatar src="https://bit.ly/broken-link" />
+                <Text> Java님,</Text>
+              </VStack>
               <Spacer />
-              <Box bg="white" borderRadius="30px" boxSize="400px" p="4">
-                <Text>유저리뷰내용</Text>
-              </Box>
+              <VStack
+                bg="white"
+                borderRadius="30px"
+                boxSize="400px"
+                p="10"
+                justify={'center'}
+                align={'center'}
+              >
+                <Box w="100%">
+                  <Text fontFamily={'EliceRegular'} fontSize={'lg'}>
+                    "친구에게 시집을 선물하려고 했는데, 어떤 시집을 사야하나
+                    고민하다가 찾게 됐어요. 결과적으로 대만족입니다. 편지만
+                    작성해도 시집을 알아서 구성해주니까 서점에 하루종일 서서
+                    시를 고를 필요가 없어졌어요!"
+                  </Text>
+                </Box>
+                <Box h="2"></Box>
+                <Avatar src="https://bit.ly/broken-link" />
+                <Text>Docker님,</Text>
+              </VStack>
             </HStack>
           </Flex>
         </Container>

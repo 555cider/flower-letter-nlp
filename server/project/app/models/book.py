@@ -64,6 +64,7 @@ class FreePage(BaseModel):
 
 # For OrderIn Schema
 class Book(BaseModel):
+    title: str
     letter: str
     flower_id: str
     contents: List[Union[PoemPage, FreePage]]

@@ -12,6 +12,8 @@ config = get_config()
 
 def create_application() -> FastAPI:
     application = FastAPI(title="꽃편지 API", description="꽃편지 서비스의 API 목록입니다.")
+
+    # Register routes
     application.include_router(main_router)
     application.include_router(order_router)
     application.include_router(question_router)

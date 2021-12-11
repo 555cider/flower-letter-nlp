@@ -1,13 +1,11 @@
-from typing import List
+from typing import List, Dict
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import torch
+from kobert.pytorch_kobert import get_pytorch_kobert_model
 
-from app.classify_emotion import predict as predict_emotion
-from app.classify_keywords import predict as predict_keywords
-
-# test
-from app.keyword_predict import predict as keyword_predict_test
+from app.emotion_predict import predict as predict_e, BERTClassifier as BERTClassifier_e
+from app.keyword_predict import predict as predict_k, BERTClassifier as BERTClassifier_k
 
 
 class Letter(BaseModel):
@@ -15,18 +13,10 @@ class Letter(BaseModel):
 
 
 class Keywords(BaseModel):
-    keywords: List[str]
+    keywords: Dict[str, Dict[str, List[str]]]
 
 
 app = FastAPI(title="API service for model")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.get("/")
@@ -34,25 +24,15 @@ def read_root():
     return {"message": "모델 API 입니다!"}
 
 
-
-
-
-
-#app 실행할때 처음 생성하는 모델
-import torch
-from kobert.pytorch_kobert import get_pytorch_kobert_model
-from app.keyword_predict import BERTClassifier
-
-bertmodel, vocab = get_pytorch_kobert_model(cachedir=".cache")
-
 device = torch.device("cpu")
-saved_model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device)
+model, vocab = get_pytorch_kobert_model(cachedir=".cache")
+model_e = BERTClassifier_e(model, dr_rate=0.5).to(device)
+model_k = BERTClassifier_k(model, dr_rate=0.5).to(device)
+
 
 @app.post("/classify", response_model=Keywords)
 def classify_letter(data: Letter):
-    # 모델로 키워드 추출 후 반환
-
     print(data.text)
-    keyword_predict_test(saved_model, vocab, data.text)
-
-    return {"keywords": ["우정", "사랑", "여행", "낭만@", "도시", "일탈"]}
+    emotion = predict_e(model_e, vocab, data.text)
+    keyword = predict_k(model_k, vocab, data.text)
+    return {"keywords": {"emotion": emotion, "keyword": keyword}}

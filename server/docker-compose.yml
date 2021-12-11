@@ -15,9 +15,9 @@ services:
     depends_on:
       - postgres_db
       - mongo_db
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.fastapi.rule=PathPrefix(`/test/`)"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.fastapi.rule=PathPrefix(`/test/`)"
 
   postgres_db:
     build:
@@ -27,16 +27,16 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     expose:
       - 5432
-    # ports:
-    #   - 5432:5432
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_USER=flower_letter
       - POSTGRES_PASSWORD=flower_letter
 
   mongo_db:
     image: mongo:5.0.4
-    # ports: 
-    #   - 27017:27017
+    ports: 
+      - 27018:27017
     expose:
       - 27017
     volumes:

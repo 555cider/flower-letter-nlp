@@ -83,10 +83,23 @@ def predict(model, vocab, predict_sentence):
         valid_length = valid_length
         label = label.long().to(device)
         out = model(token_ids, valid_length, segment_ids)
+
     origin_label = ["희망", "사랑", "분노", "슬픔", "공포", "생각"]
-    test_eval = []
+    high = []
+    mid = []
+    low = []
+
     for i in out:
         logits = i
         logits = logits.detach().cpu().numpy()
-        test_eval.append(np.argmax(logits))
-    return origin_label[test_eval[0]]
+        desc_sorted = np.sort(logits)[::-1]
+        for j in range(len(desc_sorted)):
+            if desc_sorted[j] >= 0.8:
+                high.append(origin_label[j])
+            elif desc_sorted[j] >= 0.5:
+                mid.append(origin_label[j])
+            elif desc_sorted[j] >= 0.3:
+                low.append(origin_label[j])
+            else:
+                break
+    return {"hight": high, "mid": mid, "low": low}

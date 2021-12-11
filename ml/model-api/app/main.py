@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from fastapi import FastAPI
 from pydantic import BaseModel
 import torch
@@ -13,7 +13,7 @@ class Letter(BaseModel):
 
 
 class Keywords(BaseModel):
-    keywords: List[str]
+    keywords: Dict[str, Dict[str, List[str]]]
 
 
 app = FastAPI(title="API service for model")
@@ -34,5 +34,5 @@ model_k = BERTClassifier_k(model, dr_rate=0.5).to(device)
 def classify_letter(data: Letter):
     print(data.text)
     emotion = predict_e(model_e, vocab, data.text)
-    predict_k(model_k, vocab, data.text)
-    return {"keywords": [emotion]}
+    keyword = predict_k(model_k, vocab, data.text)
+    return {"keywords": {"emotion": emotion, "keyword": keyword}}

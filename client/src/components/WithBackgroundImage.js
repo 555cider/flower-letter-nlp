@@ -7,6 +7,9 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function WithBackgroundImage({
   isbutton = false,
@@ -24,29 +27,17 @@ export default function WithBackgroundImage({
   textcolor,
   backgroundcolor,
   link,
+  contentText,
+  contentfont,
+  hoverset,
 }) {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    AOS.init();
+  });
+
   const button_Url = buttonUrl;
-  // 스크롤 애니메이션
-  const saTriggerMargin = 300;
-  const saElementList = document.querySelectorAll('.sa');
-
-  const saFunc = function () {
-    for (const element of saElementList) {
-      if (!element.classList.contains('show')) {
-        if (
-          window.innerHeight >
-          element.getBoundingClientRect().top + saTriggerMargin
-        ) {
-          element.classList.add('show');
-        }
-      }
-    }
-  };
-
-  window.addEventListener('load', saFunc);
-  window.addEventListener('scroll', saFunc);
 
   return (
     <VStack
@@ -68,14 +59,25 @@ export default function WithBackgroundImage({
       >
         <Text
           // className="sa sa-up" 스크롤 애니메이션 클래스
+          data-aos="fade-in"
           color={textcolor}
           fontWeight={600}
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
+          fontFamily={'EliceBold'}
         >
           {text}
         </Text>
-
+        <Text
+          color={textcolor}
+          fontFamily={contentfont}
+          fontWeight={600}
+          lineHeight={1.8}
+          fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
+          textAlign={'center'}
+        >
+          {contentText}
+        </Text>
         {isbutton ? (
           <Button
             w="250px"
@@ -87,7 +89,7 @@ export default function WithBackgroundImage({
             borderColor={buttonBorderColor}
             rounded={'full'}
             color={buttonTextColor}
-            _hover={{ bg: 'blue.500' }}
+            _hover={hoverset}
             onClick={() => {
               navigate(button_Url);
             }}

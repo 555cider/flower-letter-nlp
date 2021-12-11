@@ -81,8 +81,8 @@ function OrderPay({ history }) {
       clientId: process.env.REACT_APP_CLIENT_ID,
       method: 'card',
       orderId: orderId,
-      amount: 100,
-      goodsName: '나이스페이-시집',
+      amount: orderAmount,
+      goodsName: '꽃편지-시집',
       returnUrl: 'http://127.0.0.1:8000/pay',
       fnError: function (result) {
         alert('개발자확인용 : ' + result.errorMsg + '');

@@ -25,6 +25,7 @@ export default function WithBackgroundImage({
   backgroundcolor,
   link,
   contentText,
+  contentfont,
   hoverset,
 }) {
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ export default function WithBackgroundImage({
         </Text>
         <Text
           color={textcolor}
-          fontFamily={'EliceRegular'}
+          fontFamily={contentfont}
           fontWeight={600}
           lineHeight={1.8}
           fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}

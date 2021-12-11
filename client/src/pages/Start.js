@@ -20,7 +20,7 @@ const Start = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ height: '100vh', overflow: 'auto' }}>
+    <div style={{ height: '100vh' }}>
       <SidebarComponent></SidebarComponent>
       {/* 첫번째 스크롤 */}
       <VStack

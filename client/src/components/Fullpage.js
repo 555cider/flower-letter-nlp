@@ -7,7 +7,6 @@ import LeftImage from './LeftImage';
 import ReviewComponent from './ReviewComponent';
 import RightImage from './RightImage';
 import WritingAnima from './WritingAnima';
-import ErrorPage from './ErrorPage';
 
 const DIVIDER_HEIGHT = 5;
 
@@ -16,7 +15,7 @@ function Fullpage() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ height: '100vh', overflow: 'auto' }}>
+    <div style={{ height: '100vh' }}>
       {/* 첫번째 스크롤 */}
       <WithBackgroundImage
         //buttonName={"About us"}
@@ -32,8 +31,6 @@ function Fullpage() {
         buttonColor={'#FBEDE0'}
         buttonUrl={'/about'}
         buttonTextColor={'#A49393'}
-        // buttonBorder={'2px'}
-        // buttonBorderColor={'#A49393'}
         hoverset={{ color: '#FBEDE0', bg: '#A49393' }}
       />
       {/* 두번째 스크롤 */}
@@ -75,8 +72,6 @@ function Fullpage() {
         buttonName={'바로 시작하기'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/start'}
-        // buttonBorder={'2px'}
-        // buttonBorderColor={'#A49393'}
         buttonTextColor={'#A49393'}
         bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
         hoverset={{ color: '#FBEDE0', bg: '#A49393' }}

@@ -13,6 +13,7 @@ import {
   Center,
   HStack,
 } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router';
 
 const Start = () => {
@@ -43,9 +44,7 @@ const Start = () => {
             fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
             fontFamily={'EliceRegular'}
           >
-            여기는
-            <br />
-            문구가 들어갑니다.
+            지금부터 시집을 생성해보세요.
           </Text>
         </Box>
         <Box textAlign={'center'}>
@@ -58,6 +57,10 @@ const Start = () => {
           >
             Flower Letter
           </Text>
+        </Box>
+        <Box h="30%" w="10%" align="center">
+          <Box h="90%"></Box>
+          <ChevronDownIcon w={10} h={10}></ChevronDownIcon>
         </Box>
       </VStack>
       {/* 두번째 스크롤 */}
@@ -77,7 +80,7 @@ const Start = () => {
             </Box>
           </Flex>
           <Box h="80%" w="42%">
-            <VStack w="100%" h="100%" p="2">
+            <VStack w="100%" h="100%" p="2" justify="center">
               <Box w="100%" h="80%" p="5">
                 <Text
                   p="5"
@@ -86,8 +89,9 @@ const Start = () => {
                   fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
                   fontFamily={'EnglishHandy'}
                 >
-                  지금부터 시집을 생성해 보세요. 멋지고 아름답고 환상적인 나만의
-                  시집이 여기 있습니다.
+                  꽃편지에서는 세상에 단 하나뿐인 시집을 만들 수 있습니다.
+                  <br />
+                  단계별 커스터마이징을 진행하면서 당신만의 시집을 만들어보세요.
                 </Text>
               </Box>
               <Button
@@ -99,6 +103,7 @@ const Start = () => {
                 w="200px"
                 h="50px"
                 borderRadius={'15px'}
+                _hover={{ color: '#FBEDE0', bg: '#A49393' }}
               >
                 편지쓰러가기
               </Button>
@@ -130,7 +135,7 @@ const Start = () => {
               fontFamily={'EliceBold'}
               mb="5"
             >
-              어떻게 하는지 모르겠나요? 순서 알랴드림!
+              꽃편지의 사용법을 알아보고 싶다면?
             </Text>
             <Button
               onClick={() => {
@@ -142,8 +147,9 @@ const Start = () => {
               h="50px"
               borderRadius={'15px'}
               fontSize={'lg'}
+              _hover={{ color: 'white', bg: '#D4BBDD' }}
             >
-              사용방법
+              사용법 보러가기
             </Button>
           </Box>
         </Flex>
@@ -163,10 +169,13 @@ const Start = () => {
               color="black"
               justifyContent="center"
               textAlign="center"
+              fontFamily={'HandWrite'}
             >
-              Price
+              🌼🌻🌼
               <br />
-              48,000원
+              가격정보안내
+              <br />
+              기본 가격 : 48,000원
               <br />
               *자유글 별도, 추가시 페이지당 300원
             </Text>

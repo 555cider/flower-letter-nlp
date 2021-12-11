@@ -7,6 +7,7 @@ import LeftImage from './LeftImage';
 import ReviewComponent from './ReviewComponent';
 import RightImage from './RightImage';
 import WritingAnima from './WritingAnima';
+import ErrorPage from './ErrorPage';
 
 const DIVIDER_HEIGHT = 5;
 
@@ -19,6 +20,7 @@ function Fullpage() {
       {/* 첫번째 스크롤 */}
       <WithBackgroundImage
         //buttonName={"About us"}
+
         text={'편지를 쓰면, 시집이 됩니다.'}
         contentText={`꽃편지는 세상에서 단 하나뿐인, 그사람만을 위한 시집을 만들어주는 서비스입니다. 
         누군가에게 마음을 전하기 위해 편지를 써보세요. 

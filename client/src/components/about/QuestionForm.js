@@ -106,9 +106,10 @@ export default function QuestionForm() {
           />
           <Input
             placeholder="이메일"
-            marginBottom="50px"
+            marginBottom="20px"
             fontFamily={'IM_Hyemin-Bold'}
             borderColor={'black'}
+            name="email"
             value={email}
             onChange={onchange}
           />

@@ -25,7 +25,7 @@ export default function WritingAnima({
       <>
         {/* 편지 타이핑 애니메이션 */}
         <ReactTypingEffect
-          text={[`타이핑 애니메이션 내용은 여기 작성 가능합니다.`]}
+          text={[`안녕? 우리가 친구로 지낸지 벌써 3년이 지났다니 믿기지 않아!`]}
         />
       </>
     );
@@ -53,8 +53,14 @@ export default function WritingAnima({
         borderRadius="10px"
         mb="5"
       >
-        <Text ml="10" color={textColor} fontWeight={600} fontSize="lg">
-          사람에게
+        <Text
+          ml="10"
+          color={textColor}
+          fontWeight={600}
+          fontSize="lg"
+          fontFamily={'HandWrite'}
+        >
+          은지에게
         </Text>
         <Text
           mt="3"
@@ -64,10 +70,22 @@ export default function WritingAnima({
           color={textColor}
           fontWeight={600}
           fontSize="lg"
+          fontFamily="HandWrite"
           // fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}
         >
           <ReactTypingEffectDemo></ReactTypingEffectDemo>
           {text}
+        </Text>
+        <Box h="160px"></Box>
+        <Text
+          ml="20"
+          color={'#613659'}
+          fontWeight={600}
+          fontSize="xl"
+          fontFamily={'HandWrite'}
+          mt="40"
+        >
+          편지를 쓰고 나만의 시집을 선물해보세요!
         </Text>
       </Box>
       {isbutton ? (

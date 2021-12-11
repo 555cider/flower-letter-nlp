@@ -10,6 +10,7 @@ import {
   Box,
   Image,
   Icon,
+  Text,
 } from '@chakra-ui/react';
 
 import { useDisclosure } from '@chakra-ui/react';
@@ -66,7 +67,7 @@ function SidebarComponent() {
               <Link
                 w="160px"
                 h="110px"
-                mb="3"
+                mb="10"
                 onClick={() => {
                   navigate('/');
                 }}
@@ -79,24 +80,13 @@ function SidebarComponent() {
                   borderColor="#A49393"
                 />
               </Link>
-              <Button
-                _hover={{
-                  backgroundColor: '#A49393',
-                  color: 'white',
-                  fontWeight: '600',
-                }}
-                onClick={() => navigate('/start')}
-                w="140px"
-                backgroundColor="white"
-                border="1px"
-                borderColor="#A49393"
-                color="#A49393"
-                borderRadius="20px"
-                fontWeight="500"
-              >
-                시집 만들러 가기
-              </Button>
-              <Box h="10"></Box>
+              <Box
+                h="10"
+                borderTop={'2px'}
+                w="100%"
+                borderColor={'white'}
+              ></Box>
+
               <Link
                 _hover={{ color: '#613659', fontWeight: '600' }}
                 fontSize="30px"
@@ -107,7 +97,7 @@ function SidebarComponent() {
                 }}
               >
                 <NavLink exact end to="/about">
-                  About us
+                  <Text fontFamily={'EliceRegular'}>About us</Text>
                 </NavLink>
               </Link>
               <br />
@@ -121,7 +111,7 @@ function SidebarComponent() {
                 }}
               >
                 <NavLink exact end to="/howtouse">
-                  How To use
+                  <Text fontFamily={'EliceRegular'}>How To use</Text>
                 </NavLink>
               </Link>
 
@@ -136,10 +126,35 @@ function SidebarComponent() {
                 }}
               >
                 <NavLink exact end to="/question">
-                  문의하기
+                  <Text fontFamily={'EliceRegular'}>문의하기</Text>
                 </NavLink>
               </Link>
-              <br />
+              <Box
+                h="10"
+                borderBottom={'2px'}
+                w="100%"
+                borderColor={'white'}
+              ></Box>
+              <Box h="10" w="100%"></Box>
+              <Button
+                _hover={{
+                  backgroundColor: '#D4BBDD',
+                  color: 'white',
+                  fontWeight: '600',
+                }}
+                onClick={() => navigate('/start ')}
+                w="220px"
+                h="50px"
+                backgroundColor="white"
+                border="2px"
+                borderColor="#D4BBDD"
+                color="#D4BBDD"
+                borderRadius="20px"
+                fontWeight="600"
+                fontSize="xl"
+              >
+                <Text fontFamily={'EliceBold'}>시집 만들러 가기</Text>
+              </Button>
             </VStack>
           </DrawerBody>
         </DrawerContent>

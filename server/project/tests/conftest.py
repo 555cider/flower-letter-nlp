@@ -1,6 +1,8 @@
 import pytest
+import asyncio
+from httpx import AsyncClient
 
-from decouple import config
+
 from sqlalchemy.engine import create
 from starlette.testclient import TestClient
 
@@ -17,7 +19,11 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from app.models.book import PoemModel, FlowerModel, BookModel
 
-test_db_url = config("SQL_DB_TEST")
+config = get_config()
+
+from app.main import app
+
+test_db_url = config.sqldb_uri
 test_engine = create_async_engine(test_db_url, echo=True, future=True)
 test_async_session = sessionmaker(
     test_engine, class_=AsyncSession, expire_on_commit=False
@@ -37,15 +43,15 @@ async def drop_db():
 
 
 async def init_mongo():
-    mongo_client = AsyncIOMotorClient(config("MONGO_URI"))
+    mongo_client = AsyncIOMotorClient(config.mongo_uri)
     await init_beanie(
-        mongo_client[config("MONGO_DB_TEST")],
+        mongo_client[config.mongo_db],
         document_models=[PoemModel, FlowerModel, BookModel],
     )
 
 
 def config_override():
-    return Settings(testing=1, sqldb_uri=config("SQL_DB_TEST"))
+    return Settings(testing=1, sqldb_uri=config.sqldb_uri)
 
 
 async def get_db_override() -> AsyncSession:
@@ -54,11 +60,17 @@ async def get_db_override() -> AsyncSession:
 
 
 @pytest.fixture(scope="module")
+def event_loop():
+    loop = asyncio.get_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture(scope="module")
 async def test_app():
-    app = create_application()
     app.dependency_overrides[get_config] = config_override
-    client = TestClient(app)
-    yield client
+    async with AsyncClient(app=app, base_url="http://localhost:8000") as ac:
+        yield ac
     # tear down
 
 
@@ -73,5 +85,3 @@ async def test_app_with_db():
 
     client = TestClient(app)
     yield client
-
-    await drop_db()

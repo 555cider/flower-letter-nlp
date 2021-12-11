@@ -42,7 +42,7 @@ class OrderModel(Base):
         self, price, name, delivery_name, post_code, address, email, phone, book_id
     ) -> None:
         self.order_date = datetime.now()
-        self.order_status = 0
+        self.order_status = 1  # 결제대기 상태로 생성
         self.price = price
         self.name = name
         self.delivery_name = delivery_name
@@ -75,39 +75,29 @@ class OrderStatusModel(Base):
 class OrderDetail(BaseModel):
     price: float
     name: str
+    delivery_name: str
     address: str
+    post_code: str
     email: str
     phone: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "price": 47000,
+                "name": "김철수",
+                "delivery_name": "이영희",
+                "address": "서울시 강남구 강남동 11번지",
+                "post_code": "10101",
+                "email": "test@test.com",
+                "phone": "01012341234",
+            }
+        }
 
 
 class OrderIn(BaseModel):
     order: OrderDetail
     book: Book
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "order": {
-                    "price": 47000,
-                    "name": "김철수",
-                    "address": "서울시 강남구 강남동 11번지",
-                    "email": "test@test.com",
-                    "phone": "01012341234",
-                },
-                "book": {
-                    "letter": "편지 내용...",
-                    "flower_id": "61b065c6dd874c208dee0bc3",
-                    "contents": [
-                        {"type": "poem", "poem_id": "61b065c6dd874c208dee0bc3"},
-                        {"type": "poem", "poem_id": "61b066202f194ac7dd807aef"},
-                        {"type": "text", "text_content": "자유글 내용..."},
-                        {"type": "text", "text_content": "자유글 내용 222..."},
-                    ],
-                    "font": "바른글씨체",
-                    "color": "beige",
-                },
-            }
-        }
 
 
 class OrderOut(OrderDetail):
@@ -125,11 +115,7 @@ class OrderOut(OrderDetail):
 async def create_order(
     order: OrderDetail, book_id: str, db: AsyncSession
 ) -> OrderModel:
-    # TODO: Add constructor
-    new_order = OrderModel(**order.dict())
-    new_order.order_status = 1  # 결제완료 상태
-    new_order.order_date = datetime.now()
-    new_order.book_id = book_id
+    new_order = OrderModel(**order.dict(), book_id=book_id)
 
     db.add(new_order)
     await db.commit()

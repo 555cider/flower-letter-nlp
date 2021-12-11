@@ -71,6 +71,23 @@ class Book(BaseModel):
     font: str
     color: str
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "title": "너에게 보내는 시집",
+                "letter": "편지 내용...",
+                "flower_id": "61b065c6dd874c208dee0bc3",
+                "contents": [
+                    {"type": "poem", "poem_id": "61b065c6dd874c208dee0bc3"},
+                    {"type": "poem", "poem_id": "61b066202f194ac7dd807aef"},
+                    {"type": "text", "text_content": "자유글 내용..."},
+                    {"type": "text", "text_content": "자유글 내용 222..."},
+                ],
+                "font": "바른글씨체",
+                "color": "beige",
+            },
+        }
+
 
 # For saving ordered book to DB
 class BookModel(Document, Book):

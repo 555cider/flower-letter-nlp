@@ -16,6 +16,8 @@ export default function LeftImage({
   h,
   backgroundImage,
   text,
+  text2,
+  contentText,
   imgUrl,
   backgroundImg,
   bgGradient,
@@ -36,18 +38,39 @@ export default function LeftImage({
       bgGradient={bgGradient}
     >
       <Center w="80vh" h="full">
-        <Image src={imgUrl} boxSize="500px" />
+        <Image src={imgUrl} boxSize="500px" borderRadius={'15px'} />
       </Center>
       <Center w="60vh" h="full">
-        <Text
-          // className="sa sa-left" 스크롤애니메이션 클래스
-          color={textColor}
-          fontWeight={700}
-          lineHeight={1.2}
-          fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}
-        >
-          {text}
-        </Text>
+        <VStack>
+          <Text
+            // className="sa sa-right" 스크롤애니메이션 클래스
+            lineHeight={1.2}
+            color={textColor}
+            fontWeight={600}
+            fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}
+          >
+            {text}
+          </Text>
+          <Text
+            lineHeight={1.2}
+            color={textColor}
+            fontWeight={600}
+            fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
+            textAlign={'right'}
+          >
+            {text2}
+          </Text>
+          <Text
+            color={textColor}
+            fontFamily={'EliceRegular'}
+            fontWeight={600}
+            lineHeight={1.8}
+            fontSize={useBreakpointValue({ base: 'xl', md: 'xl' })}
+            textAlign={'initial'}
+          >
+            {contentText}
+          </Text>
+        </VStack>
       </Center>
     </HStack>
   );

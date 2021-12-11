@@ -76,7 +76,7 @@ function WriteLetter({ history }) {
     <div>
       <StepsLetter></StepsLetter>
       <HStack
-        h="900px"
+        h="70vh"
         p="2"
         ml="5"
         mr="5"
@@ -88,17 +88,6 @@ function WriteLetter({ history }) {
           {/* 왼쪽 박스 */}
           <Box p="6" w="100%">
             <Stack spacing={3} h="100%">
-              {/*
-              <Input
-                placeholder="편지 제목"
-                h="7vh"
-                size="sm"
-                borderColor="black"
-                onChange={handleChange}
-                name="title"
-                value={title}
-              />
-  */}
               <Textarea
                 h="100%"
                 borderColor="black"

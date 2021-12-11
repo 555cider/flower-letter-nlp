@@ -24,6 +24,9 @@ export default function WithBackgroundImage({
   textcolor,
   backgroundcolor,
   link,
+  contentText,
+  contentfont,
+  hoverset,
 }) {
   const navigate = useNavigate();
 
@@ -44,7 +47,6 @@ export default function WithBackgroundImage({
       }
     }
   };
-
   window.addEventListener('load', saFunc);
   window.addEventListener('scroll', saFunc);
 
@@ -72,10 +74,20 @@ export default function WithBackgroundImage({
           fontWeight={600}
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
+          fontFamily={'EliceBold'}
         >
           {text}
         </Text>
-
+        <Text
+          color={textcolor}
+          fontFamily={contentfont}
+          fontWeight={600}
+          lineHeight={1.8}
+          fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
+          textAlign={'center'}
+        >
+          {contentText}
+        </Text>
         {isbutton ? (
           <Button
             w="250px"
@@ -87,7 +99,7 @@ export default function WithBackgroundImage({
             borderColor={buttonBorderColor}
             rounded={'full'}
             color={buttonTextColor}
-            _hover={{ bg: 'blue.500' }}
+            _hover={hoverset}
             onClick={() => {
               navigate(button_Url);
             }}

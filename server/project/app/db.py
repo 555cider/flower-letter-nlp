@@ -31,7 +31,11 @@ async def get_db() -> AsyncSession:
 # Mongo
 async def init_mongo():
     mongo_client = AsyncIOMotorClient(config.mongo_uri)
+    print("INIT MONGO....")
+    print(config.mongo_uri)
+    print(config.mongo_db)
     await init_beanie(
         mongo_client[config.mongo_db],
         document_models=[PoemModel, FlowerModel, BookModel],
     )
+    print("MONGO INIT COMPLETE")

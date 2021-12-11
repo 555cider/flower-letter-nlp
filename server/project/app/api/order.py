@@ -1,13 +1,7 @@
 from typing import Any
 import json
 from beanie.odm.fields import PydanticObjectId
-from fastapi import (
-    APIRouter,
-    Depends,
-    BackgroundTasks,
-    requests,
-    Response,
-)
+from fastapi import APIRouter, Depends, BackgroundTasks, requests, Response, Request
 from requests.auth import HTTPBasicAuth
 
 from app.config import Settings, get_config
@@ -34,8 +28,9 @@ order_router = APIRouter(tags=["주문"])
 
 @order_router.post("/pay", summary="결제")
 async def pay(
-    request: Any,
+    request: Request,
     background_tasks: BackgroundTasks,
+    response: Response,
     config: Settings = Depends(get_config),
     db: AsyncSession = Depends(get_db),
 ):
@@ -43,7 +38,7 @@ async def pay(
     결제요청.
 
     - FE에서 주문번호로 결제요청을 보내면, PG사를 거쳐 Server side auth를 위해 이 주소로 POST요청이 오게 된다.
-    - 인증을 거친 후 pg사의 결제 API로 요청을 보내 결제 성공/실패 메시지를 받는다.
+    - 인증을 거친 후 pg사의 결제승인 API로 요청을 보내 결제 성공/실패 메시지를 받는다.
     - 결제 성공시 주문의 상태를 '결제완료'로 변경 후, 사용자에게 이메일 발송.
     - 결제 성공/실패 여부를 반환.
     """
@@ -98,21 +93,8 @@ async def post_order(
     - 사용자가 결제하기를 눌렀을때 호출되며, 주문정보를 반환한다.
     - 주문정보 데이터를 FE에서 성공적으로 받은후에 /pay(POST)를 호출해 결제를 진행하게 된다.
     """
-    new_contents = []
-    for req_content in request.book.contents:
-        # TODO: use enum class
-        # TODO: add backend logic to verify price
-        if req_content.type == "poem":
-            poem = PoemPageModel(poem_id=PydanticObjectId(req_content.poem_id))
-            new_contents.append(poem)
-        else:
-            new_contents.append(req_content)
 
-    new_book = BookModel(
-        letter=request.book.letter,
-        flower_id=PydanticObjectId(request.book.flower_id),
-        contents=new_contents,
-    )
+    new_book = BookModel(**request.book.dict())
 
     await new_book.create()
     new_order = await create_order(request.order, str(new_book.id), db)

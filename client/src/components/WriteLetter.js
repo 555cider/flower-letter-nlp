@@ -14,28 +14,28 @@ import StepsLetter from './StepsLetter';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import axios from 'axios';
+import PreviewImageUrls from './PreviewImageUrls';
 
 function WriteLetter({ history }) {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { letter_title, letter_content } = useSelector((state) => ({
-    letter_title: state.letter_title,
+  const { letter_content, color } = useSelector((state) => ({
     letter_content: state.letter_content,
+    color: state.usercolor,
   }));
 
   const [inputs, setInputs] = useState({
-    title: letter_title,
     content: letter_content,
   });
 
   const { title, content } = inputs;
 
   const clickNextButton = () => {
-    dispatch({ type: 'SAVE_LETTER', title, content });
+    dispatch({ type: 'SAVE_LETTER', content });
     sendLetter();
 
-    navigate('/create/keyword');
+    navigate('/loading');
   };
 
   const handleChange = (e) => {

@@ -12,17 +12,21 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, batch, useSelector } from 'react-redux';
+import { FONTS, COLORS } from './DesignOptions';
+import Preview from '../Preview';
 
 export default function BookCover() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [userFont, setUserFont] = useState('');
-  const [userColor, setUserColor] = useState('');
-
-  const { user_flower } = useSelector((state) => ({
+  const { user_flower, color } = useSelector((state) => ({
     user_flower: state.user_flower,
+    color: state.usercolor,
   }));
+  const [userFont, setUserFont] = useState('');
+  const [userColor, setUserColor] = useState(color);
+
+  console.log('컬러 초기값', color);
 
   const clickNextButton = () => {
     navigate('/create/freecontent');
@@ -32,7 +36,7 @@ export default function BookCover() {
     });
   };
 
-  console.log('꽃말 리덕스 확인', user_flower);
+  //console.log('꽃말 리덕스 확인', user_flower);
 
   return (
     <div>
@@ -41,7 +45,7 @@ export default function BookCover() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          디자인 단계
+          <Preview />
         </Flex>
         <Flex
           w="40%"
@@ -63,13 +67,30 @@ export default function BookCover() {
                 h="60px"
                 bg="skyblue"
                 fontWeight="600"
-                color="white"
-                backgroundColor="red"
+                color="#774831"
+                backgroundColor={COLORS.option1}
                 onClick={() => {
-                  setUserColor('red');
+                  setUserColor(COLORS.option1);
+                  dispatch({ type: 'SAVE_COLOR', userColor });
                 }}
               >
-                Red
+                Beige
+              </Button>
+              <Button
+                className="flowerbutton"
+                m="2"
+                w="90%"
+                h="60px"
+                bg="skyblue"
+                fontWeight="600"
+                color="#401616"
+                backgroundColor={COLORS.option2}
+                onClick={() => {
+                  setUserColor(COLORS.option2);
+                  dispatch({ type: 'SAVE_COLOR', userColor });
+                }}
+              >
+                White
               </Button>
               <Button
                 className="flowerbutton"
@@ -79,12 +100,13 @@ export default function BookCover() {
                 bg="skyblue"
                 fontWeight="600"
                 color="white"
-                backgroundColor="blue"
+                backgroundColor={COLORS.option3}
                 onClick={() => {
-                  setUserColor('blue');
+                  setUserColor(COLORS.option3);
+                  dispatch({ type: 'SAVE_COLOR', userColor });
                 }}
               >
-                \ Blue
+                Black
               </Button>
             </div>
             <Text>폰트</Text>
@@ -98,10 +120,11 @@ export default function BookCover() {
                 bg="skyblue"
                 fontWeight="600"
                 color="white"
-                fontFamily="NanumGrandfather"
+                fontFamily={FONTS.option1}
                 fontSize="30px"
                 onClick={() => {
-                  setUserFont('NanumGrandfather');
+                  setUserFont(FONTS.option1);
+                  dispatch({ type: 'SAVE_FONT', userFont });
                 }}
               >
                 나눔 할아버지체
@@ -114,10 +137,11 @@ export default function BookCover() {
                 bg="skyblue"
                 fontWeight="600"
                 color="white"
-                fontFamily="NanumMom"
+                fontFamily={FONTS.option2}
                 fontSize="30px"
                 onClick={() => {
-                  setUserFont('NanumMom');
+                  setUserFont(FONTS.option2);
+                  dispatch({ type: 'SAVE_FONT', userFont });
                 }}
               >
                 나눔 엄마체

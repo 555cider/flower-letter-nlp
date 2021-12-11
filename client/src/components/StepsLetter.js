@@ -26,7 +26,7 @@ function StepsLetter() {
         ></CloseButton>
       </Flex>
       <Flex
-        bg="gray"
+        bg="#D4BBDD"
         fontWeight="600"
         color="white"
         w="100%"

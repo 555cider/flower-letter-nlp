@@ -33,6 +33,24 @@ export default function WithBackgroundImage({
 
   const button_Url = buttonUrl;
 
+  const saTriggerMargin = 300;
+  const saElementList = document.querySelectorAll('.sa');
+
+  const saFunc = function () {
+    for (const element of saElementList) {
+      if (!element.classList.contains('show')) {
+        if (
+          window.innerHeight >
+          element.getBoundingClientRect().top + saTriggerMargin
+        ) {
+          element.classList.add('show');
+        }
+      }
+    }
+  };
+
+  window.addEventListener('load', saFunc);
+  window.addEventListener('scroll', saFunc);
   return (
     <VStack
       w={w}
@@ -50,9 +68,9 @@ export default function WithBackgroundImage({
         spacing={6}
         alignItems={'center'}
         whiteSpace={'pre-line'}
+        className="sa sa-up"
       >
         <Text
-          // className="sa sa-up" 스크롤 애니메이션 클래스
           color={textcolor}
           fontWeight={600}
           lineHeight={1.2}

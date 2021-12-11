@@ -33,6 +33,11 @@ $ docker-compose exec postgres_db psql --username=flower_letter --dbname=flower_
 \i seed.sql
 ```
 
+Run docker command line (interactive)
+```bash
+docker container run -it [docker_image] /bin/bash
+```
+
 ### Tests
 Run test:
 ```bash

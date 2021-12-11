@@ -35,8 +35,8 @@ function SidebarComponent() {
         w="60px"
         h="60px"
         align="center"
-        pt="1"
-        m="3"
+        ml="3"
+        mt="3"
       >
         <Icon
           as={HamburgerIcon}
@@ -48,6 +48,7 @@ function SidebarComponent() {
           borderRadius="10px"
           border="2px"
           style={{ cursor: 'pointer' }}
+          _hover={{ color: 'white' }}
         />
       </Box>
       <Drawer

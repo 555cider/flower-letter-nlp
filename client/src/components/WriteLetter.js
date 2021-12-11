@@ -72,9 +72,6 @@ function WriteLetter({ history }) {
       });
   };
 
-  console.log(PreviewImageUrls.covers[color]);
-  console.log('color', color);
-
   return (
     <div>
       <StepsLetter></StepsLetter>

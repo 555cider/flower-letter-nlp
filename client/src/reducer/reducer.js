@@ -22,7 +22,8 @@ const initialState = {
   usercolor: 'beige',
   flowersList: [],
   poems: [],
-  user_flower: '',
+  user_flower_id: '',
+  user_flower_symbol: '',
   title: '너에게 쓰는 편지',
 };
 
@@ -69,7 +70,8 @@ const reducer = (state = initialState, action) => {
     case SAVE_USER_FLOWER: {
       return {
         ...state,
-        user_flower: action.user_flower,
+        user_flower_id: action.user_flower_id,
+        user_flower_symbol: action.user_flower_symbol,
       };
     }
     case SAVE_TITLE: {

@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import StepsLetter from '../StepsLetter';
-import { Flex, HStack, Box, Button, Spacer, Input } from '@chakra-ui/react';
+import {
+  Flex,
+  HStack,
+  Box,
+  Button,
+  Spacer,
+  Input,
+  Text,
+  Container,
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import PoemContainer from './PoemContainer';
@@ -10,11 +19,23 @@ export default function FinalReview() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { poems, free_content, font, title } = useSelector((state) => ({
+  const {
+    poems,
+    free_content,
+    font,
+    title,
+    letter_content,
+    user_flower_id,
+
+    user_flower_symbol,
+  } = useSelector((state) => ({
     poems: state.poems,
     free_content: state.free_content,
     font: state.userfont,
     title: state.title,
+    letter_content: state.letter_content,
+    user_flower_id: state.user_flower_id,
+    user_flower_symbol: state.user_flower_symbol,
   }));
 
   const [poem, setPoem] = useState('');
@@ -31,6 +52,7 @@ export default function FinalReview() {
       color="white"
       onClick={() => {
         setPoem(content['content']);
+        setCoverButton(false);
       }}
     >
       {content['title']}
@@ -45,7 +67,11 @@ export default function FinalReview() {
     dispatch({ type: 'SAVE_TITLE', finalTitle });
   };
 
-  console.log('finalTitle', finalTitle);
+  //console.log('finalTitle', finalTitle);
+  //console.log('user_flower_id', user_flower_id);
+  //console.log('user_flower_name', user_flower_symbol);
+
+  const [coverButton, setCoverButton] = useState(true);
 
   return (
     <div>
@@ -54,8 +80,13 @@ export default function FinalReview() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          {poem}
-          <Preview />
+
+          {coverButton && <Preview />}
+          {!coverButton && (
+            <Container>
+              <Text fontSize="3xl">{poem}</Text>
+            </Container>
+          )}
         </Flex>
         <Flex w="40%" h="100%" border="1px" borderRadius="10px" ml="1">
           {/* 오른쪽 박스 */}
@@ -72,8 +103,39 @@ export default function FinalReview() {
               bg="skyblue"
               fontWeight="600"
               color="white"
+              onClick={() => {
+                setCoverButton(true);
+              }}
+            >
+              표지
+            </Button>
+            <Button
+              m="2"
+              w="90%"
+              h="60px"
+              bg="skyblue"
+              fontWeight="600"
+              color="white"
+              onClick={() => {
+                setPoem(letter_content);
+                setCoverButton(false);
+              }}
             >
               내가 작성한 편지
+            </Button>
+            <Button
+              m="2"
+              w="90%"
+              h="60px"
+              bg="skyblue"
+              fontWeight="600"
+              color="white"
+              onClick={() => {
+                setPoem(user_flower_symbol);
+                setCoverButton(false);
+              }}
+            >
+              꽃말
             </Button>
 
             {poemsTitleList}
@@ -86,6 +148,7 @@ export default function FinalReview() {
               color="white"
               onClick={() => {
                 setPoem(free_content);
+                setCoverButton(false);
               }}
             >
               자유글

@@ -6,6 +6,7 @@ import WithBackgroundImage from './WithBackgroundImage';
 import LeftImage from './LeftImage';
 import ReviewComponent from './ReviewComponent';
 import RightImage from './RightImage';
+import WritingAnima from './WritingAnima';
 
 const DIVIDER_HEIGHT = 5;
 
@@ -13,128 +14,83 @@ function Fullpage() {
   const outerDivRef = useRef();
   const navigate = useNavigate();
 
-  /*
-  useEffect(() => {
-    const wheelHandler = (e) => {
-      e.preventDefault();
-      const { deltaY } = e;
-      const { scrollTop } = outerDivRef.current;
-      const pageHeight = window.innerHeight;
-
-      if (deltaY > 0) {
-        //현재 1페이지면
-        if (scrollTop >= 0 && scrollTop < pageHeight) {
-          console.log("현재 1페이지, down");
-          outerDivRef.current.scrollTo({
-            top: pageHeight + DIVIDER_HEIGHT,
-            left: 0,
-            behavior: "smooth",
-          });
-        }
-        //현재 2페이지면
-        else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-          console.log("현재 2페이지, down");
-          outerDivRef.current.scrollTo({
-            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-            left: 0,
-            behavior: "smooth",
-          });
-        } else {
-          //현재 3페이지면
-          console.log("현재 3페이지, down");
-          outerDivRef.current.scrollTo({
-            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-            left: 0,
-            behavior: "smooth",
-          });
-        }
-      } else {
-        //스크롤 올릴 때
-        if (scrollTop >= 0 && scrollTop < pageHeight) {
-          //현재 1페이지
-          console.log("현재 1페이지, up");
-          outerDivRef.current.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth",
-          });
-        }
-        //현재 2페이지
-        else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-          console.log("현재 2페이지, up");
-          outerDivRef.current.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth",
-          });
-        } else {
-          //현재 3페이지
-          console.log("현재 3페이지, up");
-          outerDivRef.current.scrollTo({
-            top: pageHeight + DIVIDER_HEIGHT,
-            left: 0,
-            behavior: "smooth",
-          });
-        }
-      }
-    };
-
-    const outerDiveRefCurrent = outerDivRef.current;
-    outerDiveRefCurrent.addEventListener("wheel", wheelHandler);
-    return () => {
-      outerDiveRefCurrent.removeEventListener("wheel", wheelHandler);
-    };
-  }, []);
-  */
-
   return (
     <div style={{ height: '100vh', overflow: 'auto' }}>
+      {/* 첫번째 스크롤 */}
       <WithBackgroundImage
         //buttonName={"About us"}
-        text={'당신의 소중한 사람에게 가장 특별한 시집을 선물해보세요'}
-        backgroundImg={'/img/mainPageFirstImg.png'}
+        text={'세상에 단 하나 밖에 없는 특별한 시집을 선물해보세요.'}
         textcolor={'white'}
+        bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
+        isbutton={true}
+        buttonName={'시집 만들러 가기'}
+        buttonColor={'#FBEDE0'}
+        buttonUrl={'/start'}
+        // buttonBorder={'2px'}
+        // buttonBorderColor={'#A49393'}
+        buttonTextColor={'#A49393'}
       />
-
-      <WithBackgroundImage
-        h="full"
-        text={'편지를 쓰면 시집이 됩니다.'}
-        link={'더 알아보기'}
-      />
-
+      {/* 두번째 스크롤 */}
       <RightImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainPageFirstImg.png'}
-        text={'늘 당신과 함께하고 싶습니다'}
-        backgroundcolor={'#FBEDE0'}
+        imgUrl={'/img/mainpageFirstImg.png'}
+        text={'편지에 마음을 담아서, 마음의 편지.'}
+        textColor="white"
+        bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
       />
-
+      {/* 세번째 스크롤 */}
       <LeftImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainPageFirstImg.png'}
-        text={'시의 각 단계별 커스터마이징 기능'}
-        backgroundImg={'/img/backgroundImg2_fall.png'}
+        imgUrl={'/img/mainpageFirstImg.png'}
+        text={'시의 각 단계별 커스터마이징 기능이 매우 좋다는 의미, '}
+        textColor="white"
+        backgroundcolor={'#FFE6A8'}
       />
-
+      {/* 네번째 스크롤 */}
       <WithBackgroundImage
-        h="1400px"
-        text={'수아야 안녕? 나와 늘 함께해줘서 고마워'}
-        textcolor={'#613659'}
+        //buttonName={"About us"}
+        text={'편지 분석으로 나만의 맞춤 시집 생성? 어떻게 할 수 있나요?'}
+        textcolor={'white'}
+        background={''}
+        bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
         isbutton={true}
-        buttonName={'바로 시작하기'}
+        buttonName={'시집 만드는 방법'}
+        buttonColor={'#FBEDE0'}
+        buttonUrl={'/howtouse'}
+        // buttonBorder={'2px'}
+        // buttonBorderColor={'#A49393'}
+        buttonTextColor={'#A49393'}
+      />
+      {/* 다섯번째 스크롤 */}
+      <WritingAnima
+        h={'100%'}
+        textcolor={'#613659'}
+        backgroundImg={'/img/letterpaper.png'}
+        isbutton={true}
+        buttonName={'편지 쓰러 가기'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/start'}
+        // buttonBorder={'2px'}
+        // buttonBorderColor={'#A49393'}
+        buttonTextColor={'#A49393'}
+        backgroundcolor={'#D4BBDD'}
       />
-      <ReviewComponent backgroundcolor={'#613659'} />
-
+      {/* 유저리뷰 스크롤 */}
+      <ReviewComponent bgGradient={'linear(to-b, #D4BBDD, #613659)'} />
+      {/* 여섯번째 스크롤 */}
       <WithBackgroundImage
         text={'더 궁금한 사항이 있으신가요?'}
+        textcolor={'white'}
         isbutton={true}
-        buttonName={'바로가기'}
+        buttonName={'문의하기'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/question'}
+        // buttonBorder={'2px'}
+        // buttonBorderColor={'#A49393'}
+        buttonTextColor={'#A49393'}
+        backgroundcolor={'#613659'}
       />
     </div>
   );

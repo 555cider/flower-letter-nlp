@@ -18,6 +18,9 @@ export default function LeftImage({
   text,
   imgUrl,
   backgroundImg,
+  bgGradient,
+  backgroundcolor,
+  textColor,
 }) {
   return (
     <HStack
@@ -29,12 +32,16 @@ export default function LeftImage({
       backgroundPosition="center"
       backgroundSize="cover"
       backgroundImage={backgroundImg}
+      backgroundColor={backgroundcolor}
+      bgGradient={bgGradient}
     >
-      <Center w="40vh" h="full">
+      <Center w="80vh" h="full">
         <Image src={imgUrl} boxSize="500px" />
       </Center>
       <Center w="60vh" h="full">
         <Text
+          // className="sa sa-left" 스크롤애니메이션 클래스
+          color={textColor}
           fontWeight={700}
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}

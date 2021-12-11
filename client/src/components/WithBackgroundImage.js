@@ -9,21 +9,44 @@ import {
 import { useNavigate } from 'react-router';
 
 export default function WithBackgroundImage({
+  isbutton = false,
   buttonName,
+  buttonBorder,
+  buttonBorderColor,
+  buttonUrl,
+  buttonColor,
+  buttonTextColor,
   backgroundImg,
+  bgGradient,
   text,
   w = 'full',
   h = 'full',
   textcolor,
   backgroundcolor,
-  isbutton = false,
-  buttonColor,
   link,
-  buttonUrl,
 }) {
   const navigate = useNavigate();
 
   const button_Url = buttonUrl;
+  // 스크롤 애니메이션
+  const saTriggerMargin = 300;
+  const saElementList = document.querySelectorAll('.sa');
+
+  const saFunc = function () {
+    for (const element of saElementList) {
+      if (!element.classList.contains('show')) {
+        if (
+          window.innerHeight >
+          element.getBoundingClientRect().top + saTriggerMargin
+        ) {
+          element.classList.add('show');
+        }
+      }
+    }
+  };
+
+  window.addEventListener('load', saFunc);
+  window.addEventListener('scroll', saFunc);
 
   return (
     <VStack
@@ -35,6 +58,7 @@ export default function WithBackgroundImage({
       backgroundPosition="center"
       backgroundSize="cover"
       backgroundColor={backgroundcolor}
+      bgGradient={bgGradient}
     >
       <Stack
         align={'flex-start'}
@@ -43,8 +67,9 @@ export default function WithBackgroundImage({
         whiteSpace={'pre-line'}
       >
         <Text
+          // className="sa sa-up" 스크롤 애니메이션 클래스
           color={textcolor}
-          fontWeight={700}
+          fontWeight={600}
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
         >
@@ -53,9 +78,15 @@ export default function WithBackgroundImage({
 
         {isbutton ? (
           <Button
+            w="250px"
+            h="50px"
+            fontSize="xl"
+            fontWeight="600"
             bg={buttonColor}
+            border={buttonBorder}
+            borderColor={buttonBorderColor}
             rounded={'full'}
-            color={'black'}
+            color={buttonTextColor}
             _hover={{ bg: 'blue.500' }}
             onClick={() => {
               navigate(button_Url);

@@ -14,8 +14,8 @@ export default function FlowerLang() {
     flowersList: state.flowersList,
   }));
 
-  const saveFlower = (user_flower) => {
-    dispatch({ type: 'SAVE_USER_FLOWER', user_flower });
+  const saveFlower = (user_flower_id, user_flower_symbol) => {
+    dispatch({ type: 'SAVE_USER_FLOWER', user_flower_id, user_flower_symbol });
   };
 
   const flowerList = flowersList.map((content, index) => (
@@ -28,10 +28,10 @@ export default function FlowerLang() {
       fontWeight="600"
       color="white"
       onClick={() => {
-        saveFlower(content['_id']);
+        saveFlower(content['_id'], content['symbol']);
       }}
     >
-      {content['name']}:{content['symbol']}
+      {content['name']}-{content['symbol']}
     </Button>
   ));
 

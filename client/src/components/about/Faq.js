@@ -51,7 +51,7 @@ export default function Faq() {
               <AccordionButton>
                 <Box flex="1" textAlign="center">
                   <Text fontSize="3xl" color="white">
-                    자주묻는 질문을 확인해보세요
+                    자주묻는 질문을 확인해보세요 Click!
                   </Text>
                 </Box>
               </AccordionButton>

@@ -3,6 +3,7 @@ import StepsLetter from '../StepsLetter';
 import { Flex, HStack, Textarea, Box, Button, Spacer } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import Preview from '../Preview';
 
 export default function FreeContent() {
   const navigate = useNavigate();
@@ -16,8 +17,8 @@ export default function FreeContent() {
     color: state.usercolor,
   }));
 
-  //console.log('리덕스 font', font)
-  //console.log('리덕스 color',color)
+  //console.log('리덕스 font', font);
+  //console.log('리덕스 color', color);
 
   const [content, setContent] = useState(free_content);
 
@@ -36,7 +37,7 @@ export default function FreeContent() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          자유글쓰기 단계
+          <Preview />
         </Flex>
         <Flex w="40%" h="100%" border="1px" borderRadius="10px" ml="1">
           {/* 오른쪽 박스 */}

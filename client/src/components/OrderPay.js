@@ -13,14 +13,77 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 function OrderPay({ history }) {
   const navigate = useNavigate();
 
-  const orderInfo = '김서정님 주문 완료 되었습니다.';
-
   const onClickPayButton = async () => {
+    sendOrderInfo();
     navigate('/checkout');
+  };
+
+  // Dummy Data
+  const dummy = {
+    order: {
+      price: 0,
+      name: '김서정',
+      address: '서울',
+      email: 'seojeong1101@gmail.com',
+      phone: '010-1234-5678',
+    },
+    book: {
+      letter: '나는 서정이다',
+      flower_id: '행복',
+      contents: [
+        {
+          type: 'peom',
+          poem_id: '61b1f5f64af9dd1906a6e2d9',
+        },
+        {
+          type: 'text',
+          text_content: '자유글이다',
+        },
+      ],
+    },
+  };
+
+  /*
+  {
+        order: {
+          price: 0,
+          name: 'string',
+          address: 'string',
+          email: 'string',
+          phone: 'string',
+        },
+        book: {
+          letter: 'string',
+          flower_id: 'string',
+          contents: [
+            {
+              type: 'string',
+              poem_id: 'string',
+            },
+            {
+              type: 'string',
+              text_content: 'string',
+            },
+          ],
+        },
+      }
+      */
+  const sendOrderInfo = async () => {
+    await axios
+      .post('https://testapi.flowerletter.co.kr/orders', dummy, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(function (response) {
+        console.log('통신 성공', response);
+      })
+      .catch(function (error) {
+        alert('error!!');
+      });
   };
 
   return (

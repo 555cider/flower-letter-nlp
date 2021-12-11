@@ -5,26 +5,21 @@ import gluonnlp as nlp
 import numpy as np
 from kobert.utils import get_tokenizer
 
-# 클래스 인자
-MAX_LEN = 128
+NUM_CLASSES = 6  # 클래스 수
+SENT_IDX = 0  # 문장 컬럼
+LABEL_IDX = 1  # 레이블 컬럼
+MAX_LEN = 128  # 이 크기를 넘는 문장은 스킵
 BATCH_SIZE = 32
-warmup_ratio = 0.1
-num_epochs = 5
-max_grad_norm = 1
-log_interval = 200
-learning_rate = 5e-5
+NUM_WORKERS = 4  # 현재 5 이상은 불가
 
 device = torch.device("cpu")
 
 
 class BERTDataset(Dataset):
-    def __init__(
-        self, dataset, sent_idx, label_idx, bert_tokenizer, max_len, pad, pair
-    ):
+    def __init__(self, dataset, sent_idx, label_idx, bert_tokenizer, max_len):
         transform = nlp.data.BERTSentenceTransform(
-            bert_tokenizer, max_seq_length=max_len, pad=pad, pair=pair
+            bert_tokenizer, max_seq_length=max_len, pad=True, pair=False
         )
-
         self.sentences = [transform([i[sent_idx]]) for i in dataset]
         self.labels = [np.int32(i[label_idx]) for i in dataset]
 
@@ -36,7 +31,9 @@ class BERTDataset(Dataset):
 
 
 class BERTClassifier(nn.Module):
-    def __init__(self, bert, hidden_size=768, num_classes=6, dr_rate=None, params=None):
+    def __init__(
+        self, bert, hidden_size=768, num_classes=NUM_CLASSES, dr_rate=None, params=None
+    ):
         super(BERTClassifier, self).__init__()
         self.bert = bert
         self.dr_rate = dr_rate
@@ -56,17 +53,11 @@ class BERTClassifier(nn.Module):
             input_ids=token_ids,
             token_type_ids=segment_ids.long(),
             attention_mask=attention_mask.float().to(token_ids.device),
+            return_dict=False,
         )
         if self.dr_rate:
             out = self.dropout(pooler)
         return self.classifier(out)
-
-
-# 정확도 측정을 위한 함수 정의
-def calc_accuracy(X, Y):
-    max_vals, max_indices = torch.max(X, 1)
-    train_acc = (max_indices == Y).sum().data.cpu().numpy() / max_indices.size()[0]
-    return train_acc
 
 
 def predict(model, vocab, predict_sentence):
@@ -78,8 +69,10 @@ def predict(model, vocab, predict_sentence):
     tokenizer = get_tokenizer()
     tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
-    another_test = BERTDataset(dataset_another, 0, 1, tok, 128, True, False)
-    test_dataloader = DataLoader(another_test, batch_size=32, num_workers=4)
+    another_test = BERTDataset(dataset_another, SENT_IDX, LABEL_IDX, tok, MAX_LEN)
+    test_dataloader = DataLoader(
+        another_test, batch_size=BATCH_SIZE, num_workers=NUM_WORKERS
+    )
 
     model.eval()
     for batch_id, (token_ids, valid_length, segment_ids, label) in enumerate(
@@ -90,10 +83,10 @@ def predict(model, vocab, predict_sentence):
         valid_length = valid_length
         label = label.long().to(device)
         out = model(token_ids, valid_length, segment_ids)
-        origin_label = ["희망", "사랑", "분노", "슬픔", "공포", "생각"]
-        test_eval = []
-        for i in out:
-            logits = i
-            logits = logits.detach().cpu().numpy()
-            test_eval.append(np.argmax(logits))
-        return origin_label[test_eval[0]]
+    origin_label = ["희망", "사랑", "분노", "슬픔", "공포", "생각"]
+    test_eval = []
+    for i in out:
+        logits = i
+        logits = logits.detach().cpu().numpy()
+        test_eval.append(np.argmax(logits))
+    return origin_label[test_eval[0]]

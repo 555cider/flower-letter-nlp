@@ -1,4 +1,6 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
+
 import {
   Flex,
   Box,
@@ -15,228 +17,235 @@ import {
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 
+const testOrderInput = {
+  order: {
+    price: 47000,
+    name: '김철수',
+    delivery_name: '이영희',
+    address: '서울시 강남구 강남동 11번지',
+    post_code: '10101',
+    email: 'yuliekorea@gmail.com',
+    phone: '01012341234',
+  },
+  book: {
+    title: '너에게 보내는 시집',
+    letter: '편지 내용...',
+    flower_id: '61b065c6dd874c208dee0bc3',
+    contents: [
+      {
+        type: 'poem',
+        poem_id: '61b065c6dd874c208dee0bc3',
+      },
+      {
+        type: 'poem',
+        poem_id: '61b066202f194ac7dd807aef',
+      },
+      {
+        type: 'text',
+        text_content: '자유글 내용...',
+      },
+      {
+        type: 'text',
+        text_content: '자유글 내용 222...',
+      },
+    ],
+    font: '바른글씨체',
+    color: 'beige',
+  },
+};
+
 function OrderPay({ history }) {
   const navigate = useNavigate();
 
   const onClickPayButton = async () => {
-    sendOrderInfo();
-    navigate('/checkout');
-  };
-
-  // Dummy Data
-  const dummy = {
-    order: {
-      price: 0,
-      name: '김서정',
-      address: '서울',
-      email: 'seojeong1101@gmail.com',
-      phone: '010-1234-5678',
-    },
-    book: {
-      letter: '나는 서정이다',
-      flower_id: '행복',
-      contents: [
-        {
-          type: 'peom',
-          poem_id: '61b1f5f64af9dd1906a6e2d9',
-        },
-        {
-          type: 'text',
-          text_content: '자유글이다',
-        },
-      ],
-    },
-  };
-
-  /*
-  {
-        order: {
-          price: 0,
-          name: 'string',
-          address: 'string',
-          email: 'string',
-          phone: 'string',
-        },
-        book: {
-          letter: 'string',
-          flower_id: 'string',
-          contents: [
-            {
-              type: 'string',
-              poem_id: 'string',
-            },
-            {
-              type: 'string',
-              text_content: 'string',
-            },
-          ],
-        },
-      }
-      */
-  const sendOrderInfo = async () => {
-    await axios
-      .post('https://testapi.flowerletter.co.kr/orders', dummy, {
-        headers: { 'Content-Type': 'application/json' },
+    await axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_URL}/orders`,
+      data: testOrderInput,
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => {
+        console.log('주문API 성공', response);
+        const order = response.data;
+        serverAuth(order.id, order.price);
       })
-      .then(function (response) {
-        console.log('통신 성공', response);
-      })
-      .catch(function (error) {
-        alert('error!!');
+      .catch((err) => {
+        alert('error 주문생성');
+        console.log(err);
       });
   };
 
-  return (
-    <VStack w="100%" align="center" justify="center">
-      <Flex h="10"></Flex>
-      <HStack w="95%" h="100%" align="center" justify="center">
-        <Box w="500px" h="800px" p="3">
-          <Heading size="lg" pl="4">
-            결제하기
-          </Heading>
-          <Box m="10px" p="2">
-            <Heading size="md">1. 주문자 정보</Heading>
-            <Center p="10px">
-              <Divider orientation="horizontal" />
-            </Center>
-            <Input
-              h="30px"
-              w="200px"
-              display="block"
-              mb="3"
-              borderColor="black"
-              placeholder="이름"
-            />
-            <Input
-              h="30px"
-              w="200px"
-              display="block"
-              mb="3"
-              borderColor="black"
-              placeholder="전화번호"
-            />
-            <Input
-              h="30px"
-              w="200px"
-              display="block"
-              mb="3"
-              borderColor="black"
-              placeholder="이메일"
-            />
-          </Box>
-          <Box m="10px" p="2">
-            <Heading size="md">2. 배송 정보</Heading>
-            <Center p="10px">
-              <Divider orientation="horizontal" />
-            </Center>
-            <Box>
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="받으시는 분"
-              />
-              <Input
-                h="30px"
-                w="200px"
-                mb="3"
-                borderColor="black"
-                placeholder="받으실 곳"
-              />
+  const serverAuth = (orderId, orderAmount) => {
+    console.log('SERVER AUTH STARTED');
+    window.AUTHNICE.requestPay({
+      clientId: process.env.REACT_APP_CLIENT_ID,
+      method: 'card',
+      orderId: orderId,
+      amount: orderAmount,
+      goodsName: '꽃편지-시집',
+      returnUrl: 'http://127.0.0.1:8000/pay',
+      fnError: function (result) {
+        alert('개발자확인용 : ' + result.errorMsg + '');
+      },
+    });
+  };
 
+  return (
+    <>
+      <Helmet>
+        <script src="https://pay.nicepay.co.kr/v1/js/" type="text/javascript" />
+      </Helmet>
+      <VStack w="100%" align="center" justify="center">
+        <Flex h="10"></Flex>
+        <HStack w="95%" h="100%" align="center" justify="center">
+          <Box w="500px" h="800px" p="3">
+            <Heading size="lg" pl="4">
+              결제하기
+            </Heading>
+            <Box m="10px" p="2">
+              <Heading size="md">1. 주문자 정보</Heading>
+              <Center p="10px">
+                <Divider orientation="horizontal" />
+              </Center>
               <Input
-                display="block"
-                h="30px"
-                w="400px"
-                mb="3"
-                borderColor="black"
-              />
-              <Input
-                display="block"
                 h="30px"
                 w="200px"
+                display="block"
+                mb="3"
+                borderColor="black"
+                placeholder="이름"
+              />
+              <Input
+                h="30px"
+                w="200px"
+                display="block"
                 mb="3"
                 borderColor="black"
                 placeholder="전화번호"
               />
-
               <Input
-                display="block"
                 h="30px"
-                w="400px"
+                w="200px"
+                display="block"
                 mb="3"
                 borderColor="black"
-                placeholder="배송메모"
+                placeholder="이메일"
               />
             </Box>
-          </Box>
-          <Box m="10px" p="2" pl="5">
-            <Heading size="md">3. 결제수단</Heading>
-            <Center p="10px">
-              <Divider orientation="horizontal" />
-            </Center>
-            <Button
-              size="md"
-              h="50px"
-              w="200px"
-              border="1px"
-              borderColor="gray"
-              m="2"
-            >
-              일반 결제
-            </Button>
-            <Button
-              size="md"
-              h="50px"
-              w="200px"
-              border="1px"
-              borderColor="gray"
-              m="2"
-            >
-              간편 결제
-            </Button>
-          </Box>
-        </Box>
-        <Box bg="#D4BBDD" w="300px" h="800">
-          <VStack p="4">
-            <Box w="100%" h="30">
-              <Heading size="md" align="center">
-                결제정보
-              </Heading>
+            <Box m="10px" p="2">
+              <Heading size="md">2. 배송 정보</Heading>
+              <Center p="10px">
+                <Divider orientation="horizontal" />
+              </Center>
+              <Box>
+                <Input
+                  h="30px"
+                  w="200px"
+                  display="block"
+                  mb="3"
+                  borderColor="black"
+                  placeholder="받으시는 분"
+                />
+                <Input
+                  h="30px"
+                  w="200px"
+                  mb="3"
+                  borderColor="black"
+                  placeholder="받으실 곳"
+                />
+
+                <Input
+                  display="block"
+                  h="30px"
+                  w="400px"
+                  mb="3"
+                  borderColor="black"
+                />
+                <Input
+                  display="block"
+                  h="30px"
+                  w="200px"
+                  mb="3"
+                  borderColor="black"
+                  placeholder="전화번호"
+                />
+
+                <Input
+                  display="block"
+                  h="30px"
+                  w="400px"
+                  mb="3"
+                  borderColor="black"
+                  placeholder="배송메모"
+                />
+              </Box>
             </Box>
-            <Box w="100%" h="200" border="1px">
-              시집이미지
-            </Box>
-            <Box w="100%" h="420" border="1px">
-              결제된 내용
-            </Box>
-            <Box w="100%" align="center" justify="center">
+            <Box m="10px" p="2" pl="5">
+              <Heading size="md">3. 결제수단</Heading>
+              <Center p="10px">
+                <Divider orientation="horizontal" />
+              </Center>
               <Button
-                colorScheme="blue"
-                m="1"
-                w="90%"
-                onClick={onClickPayButton}
+                size="md"
+                h="50px"
+                w="200px"
+                border="1px"
+                borderColor="gray"
+                m="2"
               >
-                결제하기
+                일반 결제
               </Button>
               <Button
-                colorScheme="blue"
-                m="1"
-                w="90%"
-                onClick={() => {
-                  navigate('/');
-                }}
+                size="md"
+                h="50px"
+                w="200px"
+                border="1px"
+                borderColor="gray"
+                m="2"
               >
-                결제취소
+                간편 결제
               </Button>
             </Box>
-          </VStack>
-        </Box>
-      </HStack>
-      <Flex h="5"></Flex>
-    </VStack>
+          </Box>
+          <Box bg="#D4BBDD" w="300px" h="800">
+            <VStack p="4">
+              <Box w="100%" h="30">
+                <Heading size="md" align="center">
+                  결제정보
+                </Heading>
+              </Box>
+              <Box w="100%" h="200" border="1px">
+                시집이미지
+              </Box>
+              <Box w="100%" h="420" border="1px">
+                결제된 내용
+              </Box>
+              <Box w="100%" align="center" justify="center">
+                <Button
+                  colorScheme="blue"
+                  m="1"
+                  w="90%"
+                  onClick={onClickPayButton}
+                >
+                  결제하기
+                </Button>
+                <Button
+                  colorScheme="blue"
+                  m="1"
+                  w="90%"
+                  onClick={() => {
+                    navigate('/');
+                  }}
+                >
+                  결제취소
+                </Button>
+              </Box>
+            </VStack>
+          </Box>
+        </HStack>
+        <Flex h="5"></Flex>
+      </VStack>
+    </>
   );
 }
 export default OrderPay;

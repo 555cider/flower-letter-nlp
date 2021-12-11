@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
+from sqlalchemy.future import select
 from datetime import datetime
 from app.db import Base
 from sqlalchemy.orm import relationship
@@ -124,13 +125,13 @@ async def create_order(
 
 
 async def get_order(order_id: int, db: AsyncSession) -> OrderModel:
-    return await db.query(OrderModel).filter(OrderModel.id == order_id).first()
+    return await db.get(OrderModel, order_id)
 
 
 async def update_order_status(
     order_id: int, db: AsyncSession, status: int
 ) -> OrderModel:
-    order = await db.query(OrderModel).filter(OrderModel.id == order_id).first()
+    order = await db.get(OrderModel, order_id)
     order.order_status = status
 
     await db.commit()

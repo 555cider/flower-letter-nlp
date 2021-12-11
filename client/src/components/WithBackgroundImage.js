@@ -8,8 +8,6 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 export default function WithBackgroundImage({
   isbutton = false,
@@ -33,10 +31,6 @@ export default function WithBackgroundImage({
 }) {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    AOS.init();
-  });
-
   const button_Url = buttonUrl;
 
   return (
@@ -59,7 +53,6 @@ export default function WithBackgroundImage({
       >
         <Text
           // className="sa sa-up" 스크롤 애니메이션 클래스
-          data-aos="fade-in"
           color={textcolor}
           fontWeight={600}
           lineHeight={1.2}

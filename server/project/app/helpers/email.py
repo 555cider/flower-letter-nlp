@@ -7,7 +7,6 @@ from app.models.order import OrderModel
 async def send_email(
     config: Settings, order: OrderModel, book: BookModel, flower: str
 ) -> str:
-    # 139, 143, 147, 151 > 옵션, 170, 174, 178, 182 > 배송정보
 
     html = """
 <html style="font-family:Arial, Helvetica, sans-serif; font-size: 0.8rem; width: 800px; height: 1500px">
@@ -75,8 +74,8 @@ async def send_email(
               <td>{phone}</td>
             </tr>
             <tr style="width: 360px; padding: 3px;">
-              <td style="font-size: 0.9rem; font-weight: bold; width: 80px;">{post_code}</td>
-              <td>32373</td>
+              <td style="font-size: 0.9rem; font-weight: bold; width: 80px;">우편번호</td>
+              <td>{post_code}</td>
             </tr>
             <tr style="width: 360px; padding: 3px;">
               <td style="font-size: 0.9rem; font-weight: bold; width: 80px;">배송지</td>

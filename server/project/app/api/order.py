@@ -1,13 +1,7 @@
 from typing import Any
 import json
 from beanie.odm.fields import PydanticObjectId
-from fastapi import (
-    APIRouter,
-    Depends,
-    BackgroundTasks,
-    requests,
-    Response,
-)
+from fastapi import APIRouter, Depends, BackgroundTasks, requests, Response, Request
 from requests.auth import HTTPBasicAuth
 
 from app.config import Settings, get_config
@@ -99,21 +93,8 @@ async def post_order(
     - 사용자가 결제하기를 눌렀을때 호출되며, 주문정보를 반환한다.
     - 주문정보 데이터를 FE에서 성공적으로 받은후에 /pay(POST)를 호출해 결제를 진행하게 된다.
     """
-    new_contents = []
-    for req_content in request.book.contents:
-        # TODO: use enum class
-        # TODO: add backend logic to verify price
-        if req_content.type == "poem":
-            poem = PoemPageModel(poem_id=PydanticObjectId(req_content.poem_id))
-            new_contents.append(poem)
-        else:
-            new_contents.append(req_content)
 
-    new_book = BookModel(
-        letter=request.book.letter,
-        flower_id=PydanticObjectId(request.book.flower_id),
-        contents=new_contents,
-    )
+    new_book = BookModel(**request.book.dict())
 
     await new_book.create()
     new_order = await create_order(request.order, str(new_book.id), db)

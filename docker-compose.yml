@@ -9,7 +9,7 @@ services:
     expose:
       - 80
     env_file:
-      - ./client/.env.prod
+      - ./client/.env.production
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend-http.rule=HOST(`www.flowerletter.co.kr`,`flowerletter.co.kr`)"

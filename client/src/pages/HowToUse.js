@@ -6,7 +6,7 @@ import RightImage from '../components/RightImage';
 
 export default function HowToUse() {
   return (
-    <div style={{ height: '100vh', overflow: 'auto' }}>
+    <div style={{ height: '100vh' }}>
       <SidebarComponent />
       {/* 첫번째 스크롤 - 이미지로 넣기 */}
       <WithBackgroundImage

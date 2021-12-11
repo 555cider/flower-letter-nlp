@@ -24,6 +24,24 @@ export default function LeftImage({
   backgroundcolor,
   textColor,
 }) {
+  const saTriggerMargin = 300;
+  const saElementList = document.querySelectorAll('.sa');
+
+  const saFunc = function () {
+    for (const element of saElementList) {
+      if (!element.classList.contains('show')) {
+        if (
+          window.innerHeight >
+          element.getBoundingClientRect().top + saTriggerMargin
+        ) {
+          element.classList.add('show');
+        }
+      }
+    }
+  };
+
+  window.addEventListener('load', saFunc);
+  window.addEventListener('scroll', saFunc);
   return (
     <HStack
       w={w}
@@ -41,9 +59,8 @@ export default function LeftImage({
         <Image src={imgUrl} boxSize="500px" borderRadius={'15px'} />
       </Center>
       <Center w="60vh" h="full">
-        <VStack>
+        <VStack className="sa sa-left">
           <Text
-            // className="sa sa-right" 스크롤애니메이션 클래스
             lineHeight={1.2}
             color={textColor}
             fontWeight={600}

@@ -6,7 +6,7 @@ import RightImage from '../components/RightImage';
 
 const About = () => {
   return (
-    <div style={{ height: '100vh', overflow: 'auto' }}>
+    <div style={{ height: '100vh' }}>
       <SidebarComponent></SidebarComponent>
       {/* 첫번째 스크롤 */}
       <WithBackgroundImage

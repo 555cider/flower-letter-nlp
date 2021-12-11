@@ -37,17 +37,16 @@ function SidebarComponent() {
         align="center"
         pt="1"
         m="3"
-        ml="5"
       >
         <Icon
           as={HamburgerIcon}
           w={12}
           h={12}
-          color={'#A49393'}
-          backgroundColor={'#FBEDE0'}
+          color={'black'}
+          borderColor="black"
+          // backgroundColor={'#FBEDE0'}
           borderRadius="10px"
           border="2px"
-          borderColor="#A49393"
           style={{ cursor: 'pointer' }}
         />
       </Box>

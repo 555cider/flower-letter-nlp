@@ -1,7 +1,18 @@
 from typing import Any
 import json
 from beanie.odm.fields import PydanticObjectId
-from fastapi import APIRouter, Depends, BackgroundTasks, requests, Response, Request
+
+# import httpx
+import requests
+from fastapi import (
+    APIRouter,
+    Depends,
+    BackgroundTasks,
+    Request,
+    HTTPException,
+    status,
+)
+from fastapi.responses import RedirectResponse
 from requests.auth import HTTPBasicAuth
 
 from app.config import Settings, get_config
@@ -25,12 +36,12 @@ from app.models.book import FlowerModel
 
 order_router = APIRouter(tags=["주문"])
 
-
+# TODO: 검증 논리 추가
+# TODO: try & catch 로 페이지 리디렉션
 @order_router.post("/pay", summary="결제")
 async def pay(
     request: Request,
     background_tasks: BackgroundTasks,
-    response: Response,
     config: Settings = Depends(get_config),
     db: AsyncSession = Depends(get_db),
 ):
@@ -42,42 +53,38 @@ async def pay(
     - 결제 성공시 주문의 상태를 '결제완료'로 변경 후, 사용자에게 이메일 발송.
     - 결제 성공/실패 여부를 반환.
     """
-    try:
-        request_body = await request.json()
+    request_body = await request.form()
 
-        if request_body.form["authResultCode"] != "0000":
-            raise requests.exceptions.RequestException
+    if request_body["authResultCode"] != "0000":
+        raise HTTPException(status_code=400, detail="Payment not authorized.")
 
-        response = requests.post(
-            "https://sandbox-api.nicepay.co.kr/v1/payments/" + request.form["tid"],
-            json={"amount": request.form["amount"]},
-            headers={"Content-type": "application/json"},
-            auth=HTTPBasicAuth(config.client_id, config.secret_key),
-        )
+    response = requests.post(
+        "https://sandbox-api.nicepay.co.kr/v1/payments/" + request_body["tid"],
+        json={"amount": request_body["amount"]},
+        headers={"Content-type": "application/json"},
+        auth=HTTPBasicAuth(config.client_id, config.secret_key),
+    )
 
-        # print(resDict)
-        resDict = json.loads(response.text)
+    resDict = json.loads(response.text)
 
-        if resDict["resultCode"] != "0000":
-            raise requests.exceptions.RequestException
+    if resDict["resultCode"] != "0000":
+        raise requests.exceptions.RequestException
 
-        # 결제 비즈니스 로직 구현
-        order_id = resDict["orderId"]
-        order = await get_order(order_id, db)
-        book = await BookModel.get(PydanticObjectId(order.book_id))
-        await update_order_status(order_id, db, 2)  # 결제 완료 상태
+    # 결제 비즈니스 로직 구현
+    order_id = int(resDict["orderId"])
+    order = await get_order(order_id, db)
+    book = await BookModel.get(PydanticObjectId(order.book_id))
+    await update_order_status(order_id, db, 2)  # 결제 완료 상태
 
-        # 꽃 이름
-        flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
+    # 꽃 이름
+    # TODO: clean up
+    # flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
+    flower = await FlowerModel.get(PydanticObjectId("61b47fd5e48bd8e6fffceed4"))
 
-        background_tasks.add_task(
-            send_email, config, order, book, flower.name
-        )  # 이메일 전송
+    background_tasks.add_task(send_email, config, order, book, flower.name)  # 이메일 전송
 
-        return Response(status_code=200)
-
-    except requests.exceptions.RequestException as e:
-        return Response(status_code=400)
+    redirect_url = f"{config.client_url}/checkout?order={order_id}"
+    return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
 
 
 @order_router.post(

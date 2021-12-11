@@ -48,7 +48,7 @@ function WriteLetter({ history }) {
   const sendLetter = async () => {
     await axios({
       method: 'post',
-      url: 'https://testapi.flowerletter.co.kr/results',
+      url: `${process.env.REACT_APP_API_URL}/results`,
       data: {
         letter_content: content,
       },

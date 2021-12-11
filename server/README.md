@@ -2,7 +2,6 @@
 ## Introduction to server
 - Based on Docker
 - Consists of three images: web, postgres_db, mongo_db. See `docker-compose.yml`
-- (Traefik serves as reverse proxy that routes `fastapi.local` to the API server) => removed
 
 ## Running on local
 ### Related files:
@@ -10,7 +9,7 @@
 - `project/db`
 - `project/entrypoint.sh`
 - `docker-compose.yml`
-- (`traefik.dev.toml`)
+- (`traefik.dev.toml`) # not used
 ### Steps
 - Install Docker if it's not already
 - Check you are at `/server`
@@ -39,7 +38,8 @@ $ docker-compose exec postgres_db psql --username=flower_letter
 select * from order_status;
 ```
 - Check API is running on `localhost:8000`
-<!-- - Can view Traefik dashboard at `http://localhost:8081` -->
+- postgresdb is accessible at port `5432`
+- mongodb is accessible form port `27018`
 
 ### Bring down containers
 - Bring containers down with:

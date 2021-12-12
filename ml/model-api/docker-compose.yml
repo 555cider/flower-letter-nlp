@@ -4,7 +4,7 @@ services:
   mlweb:
     build:
       context: .
-      dockerfile: Dockerfile.transformer
+      dockerfile: Dockerfile
     command: uvicorn app.main:app --host 0.0.0.0 --reload
     volumes:
       - .:/app # for auto reload

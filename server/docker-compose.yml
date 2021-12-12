@@ -22,7 +22,7 @@ services:
   postgres_db:
     build:
       context: ./project/db
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.post
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
@@ -34,7 +34,9 @@ services:
       - POSTGRES_PASSWORD=flower_letter
 
   mongo_db:
-    image: mongo:5.0.4
+    build:
+      context: ./project/db
+      dockerfile: Dockerfile.mongo
     ports: 
       - 27018:27017
     expose:

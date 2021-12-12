@@ -86,6 +86,7 @@ export default function WithBackgroundImage({
           lineHeight={1.8}
           fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
           textAlign={'center'}
+          fontFamily={'EliceRegular'}
         >
           {contentText}
         </Text>
@@ -95,6 +96,7 @@ export default function WithBackgroundImage({
             h="50px"
             fontSize="xl"
             fontWeight="600"
+            fontFamily={'EliceRegular'}
             bg={buttonColor}
             border={buttonBorder}
             borderColor={buttonBorderColor}

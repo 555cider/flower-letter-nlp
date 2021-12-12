@@ -12,7 +12,7 @@ from typing import List, Union, Literal
 class FlowerModel(Document):
     """Flower DB representation"""
 
-    name: str
+    flower: str
     symbol: str
     image_url: str
     keywords: List[str]
@@ -41,6 +41,7 @@ class Letter(BaseModel):
 
 # For returning analyzed results
 class PoemFlowerList(BaseModel):
+    keywords: List[str] = []
     poems: List[PoemModel] = []
     flowers: List[FlowerModel] = []
 

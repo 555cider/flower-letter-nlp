@@ -84,7 +84,7 @@ export default function QuestionForm() {
         fontWeight="bold"
         marginTop="100px"
         textAlign="left"
-        fontFamily={'IM_Hyemin-Bold'}
+        fontFamily={'EliceBold'}
       >
         문의 하기
       </Text>
@@ -98,7 +98,7 @@ export default function QuestionForm() {
           <Input
             placeholder="이름"
             marginBottom="20px"
-            fontFamily={'IM_Hyemin-Bold'}
+            fontFamily={'EliceRegular'}
             borderColor={'black'}
             name="name"
             value={name}
@@ -107,7 +107,7 @@ export default function QuestionForm() {
           <Input
             placeholder="이메일"
             marginBottom="20px"
-            fontFamily={'IM_Hyemin-Bold'}
+            fontFamily={'EliceRegular'}
             borderColor={'black'}
             name="email"
             value={email}
@@ -116,7 +116,7 @@ export default function QuestionForm() {
           <Input
             placeholder="제목"
             marginBottom="20px"
-            fontFamily={'IM_Hyemin-Bold'}
+            fontFamily={'EliceRegular'}
             borderColor={'black'}
             name="title"
             value={title}
@@ -127,7 +127,7 @@ export default function QuestionForm() {
             h="340px"
             borderColor="black"
             placeholder="문의 내용을 남겨주세요"
-            fontFamily={'IM_Hyemin-Bold'}
+            fontFamily={'EliceRegular'}
             name="content"
             value={content}
             onChnage={onChange}
@@ -137,7 +137,7 @@ export default function QuestionForm() {
         <Button
           type="submit"
           onClick={sendButton}
-          fontFamily={'IM_Hyemin-Bold'}
+          fontFamily={'EliceRegular'}
           w="200px"
           h="50px"
           color="#A49393"
@@ -149,7 +149,7 @@ export default function QuestionForm() {
           <ModalOverlay />
 
           <ModalContent backgroundColor={'#FBEDE0'}>
-            <ModalHeader fontFamily={'IM_Hyemin-Bold'}>
+            <ModalHeader fontFamily={'EliceRegular'}>
               문의가 정상적으로 등록되었습니다.
             </ModalHeader>
 
@@ -160,6 +160,7 @@ export default function QuestionForm() {
                 backgroundColor={'white'}
                 border="2px"
                 borderColor="#D4BBDD"
+                fontFamily={'EliceRegular'}
                 _hover={{
                   color: 'white',
                   backgroundColor: '#D4BBDD',

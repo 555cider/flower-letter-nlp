@@ -1,7 +1,6 @@
 import {
   Drawer,
   DrawerBody,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
@@ -44,7 +43,6 @@ function SidebarComponent() {
           h={12}
           color={'black'}
           borderColor="black"
-          // backgroundColor={'#FBEDE0'}
           borderRadius="10px"
           border="2px"
           style={{ cursor: 'pointer' }}
@@ -72,13 +70,7 @@ function SidebarComponent() {
                   navigate('/');
                 }}
               >
-                <Image
-                  src="img/logoimg.png"
-                  alt="logo"
-                  borderRadius="15px"
-                  border="2px"
-                  borderColor="#A49393"
-                />
+                <Image src="img/logoimg.png" alt="logo" borderRadius="15px" />
               </Link>
               <Box
                 h="10"

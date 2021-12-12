@@ -95,6 +95,7 @@ export default function WritingAnima({
           h="50px"
           fontSize="xl"
           fontWeight="600"
+          fontFamily={'EliceRegular'}
           bg={buttonColor}
           border={buttonBorder}
           borderColor={buttonBorderColor}

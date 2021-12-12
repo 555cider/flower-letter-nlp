@@ -60,6 +60,7 @@ export default function RightImage({
             lineHeight={1.2}
             color={textColor}
             fontWeight={600}
+            fontFamily={'EliceBold'}
             fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}
           >
             {text}
@@ -68,6 +69,7 @@ export default function RightImage({
             lineHeight={1.2}
             color={textColor}
             fontWeight={600}
+            fontFamily={'EliceRegular'}
             fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
             textAlign={'right'}
           >

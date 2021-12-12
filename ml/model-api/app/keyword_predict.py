@@ -90,7 +90,7 @@ def predict(saved_model, vocab, predict_sentence):
 
         outputs = saved_model(ids, mask, token_type_ids)
 
-    cols = ["생각", "죽음", "자연", "가족", "시간", "신체", "집", "문학", "감각", "공간", "도시", "숫자"]
+    cols = ["생각", "죽음", "자연", "가족", "시간", "신체", "집", "문학", "감각", "공간", "도시", "숫자", "희망", "사랑", "분노", "슬픔", "공포"]
     high = []
     mid = []
     low = []

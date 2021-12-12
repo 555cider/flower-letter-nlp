@@ -92,14 +92,15 @@ def predict(model, vocab, predict_sentence):
     for i in out:
         logits = i
         logits = logits.detach().cpu().numpy()
-        desc_sorted = np.sort(logits)[::-1]
+        logits = logits.tolist()
+        desc_sorted = sorted(logits, reverse=True)
         for j in range(len(desc_sorted)):
-            if desc_sorted[j] >= 0.8:
-                high.append(origin_label[j])
-            elif desc_sorted[j] >= 0.5:
-                mid.append(origin_label[j])
+            if desc_sorted[j] >= 0.5:
+                high.append(origin_label[logits.index(desc_sorted[j])])
             elif desc_sorted[j] >= 0.3:
-                low.append(origin_label[j])
+                mid.append(origin_label[logits.index(desc_sorted[j])])
+            elif desc_sorted[j] >= 0.1:
+                low.append(origin_label[logits.index(desc_sorted[j])])
             else:
                 break
     return {"hight": high, "mid": mid, "low": low}

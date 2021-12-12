@@ -1,5 +1,6 @@
 import React from 'react';
 import StepsLetter from '../StepsLetter';
+import Preview from '../Preview';
 
 import { Flex, HStack, Box, Button, Spacer } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
@@ -13,8 +14,8 @@ export default function FlowerLang() {
     flowersList: state.flowersList,
   }));
 
-  const saveFlower = (user_flower) => {
-    dispatch({ type: 'SAVE_USER_FLOWER', user_flower });
+  const saveFlower = (user_flower_id, user_flower_symbol) => {
+    dispatch({ type: 'SAVE_USER_FLOWER', user_flower_id, user_flower_symbol });
   };
 
   const flowerList = flowersList.map((content, index) => (
@@ -27,10 +28,10 @@ export default function FlowerLang() {
       fontWeight="600"
       color="white"
       onClick={() => {
-        saveFlower(content['_id']);
+        saveFlower(content['_id'], content['symbol']);
       }}
     >
-      {content['name']}:{content['symbol']}
+      {content['name']}-{content['symbol']}
     </Button>
   ));
 
@@ -41,7 +42,7 @@ export default function FlowerLang() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          꽃말선택 단계
+          <Preview />
         </Flex>
         <Flex
           w="40%"

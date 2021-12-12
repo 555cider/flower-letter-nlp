@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   VStack,
   Stack,
@@ -14,19 +15,61 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
 export default function QuestionForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [inputs, setInputs] = useState({
+    name: '',
+    email: '',
+    title: '',
+    content: '',
+  });
 
-  function validateName(value) {
-    let error;
-    if (!value) {
-      error = 'Name is required';
-    } else if (value.toLowerCase() !== 'naruto') {
-      error = "Jeez! You're not a fan 😱";
-    }
-    return error;
-  }
+  const { name, email, title, content } = inputs;
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const onReset = () => {
+    setInputs({
+      name: '',
+      email: '',
+      title: '',
+      content: '',
+    });
+  };
+  const formData = {
+    name: name,
+    email: email,
+    title: title,
+    content: content,
+  };
+
+  const sendButton = async () => {
+    await axios
+      .post('https://testapi.flowerletter.co.kr/question', formData, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(function (response) {
+        console.log('통신 성공', response);
+        onOpen();
+      })
+      .catch(function (error) {
+        alert('error!!');
+      });
+  };
+
+  const closeButton = () => {
+    onReset();
+    onClose();
+  };
+
   return (
     <VStack
       w={'full'}
@@ -36,7 +79,13 @@ export default function QuestionForm() {
       backgroundPosition="center"
       backgroundSize="cover"
     >
-      <Text fontSize="4xl" fontWeight="bold" marginTop="100px" textAlign="left">
+      <Text
+        fontSize="4xl"
+        fontWeight="bold"
+        marginTop="100px"
+        textAlign="left"
+        fontFamily={'IM_Hyemin-Bold'}
+      >
         문의 하기
       </Text>
       <Stack
@@ -46,27 +95,78 @@ export default function QuestionForm() {
         whiteSpace={'pre-line'}
       >
         <FormControl id="question-form" isRequired>
-          <Input placeholder="이름" marginBottom="20px" />
-
-          <Input placeholder="이메일" marginBottom="50px" />
+          <Input
+            placeholder="이름"
+            marginBottom="20px"
+            fontFamily={'IM_Hyemin-Bold'}
+            borderColor={'black'}
+            name="name"
+            value={name}
+            onChange={onChange}
+          />
+          <Input
+            placeholder="이메일"
+            marginBottom="20px"
+            fontFamily={'IM_Hyemin-Bold'}
+            borderColor={'black'}
+            name="email"
+            value={email}
+            onChange={onchange}
+          />
+          <Input
+            placeholder="제목"
+            marginBottom="20px"
+            fontFamily={'IM_Hyemin-Bold'}
+            borderColor={'black'}
+            name="title"
+            value={title}
+            onChange={onChange}
+          />
 
           <Textarea
             h="340px"
             borderColor="black"
             placeholder="문의 내용을 남겨주세요"
+            fontFamily={'IM_Hyemin-Bold'}
+            name="content"
+            value={content}
+            onChnage={onChange}
           ></Textarea>
         </FormControl>
 
-        <Button type="submit" onClick={onOpen}>
+        <Button
+          type="submit"
+          onClick={sendButton}
+          fontFamily={'IM_Hyemin-Bold'}
+          w="200px"
+          h="50px"
+          color="#A49393"
+          backgroundColor={'#FBEDE0'}
+        >
           보내기
         </Button>
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>문의가 정상적으로 등록되었습니다.</ModalHeader>
+
+          <ModalContent backgroundColor={'#FBEDE0'}>
+            <ModalHeader fontFamily={'IM_Hyemin-Bold'}>
+              문의가 정상적으로 등록되었습니다.
+            </ModalHeader>
 
             <ModalFooter>
-              <Button onClick={onClose}>Close</Button>
+              <Button
+                onClick={onClose}
+                color="#D4BBDD"
+                backgroundColor={'white'}
+                border="2px"
+                borderColor="#D4BBDD"
+                _hover={{
+                  color: 'white',
+                  backgroundColor: '#D4BBDD',
+                }}
+              >
+                창 닫기
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

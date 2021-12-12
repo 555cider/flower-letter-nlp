@@ -14,28 +14,28 @@ import StepsLetter from './StepsLetter';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import axios from 'axios';
+import PreviewImageUrls from './PreviewImageUrls';
 
 function WriteLetter({ history }) {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { letter_title, letter_content } = useSelector((state) => ({
-    letter_title: state.letter_title,
+  const { letter_content, color } = useSelector((state) => ({
     letter_content: state.letter_content,
+    color: state.usercolor,
   }));
 
   const [inputs, setInputs] = useState({
-    title: letter_title,
     content: letter_content,
   });
 
   const { title, content } = inputs;
 
   const clickNextButton = () => {
-    dispatch({ type: 'SAVE_LETTER', title, content });
+    dispatch({ type: 'SAVE_LETTER', content });
     sendLetter();
 
-    navigate('/create/keyword');
+    navigate('/loading');
   };
 
   const handleChange = (e) => {
@@ -48,7 +48,7 @@ function WriteLetter({ history }) {
   const sendLetter = async () => {
     await axios({
       method: 'post',
-      url: 'https://testapi.flowerletter.co.kr/results',
+      url: `${process.env.REACT_APP_API_URL}/results`,
       data: {
         letter_content: content,
       },
@@ -76,7 +76,7 @@ function WriteLetter({ history }) {
     <div>
       <StepsLetter></StepsLetter>
       <HStack
-        h="900px"
+        h="70vh"
         p="2"
         ml="5"
         mr="5"
@@ -88,15 +88,6 @@ function WriteLetter({ history }) {
           {/* 왼쪽 박스 */}
           <Box p="6" w="100%">
             <Stack spacing={3} h="100%">
-              <Input
-                placeholder="편지 제목"
-                h="7vh"
-                size="sm"
-                borderColor="black"
-                onChange={handleChange}
-                name="title"
-                value={title}
-              />
               <Textarea
                 h="100%"
                 borderColor="black"

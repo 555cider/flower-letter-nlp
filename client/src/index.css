@@ -11,3 +11,102 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.active {
+  /* create페이지 상단 바의 선택부분 디자인 */
+  border: solid 3px white;
+  border-right: none;
+  border-left: none;
+  color: white;
+}
+
+.keywordrange {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.scrollbox {
+  overflow: auto;
+  width: 90%;
+  height: 95%;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+/* 슬라이드 애니메이션 */
+.sa {
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+/* 아래에서 위로 페이드 인 */
+.sa-up {
+  transform: translate(0, 100px);
+}
+/* 위에서 아래로 페이드 인 */
+.sa-down {
+  transform: translate(0, -100px);
+}
+/* 왼쪽에서 오른쪽으로 페이드 인 */
+.sa-right {
+  transform: translate(-100px, 0);
+}
+/* 오른쪽에서 왼쪽으로 페이드 인 */
+.sa-left {
+  transform: translate(100px, 0);
+}
+/* 작아진 상태에서 커지면서 페이드 인 */
+.sa-scaleUp {
+  transform: scale(0.5);
+}
+/* 커진 상태에서 작아지면서 페이드 인 */
+.sa-scaleDown {
+  transform: scale(1.5);
+}
+.sa.show {
+  opacity: 1;
+  transform: none;
+}
+
+@font-face {
+  font-family: 'NanumMom';
+  font-weight: 50;
+  src: url('./fonts/NanumfromMomToDaughter.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NanumGrandfather';
+  font-weight: 50;
+  src: url('./fonts/NanumGrandFather.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'EliceBold';
+  src: url('./fonts/EliceDigitalBaeum_Bold.ttf') format('truetype');
+  font-weight: 50;
+}
+
+@font-face {
+  font-family: 'EliceRegular';
+  src: url('./fonts/EliceDigitalBaeum_Regular.ttf') format('truetype');
+  font-weight: 50;
+}
+
+@font-face {
+  font-family: 'HandWrite';
+  src: url('./fonts/KyoHandwriting.ttf') format('truetype');
+  font-weight: 50;
+}
+
+@font-face {
+  font-family: 'EnglishHandy';
+  src: url('./fonts/Amarillo.ttf') format('truetype');
+  font-weight: 50;
+}
+@font-face {
+  font-family: 'IM_Hyemin-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

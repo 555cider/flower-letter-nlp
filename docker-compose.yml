@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  traefik:
+      image: traefik:v2.2
+      container_name: traefik
+      ports:
+        - 80:80
+        - 443:443
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /home/traefik-public-certificates:/certificates
+        - ./traefik.toml:/etc/traefik/traefik.toml
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.dashboard.rule=Host(`dashboard-api.flowerletter.co.kr`) && PathPrefix(`/`)" # Dashboard can be accessed at $Host/dashboard/
+        - "traefik.http.routers.dashboard.tls=true"
+        - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt" # Let's Encrypt
+        - "traefik.http.routers.dashboard.service=api@internal"
+        - "traefik.http.routers.dashboard.middlewares=auth" # HTTP BasicAuth middleware
+        - "traefik.http.middlewares.auth.basicauth.users=testuser:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1" # Username & hashed password for login
+
+volumes:
+  traefik-public-certificates:

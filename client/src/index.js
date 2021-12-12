@@ -3,11 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import ScrollTop from './components/ScrollTop';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ChakraProvider>
+    <BrowserRouter>
+      <React.StrictMode>
+        <ScrollTop />
+        <App />
+      </React.StrictMode>
+    </BrowserRouter>
+  </ChakraProvider>,
+
   document.getElementById('root')
 );
 

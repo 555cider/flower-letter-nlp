@@ -1,0 +1,12 @@
+# For local testing of docker image
+
+version: '3.8'
+
+services:
+  web_ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web_ui_container
+    ports:
+      - 1337:80

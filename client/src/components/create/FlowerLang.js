@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import Preview from '../Preview';
 

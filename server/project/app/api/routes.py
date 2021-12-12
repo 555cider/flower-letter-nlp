@@ -1,6 +1,4 @@
 from fastapi import APIRouter, Depends
-from fastapi_mail import config
-from pydantic.types import Json
 
 from app.models.book import (
     PoemIn,
@@ -16,7 +14,7 @@ router = APIRouter(tags=["편지 분석"])
 
 from httpx import AsyncClient
 import json
-
+import random
 
 # ================
 # API Routes
@@ -31,8 +29,8 @@ async def create_poem(request: PoemIn):
 
 async def call_model_api(client: AsyncClient, letter: str, config: Settings):
     print(config.ml_api_url)
-    api_url = f"{config.ml_api_url}/classify"
-    # api_url = "https://ml-testapi.flowerletter.co.kr/classify"
+    # api_url = f"{config.ml_api_url}/classify"
+    api_url = "https://ml-testapi.flowerletter.co.kr/classify"
     response = await client.post(
         url=api_url,
         json={"text": letter},
@@ -73,12 +71,14 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
         "숫자": "숫자",
     }
 
+    # 프론트로 보내줄 키워드 선정
+
     if emotions.high or emotions.medium:
         final_keywords += emotions.high
         final_keywords += emotions.medium
         count = 0
         for word in keywords:
-            final_keywords.append(keywords_dict[word])
+            final_keywords.append(word)
             count += 1
             if count == 3:
                 break
@@ -87,7 +87,7 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
         final_keywords.append(emotions.low[0])
         count = 0
         for word in keywords:
-            final_keywords.append(keywords_dict[word])
+            final_keywords.append(word)
             count += 1
             if count == 3:
                 break
@@ -95,31 +95,61 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
     elif keywords:
         count = 0
         for word in keywords:
-            final_keywords.append(keywords_dict[word])
+            final_keywords.append(word)
             count += 1
             if count == 3:
                 break
 
     print("FINAL KEYWORDS: ", final_keywords)
 
+    translated_keywords = []
+    for word in final_keywords:
+        if word in keywords_dict:
+            translated_keywords.append(keywords_dict[word])
+        else:
+            translated_keywords.append(word)
+
+    # 가장 키워드가 많이 매칭된 시와 꽃말을 쿼리
+    keyword_poems = await PoemModel.aggregate(
+        aggregation_pipeline=[
+            {
+                "$addFields": {
+                    "count": {
+                        "$size": {"$setIntersection": ["$keywords", final_keywords]}
+                    }
+                }
+            },
+            {"$sort": {"count": -1}},
+            {"$limit": 100},
+        ]
+    ).to_list()
+
+    # 시집 셔플
+    random.shuffle(keyword_poems)
+
+    keyword_flowers = await FlowerModel.aggregate(
+        aggregation_pipeline=[
+            {
+                "$addFields": {
+                    "count": {
+                        "$size": {"$setIntersection": ["$keywords", final_keywords]}
+                    }
+                }
+            },
+            {"$sort": {"count": -1}},
+            {"$limit": 15},
+        ]
+    ).to_list()
+
+    # 꽃말 길이 줄이기
+    for index, flower in enumerate(keyword_flowers):
+        symbols = flower["symbol"].split(",")
+        if len(symbols) >= 3:
+            keyword_flowers[index]["symbol"] = (",").join(symbols[:3])
+
     results = PoemFlowerList()
-    poem_list = []
-    flower_list = []
-
-    # TODO: 랜덤으로 가져오고 알고리즘 적용할 것
-    for keyword in final_keywords:
-        # 키워드별로 시 100개 가져오기
-        keyword_poems = await PoemModel.find({"keywords": keyword}).limit(30).to_list()
-        poem_list += keyword_poems
-
-        # 키워드별로 꽃말 5개 가져오기
-        keyword_flowers = (
-            await FlowerModel.find({"keywords": keyword}).limit(3).to_list()
-        )
-        flower_list += keyword_flowers
-
-    results.poems = poem_list
-    results.flowers = flower_list
-    results.keywords = final_keywords
+    results.poems = keyword_poems
+    results.flowers = keyword_flowers
+    results.keywords = translated_keywords
 
     return results

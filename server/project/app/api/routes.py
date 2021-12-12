@@ -33,7 +33,7 @@ async def call_model_api(client: AsyncClient, letter: str, config: Settings):
     print(config.ml_api_url)
     api_url = f"{config.ml_api_url}/classify"
     response = await client.post(
-        url=f"https://ml-testapi.flowerletter.co.kr/classify",
+        url=api_url,
         json={"text": letter},
         timeout=None,
     )
@@ -53,7 +53,8 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
     async with AsyncClient() as client:
         response = await call_model_api(client, request.letter_content, config)
 
-    model_results = json.loads(response.text)
+    model_results = ModelResults(**json.loads(response.text))
+
     print(model_results)
 
     emotions = model_results.emotions
@@ -61,19 +62,19 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
 
     final_keywords = []
 
-    if emotions.high or emotions.med:
+    if emotions.high or emotions.medium:
         final_keywords += emotions.high
         final_keywords += emotions.medium
         if len(keywords) >= 2:
             final_keywords += keywords[:2]
         elif len(keywords) == 1:
-            final_keywords += keywords[0]
+            final_keywords.append(keywords[0])
 
     elif emotions.low:
-        final_keywords += emotions.low[0]
+        final_keywords.append(emotions.low[0])
         count = 0
         for word in keywords:
-            final_keywords += word
+            final_keywords.append(word)
             count += 1
             if count == 2:
                 break
@@ -81,7 +82,7 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
     elif keywords:
         count = 0
         for word in keywords:
-            final_keywords += word
+            final_keywords.append(word)
             count += 1
             if count == 3:
                 break
@@ -93,7 +94,7 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
     flower_list = []
 
     # TODO: 랜덤으로 가져오고 알고리즘 적용할 것
-    for keyword in keywords:
+    for keyword in final_keywords:
         # 키워드별로 시 100개 가져오기
         keyword_poems = await PoemModel.find({"keywords": keyword}).limit(30).to_list()
         poem_list += keyword_poems

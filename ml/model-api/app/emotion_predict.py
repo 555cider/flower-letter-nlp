@@ -103,4 +103,4 @@ def predict(model, vocab, predict_sentence):
                 low.append(origin_label[logits.index(desc_sorted[j])])
             else:
                 break
-    return {"hight": high, "mid": mid, "low": low}
+    return {"high": high, "medium": mid, "low": low}

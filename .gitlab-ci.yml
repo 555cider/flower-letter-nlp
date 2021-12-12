@@ -1,0 +1,27 @@
+deploy-test:
+  stage: deploy
+  only:
+    - dev
+  before_script:
+    - echo 'start test deployment'
+    - whoami
+  script:
+    - sudo docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d --build
+  after_script:
+    - echo 'TEST deployment is done'
+  tags:
+    - flowerletter-deploy
+
+deploy-production:
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - echo 'start master deployment'
+    - whoami
+  script:
+    - sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+  after_script:
+    - echo 'PRODUCTION deployment is done'
+  tags:
+    - flowerletter-deploy

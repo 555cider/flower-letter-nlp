@@ -32,6 +32,7 @@ async def create_poem(request: PoemIn):
 async def call_model_api(client: AsyncClient, letter: str, config: Settings):
     print(config.ml_api_url)
     api_url = f"{config.ml_api_url}/classify"
+    # api_url = "https://ml-testapi.flowerletter.co.kr/classify"
     response = await client.post(
         url=api_url,
         json={"text": letter},
@@ -43,11 +44,6 @@ async def call_model_api(client: AsyncClient, letter: str, config: Settings):
 @router.post("/results", response_model=PoemFlowerList)
 async def get_analyzed_results(request: Letter, config: Settings = Depends(get_config)):
     print(request.letter_content)
-
-    fake_results = ModelResults(
-        emotions={"high": ["사랑"], "medium": ["희망"], "low": []},
-        keywords=["도시", "자연", "감각"],
-    )
 
     # 모델 API에서 편지 키워드 불러오기
     async with AsyncClient() as client:
@@ -62,27 +58,44 @@ async def get_analyzed_results(request: Letter, config: Settings = Depends(get_c
 
     final_keywords = []
 
+    keywords_dict = {
+        "생각": "생각, 아련함",
+        "죽음": "생명과 죽음",
+        "자연": "자연",
+        "가족": "가족",
+        "시간": "시간, 세월",
+        "신체": "우리 모습",
+        "집": "집",
+        "문학": "문학적",
+        "감각": "느낌, 기억",
+        "공간": "여정, 이동",
+        "도시": "도시생활",
+        "숫자": "숫자",
+    }
+
     if emotions.high or emotions.medium:
         final_keywords += emotions.high
         final_keywords += emotions.medium
-        if len(keywords) >= 2:
-            final_keywords += keywords[:2]
-        elif len(keywords) == 1:
-            final_keywords.append(keywords[0])
+        count = 0
+        for word in keywords:
+            final_keywords.append(keywords_dict[word])
+            count += 1
+            if count == 3:
+                break
 
     elif emotions.low:
         final_keywords.append(emotions.low[0])
         count = 0
         for word in keywords:
-            final_keywords.append(word)
+            final_keywords.append(keywords_dict[word])
             count += 1
-            if count == 2:
+            if count == 3:
                 break
 
     elif keywords:
         count = 0
         for word in keywords:
-            final_keywords.append(word)
+            final_keywords.append(keywords_dict[word])
             count += 1
             if count == 3:
                 break

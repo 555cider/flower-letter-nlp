@@ -67,7 +67,7 @@ export default function FinalReview() {
       onClick={() => {
         setMainContent(content['content']);
 
-        if (content.author != undefined) {
+        if (content.author !== undefined) {
           setPoemTitle(content['title']);
           setAuthor(content['author']);
         } else {
@@ -169,7 +169,9 @@ export default function FinalReview() {
                   fontWeight="600"
                   color="white"
                   onClick={() => {
-                    setMainContent(free_content);
+                    setMainContent(free_content[0]);
+                    setAuthor('');
+                    setPoemTitle('');
                     setCoverButton(false);
                   }}
                 >

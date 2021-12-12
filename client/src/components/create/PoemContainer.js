@@ -1,19 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Center,
-  Container,
-  Text,
-  Popover,
-  Button,
-  Portal,
-  PopoverContent,
-  PopoverHeader,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverTrigger,
-} from '@chakra-ui/react';
+import { Box, Center, Container, Text } from '@chakra-ui/react';
 export default function PoemContainer({
   poem_title,
   poem_author,

@@ -26,7 +26,7 @@ export default function FreeContent() {
     color: state.usercolor,
   }));
 
-  const [content, setContent] = useState(free_content);
+  const [content, setContent] = useState([free_content]);
 
   const clickNextButton = () => {
     dispatch({ type: 'SAVE_FREECONTENT', content });

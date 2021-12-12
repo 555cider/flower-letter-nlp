@@ -17,7 +17,7 @@ const initialState = {
   email: '',
   phone: '',
   letter_content: '',
-  free_content: '',
+  free_content: [],
   userfont: '',
   usercolor: 'beige',
   flowersList: [],
@@ -38,7 +38,7 @@ const reducer = (state = initialState, action) => {
     case SAVE_FREECONTENT: {
       return {
         ...state,
-        free_content: action.content,
+        free_content: state.free_content.concat(action.content),
       };
     }
 

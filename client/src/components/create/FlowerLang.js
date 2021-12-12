@@ -1,16 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import Preview from '../Preview';
 
-import {
-  Flex,
-  HStack,
-  Box,
-  Button,
-  Spacer,
-  VStack,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, HStack, Box, Button, Spacer, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import CreatePageEx from '../CreatePageEx';
@@ -29,8 +21,6 @@ export default function FlowerLang() {
     dispatch({ type: 'SAVE_USER_FLOWER', user_flower_id, user_flower_symbol });
   };
 
-  const [buttonColor, setButtonColor] = useState('skyblue');
-
   const flowerList = flowersList.map((content, index) => (
     <Button
       variant="solid"
@@ -38,7 +28,7 @@ export default function FlowerLang() {
       m="2"
       w="90%"
       h="60px"
-      bg={buttonColor}
+      bg="skyblue"
       fontWeight="600"
       color="white"
       onClick={() => {

@@ -64,10 +64,12 @@ function WriteLetter({ history }) {
 
         const flowersList = response.data.flowers;
         const poems = response.data.poems;
+        const keywords = response.data.keywords;
 
         batch(() => {
           dispatch({ type: 'SAVE_FLOWER_DATA', flowersList });
           dispatch({ type: 'SAVE_POEMS', poems });
+          dispatch({ type: 'SAVE_KEYWORDS', keywords });
         });
       })
       .catch((response) => {

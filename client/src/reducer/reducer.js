@@ -9,6 +9,7 @@ import {
   SAVE_USER_FLOWER,
   SAVE_POEMS,
   SAVE_TITLE,
+  SAVE_KEYWORDS,
 } from './actions';
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   user_flower_id: '',
   user_flower_symbol: '',
   title: '너에게 쓰는 편지',
+  keywords: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -78,6 +80,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         title: action.finalTitle,
+      };
+    }
+    case SAVE_KEYWORDS: {
+      return {
+        ...state,
+        keywords: action.keywords,
       };
     }
     default:

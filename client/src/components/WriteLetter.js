@@ -9,12 +9,15 @@ import {
   Button,
   Textarea,
   HStack,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
 import StepsLetter from './StepsLetter';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import axios from 'axios';
 import PreviewImageUrls from './PreviewImageUrls';
+import CreatePageEx from './CreatePageEx';
 
 function WriteLetter({ history }) {
   const navigate = useNavigate();
@@ -74,48 +77,59 @@ function WriteLetter({ history }) {
 
   return (
     <div>
-      <StepsLetter></StepsLetter>
-      <HStack
-        h="70vh"
-        p="2"
-        ml="5"
-        mr="5"
-        mb="2"
-        align="center"
-        justify="center"
-      >
-        <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1" mt="5">
-          {/* 왼쪽 박스 */}
-          <Box p="6" w="100%">
-            <Stack spacing={3} h="100%">
-              <Textarea
-                h="100%"
-                borderColor="black"
-                placeholder="편지작성"
-                onChange={handleChange}
-                name="content"
-                value={content}
-              />
-            </Stack>
-          </Box>
-        </Flex>
-      </HStack>
-
-      <Center w="100%" h="20%">
-        <Spacer />
-        <Button
-          mr="7"
-          w="30vh"
-          h="7vh"
+      <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #f8dfb1)'}>
+        <StepsLetter></StepsLetter>
+        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <HStack
+          h="80vh"
+          p="2"
+          w="100%"
+          ml="5"
+          mr="5"
           mb="2"
-          fontSize="3vh"
-          bg="skyblue"
-          color="white"
-          onClick={clickNextButton}
+          align="center"
+          justify="center"
         >
-          다음으로
-        </Button>
-      </Center>
+          <Flex w="50%" h="100%" borderRadius="10px" mr="1" mt="5">
+            {/* 왼쪽 박스 */}
+            <Box p="6" w="100%">
+              <Stack spacing={3} h="100%">
+                <Textarea
+                  border={'2px'}
+                  h="100%"
+                  _focus={{ borderColor: '#613659' }}
+                  _hover={{ borderColor: '#613659' }}
+                  borderColor="black"
+                  placeholder="편지작성"
+                  onChange={handleChange}
+                  name="content"
+                  value={content}
+                />
+              </Stack>
+            </Box>
+          </Flex>
+        </HStack>
+
+        <Center w="100%" h="20%">
+          <Spacer />
+          <Button
+            borderRadius={'15px'}
+            w="25vh"
+            h="7vh"
+            fontFamily={'EliceBold'}
+            _hover={{ bg: '#A49393', color: 'white' }}
+            bg="white"
+            borderColor="#A49393"
+            color="#A49393"
+            mr="7"
+            mb="2"
+            fontSize="3vh"
+            onClick={clickNextButton}
+          >
+            다음으로
+          </Button>
+        </Center>
+      </VStack>
     </div>
   );
 }

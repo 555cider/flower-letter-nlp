@@ -9,11 +9,13 @@ import {
   Input,
   Text,
   Container,
+  VStack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import PoemContainer from './PoemContainer';
 import Preview from '../Preview';
+import CreatePageEx from '../CreatePageEx';
 
 export default function FinalReview() {
   const navigate = useNavigate();
@@ -93,45 +95,56 @@ export default function FinalReview() {
 
   return (
     <div>
-      <StepsLetter />
-      <HStack h="70vh" p="2" ml="5" mr="5" align="center" justify="center">
-        {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
-        <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
-          {/* 왼쪽 박스 */}
+      <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
+        <StepsLetter />
+        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
 
-          {coverButton && <Preview userfont={font} usercolor={color} />}
-          {!coverButton && (
-            <PoemContainer
-              poem_content={mainContent}
-              poem_author={author}
-              poem_title={poemTitle}
-            />
-          )}
-        </Flex>
-        <Flex w="40%" h="100%" border="1px" borderRadius="10px" ml="1">
-          {/* 오른쪽 박스 */}
-          <div className="scrollbox" align="center">
-            {/* 스크롤 박스. 스크롤 표시되도록 복붙으로 버튼 넣은 상태 */}
-            <Input
-              placeholder="시집 제목을 입력하세요"
-              onChange={handleChange}
-            />
-            <Button
-              m="2"
-              w="90%"
-              h="60px"
-              bg="skyblue"
-              fontWeight="600"
-              color="white"
-              onClick={() => {
-                setCoverButton(true);
-              }}
-            >
-              표지
-            </Button>
+        <HStack
+          h="80vh"
+          w="100%"
+          p="2"
+          ml="5"
+          mr="5"
+          align="center"
+          justify="center"
+        >
+          {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
+          <Flex
+            w="47%"
+            h="100%"
+            borderRadius="10px"
+            mr="1"
+            p="2"
+            align={'center'}
+            justify="center"
+          >
+            {/* 왼쪽 박스 */}
 
-            {poemsTitleList}
-            {isFree && (
+            {coverButton && <Preview userfont={font} usercolor={color} />}
+            {!coverButton && (
+              <PoemContainer
+                poem_content={mainContent}
+                poem_author={author}
+                poem_title={poemTitle}
+              />
+            )}
+          </Flex>
+          <Flex
+            w="27%"
+            h="100%"
+            borderRadius="10px"
+            ml="1"
+            p="4"
+            justify="center"
+            align="center"
+          >
+            {/* 오른쪽 박스 */}
+            <div className="scrollbox" align="center">
+              {/* 스크롤 박스. 스크롤 표시되도록 복붙으로 버튼 넣은 상태 */}
+              <Input
+                placeholder="시집 제목을 입력하세요"
+                onChange={handleChange}
+              />
               <Button
                 m="2"
                 w="90%"
@@ -140,47 +153,74 @@ export default function FinalReview() {
                 fontWeight="600"
                 color="white"
                 onClick={() => {
-                  setMainContent(free_content);
-                  setCoverButton(false);
+                  setCoverButton(true);
                 }}
               >
-                자유글
+                표지
               </Button>
-            )}
-          </div>
+
+              {poemsTitleList}
+              {isFree && (
+                <Button
+                  m="2"
+                  w="90%"
+                  h="60px"
+                  bg="skyblue"
+                  fontWeight="600"
+                  color="white"
+                  onClick={() => {
+                    setMainContent(free_content);
+                    setCoverButton(false);
+                  }}
+                >
+                  자유글
+                </Button>
+              )}
+            </div>
+          </Flex>
+        </HStack>
+        <Flex pl="6" pr="6" h="10%" w="100%">
+          <Box>
+            <Button
+              borderRadius={'15px'}
+              w="25vh"
+              h="7vh"
+              fontFamily={'EliceBold'}
+              _hover={{ bg: '#D4BBDD', color: 'white' }}
+              bg="white"
+              borderColor="#D4BBDD"
+              border="2px"
+              color="#D4BBDD"
+              fontSize="3vh"
+              onClick={() => {
+                navigate('/create/freecontent');
+              }}
+            >
+              이전 단계
+            </Button>
+          </Box>
+          <Spacer />
+          <Box>
+            <Button
+              borderRadius={'15px'}
+              w="25vh"
+              h="7vh"
+              fontFamily={'EliceBold'}
+              _hover={{ bg: '#D4BBDD', color: 'white' }}
+              bg="white"
+              borderColor="#D4BBDD"
+              border="2px"
+              color="#D4BBDD"
+              fontSize="3vh"
+              onClick={() => {
+                navigate('/orders');
+              }}
+            >
+              다음 단계
+            </Button>
+          </Box>
         </Flex>
-      </HStack>
-      <Flex pl="6" pr="6" h="10%" w="100%">
-        <Box>
-          <Button
-            w="30vh"
-            h="7vh"
-            bg="skyblue"
-            color="white"
-            fontSize="3vh"
-            onClick={() => {
-              navigate('/create/freecontent');
-            }}
-          >
-            이전 단계
-          </Button>
-        </Box>
-        <Spacer />
-        <Box>
-          <Button
-            w="30vh"
-            h="7vh"
-            bg="skyblue"
-            color="white"
-            fontSize="3vh"
-            onClick={() => {
-              navigate('/orders');
-            }}
-          >
-            다음 단계
-          </Button>
-        </Box>
-      </Flex>
+      </VStack>
     </div>
   );
 }

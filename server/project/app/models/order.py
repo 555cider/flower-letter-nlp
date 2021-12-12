@@ -20,6 +20,7 @@ class OrderModel(Base):
         * address (str): 배송 주소.
         * delivery_name (str): 받는 분 이름
         * post_code (str): 우편번호
+        * delivery_memo (str): 배송메모
         * email (str): 주문자 이메일.
         * phone (str): 주문자 전화번호.
         * book_id (str): 생성된 시집의 ObejctId.
@@ -35,12 +36,22 @@ class OrderModel(Base):
     delivery_name = Column(String(10), nullable=False)
     address = Column(String(255), nullable=False)
     post_code = Column(String(10), nullable=False)
+    delivery_memo = Column(String(30), nullable=True)
     email = Column(String(50), nullable=False)
     phone = Column(String(20))
     book_id = Column(String(24), nullable=False)
 
     def __init__(
-        self, price, name, delivery_name, post_code, address, email, phone, book_id
+        self,
+        price,
+        name,
+        delivery_name,
+        post_code,
+        delivery_memo,
+        address,
+        email,
+        phone,
+        book_id,
     ) -> None:
         self.order_date = datetime.now()
         self.order_status = 1  # 결제대기 상태로 생성
@@ -48,6 +59,7 @@ class OrderModel(Base):
         self.name = name
         self.delivery_name = delivery_name
         self.post_code = post_code
+        self.delivery_memo = delivery_memo
         self.address = address
         self.email = email
         self.phone = phone
@@ -79,6 +91,7 @@ class OrderDetail(BaseModel):
     delivery_name: str
     address: str
     post_code: str
+    delivery_memo: str
     email: str
     phone: str
 
@@ -90,6 +103,7 @@ class OrderDetail(BaseModel):
                 "delivery_name": "이영희",
                 "address": "서울시 강남구 강남동 11번지",
                 "post_code": "10101",
+                "delivery_memo": "부재시 경비실에 맡겨주세요.",
                 "email": "test@test.com",
                 "phone": "01012341234",
             }

@@ -43,9 +43,6 @@ def classify_letter(data: Letter):
     emotion = predict_e(model_e, vocab, data.text)
     keyword = predict_k(model_k, vocab, data.text)
 
-    # TODO: 이부분 지우기
-    keyword_list = keyword["high"] + keyword["mid"] + keyword["low"]
-
-    result = ModelResults(emotions=emotion, keywords=keyword_list)
+    result = ModelResults(emotions=emotion, keywords=keyword)
 
     return result

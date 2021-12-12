@@ -12,7 +12,7 @@ device = torch.device("cpu")
 
 class BERTClassifier(nn.Module):
     def __init__(
-        self, bert, hidden_size=768, num_classes=17, dr_rate=None, params=None
+        self, bert, hidden_size=768, num_classes=12, dr_rate=None, params=None
     ):
         super(BERTClassifier, self).__init__()
         self.bert = bert
@@ -72,7 +72,7 @@ def predict(saved_model, vocab, predict_sentence):
     data = [predict_sentence]
 
     # 모델 정보 이식
-    saved_model.load_state_dict(torch.load("model_test_dict", map_location=device))
+    saved_model.load_state_dict(torch.load("model_k", map_location=device))
 
     tokenizer = get_tokenizer()
     tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
@@ -90,17 +90,15 @@ def predict(saved_model, vocab, predict_sentence):
 
         outputs = saved_model(ids, mask, token_type_ids)
 
-    cols = ["생각", "죽음", "자연", "가족", "시간", "신체", "집", "문학", "감각", "공간", "도시", "숫자", "희망", "사랑", "분노", "슬픔", "공포"]
-    high = []
-    mid = []
-    low = []
-
+    cols = ['생각', '죽음', '자연', '가족', '시간', '신체', '집', '문학', '감각', '공간', '도시', '숫자']
+    result = []
+    outs_dict = {}
     for index, rate in enumerate(outputs.tolist()[0]):
-        if rate >= 0.8:
-            high.append(cols[index])
-        elif rate >= 0.5:
-            mid.append(cols[index])
-        elif rate >= 0.3:
-            low.append(cols[index])
+        if rate >= 0.0:
+            outs_dict[rate] = cols[index]
+    
+    sorted_list = sorted([out for out in outs_dict.keys()], reverse=True)
+    for l in sorted_list:
+        result.append(outs_dict[l])
 
-    return {"high": high, "mid": mid, "low": low}
+    return(result)

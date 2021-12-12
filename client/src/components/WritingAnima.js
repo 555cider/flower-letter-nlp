@@ -19,6 +19,7 @@ export default function WritingAnima({
   buttonUrl,
   buttonColor,
   buttonTextColor,
+  hoverset,
 }) {
   const ReactTypingEffectDemo = () => {
     return (
@@ -85,7 +86,7 @@ export default function WritingAnima({
           fontFamily={'HandWrite'}
           mt="40"
         >
-          편지를 쓰고 나만의 시집을 선물해보세요!
+          지금 바로 편지쓰기를 시작해보세요!!
         </Text>
       </Box>
       {isbutton ? (
@@ -99,7 +100,7 @@ export default function WritingAnima({
           borderColor={buttonBorderColor}
           rounded={'full'}
           color={buttonTextColor}
-          _hover={{ bg: 'blue.500' }}
+          _hover={hoverset}
           onClick={() => {
             navigate(button_Url);
           }}

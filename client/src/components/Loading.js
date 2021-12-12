@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
 
 function Loading() {
+  const navigate = useNavigate();
+  setTimeout(function () {
+    navigate('/create/keyword');
+  }, 3000);
+
   return (
     <div>
       <Box h="100vh" w="100%" position="relative">

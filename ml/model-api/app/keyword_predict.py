@@ -9,6 +9,7 @@ TRAIN_BATCH_SIZE = 1
 
 device = torch.device("cpu")
 
+
 class BERTClassifier(nn.Module):
     def __init__(
         self, bert, hidden_size=768, num_classes=17, dr_rate=None, params=None
@@ -70,24 +71,36 @@ class BERTDataset(Dataset):
 def predict(saved_model, vocab, predict_sentence):
     data = [predict_sentence]
 
-    #모델 정보 이식
-    saved_model.load_state_dict(torch.load('model_test_dict', map_location=device))
+    # 모델 정보 이식
+    saved_model.load_state_dict(torch.load("model_test_dict", map_location=device))
 
     tokenizer = get_tokenizer()
     tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
-    
+
     another_test = BERTDataset(data, tok, MAX_LEN)
-    test_dataloader = DataLoader(another_test, batch_size=TRAIN_BATCH_SIZE, num_workers=4)
+    test_dataloader = DataLoader(
+        another_test, batch_size=TRAIN_BATCH_SIZE, num_workers=4
+    )
 
     saved_model.eval()
     for _, data in enumerate(test_dataloader, 0):
-        ids = data['ids'].to(device, dtype = torch.long)
-        token_type_ids = data['token_type_ids'].to(device, dtype = torch.long)
-        mask = data['mask'].to(device, dtype = torch.long)
-        
+        ids = data["ids"].to(device, dtype=torch.long)
+        token_type_ids = data["token_type_ids"].to(device, dtype=torch.long)
+        mask = data["mask"].to(device, dtype=torch.long)
+
         outputs = saved_model(ids, mask, token_type_ids)
-        
-    print(outputs)
 
+    cols = ["생각", "죽음", "자연", "가족", "시간", "신체", "집", "문학", "감각", "공간", "도시", "숫자"]
+    high = []
+    mid = []
+    low = []
 
-# predict("엄마 뭐해 사랑해 행복해 내일보자")
+    for index, rate in enumerate(outputs.tolist()[0]):
+        if rate >= 0.8:
+            high.append(cols[index])
+        elif rate >= 0.5:
+            mid.append(cols[index])
+        elif rate >= 0.3:
+            low.append(cols[index])
+
+    return {"high": high, "mid": mid, "low": low}

@@ -33,27 +33,18 @@ const PreviewFrame = styled.div`
   }
 `;
 
-function Preview() {
+function Preview({ userfont, usercolor }) {
   // 사용자 선택, 폰트 불러오기
-  const { font, color, title } = useSelector((state) => ({
-    font: state.userfont,
-    color: state.usercolor,
+  const { title } = useSelector((state) => ({
     title: state.title,
   }));
 
-  const colors = 'black';
-
-  //여기부터
-  const text = '너에게 쓰는 편지';
-  const currentCover = PreviewImageUrls.covers[color];
-
-  //setCurrentCover(`PrevieImageUrls.covers.${color}`);
-
+  // useState 이용해서 해보기
+  const currentCover = PreviewImageUrls.covers[usercolor];
   const flowers = PreviewImageUrls.flowers;
-  const currentFont = font;
-  //여기까지 리덕스로 관리
+
   return (
-    <PreviewFrame textColor={currentCover.textColor} font={currentFont}>
+    <PreviewFrame textColor={currentCover.textColor} font={userfont}>
       <img className="cover" src={currentCover.cover} />
       <img className="flower" src={flowers.rose} />
       <img className="label" src={currentCover.label} />

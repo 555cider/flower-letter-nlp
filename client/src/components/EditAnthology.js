@@ -11,24 +11,17 @@ import Preview from './Preview';
 
 function EditAnthology() {
   const navigate = useNavigate();
-  const { flowersList, poems } = useSelector((state) => ({
-    flowersList: state.flowersList,
+  const { poems, font, color } = useSelector((state) => ({
     poems: state.poems,
+    font: state.userfont,
+    color: state.usercolor,
   }));
-
-  //console.log('리덕스로 꽃말 잘 들어왔나 확인',flowersList)
-  console.log('리덕스로 시데이터 잘 들어왔나 확인', poems[0].keywords);
 
   const keywordList = poems[0].keywords.map((keyword, index) => (
     <p key={index} fontSize="100px">
       <Text fontSize="3xl">"{keyword}"</Text>
     </p>
   ));
-
-  const { title, content } = useSelector((state) => ({
-    title: state.letter_title,
-    content: state.letter_content,
-  }));
 
   return (
     <div>
@@ -37,7 +30,7 @@ function EditAnthology() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1" p="2">
           {/* 왼쪽 박스 */}
-          <Preview />
+          <Preview userfont={font} usercolor={color} />
         </Flex>
         <VStack
           justify="center"

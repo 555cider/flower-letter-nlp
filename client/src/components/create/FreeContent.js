@@ -17,9 +17,6 @@ export default function FreeContent() {
     color: state.usercolor,
   }));
 
-  //console.log('리덕스 font', font);
-  //console.log('리덕스 color', color);
-
   const [content, setContent] = useState(free_content);
 
   const clickNextButton = () => {
@@ -37,7 +34,7 @@ export default function FreeContent() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          <Preview />
+          <Preview userfont={font} usercolor={color} />
         </Flex>
         <Flex w="40%" h="100%" border="1px" borderRadius="10px" ml="1">
           {/* 오른쪽 박스 */}

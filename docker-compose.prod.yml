@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+#===================
+# PRODUCTION ENV
+#===================
+  prod_nginx:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.prod
+    container_name: prod_nginx_container
+    expose:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend-http.rule=HOST(`www.${PROD_DOMAIN}`,`${PROD_DOMAIN}`)"
+      - "traefik.http.routers.frontend-http.tls=true" # HTTPS
+      - "traefik.http.routers.frontend-http.tls.certresolver=letsencrypt"
+  
+  prod_api:
+    build: 
+      context: ./server/project
+      dockerfile: Dockerfile.prod
+    container_name: prod_api_container
+    expose:
+      - 80
+    env_file:
+      - ./server/.env.prod
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastapi.rule=Host(`${PROD_API_DOMAIN}`)"
+      - "traefik.http.routers.fastapi.tls=true" # HTTPS
+      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
+
+  prod_ml:
+    build:
+      context: ./ml/model-api
+      dockerfile: Dockerfile.comb
+    container_name: ml_container
+    expose:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mlapi.rule=Host(`${PROD_ML_DOMAIN}`)"
+      - "traefik.http.routers.mlapi.tls=true" # HTTPS
+      - "traefik.http.routers.mlapi.tls.certresolver=letsencrypt"
+
+  

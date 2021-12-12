@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+#===================
+# TEST ENV
+#===================
+  web_ui:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.prod
+    container_name: web_ui_container
+    expose:
+      - 80
+    env_file:
+      - ./client/.env.production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend-http.rule=HOST(`www.flowerletter.co.kr`,`flowerletter.co.kr`)"
+      - "traefik.http.routers.frontend-http.tls=true" # HTTPS
+      - "traefik.http.routers.frontend-http.tls.certresolver=letsencrypt"
+      
+
+  ml_service:
+    build:
+      context: ./ml/model-api
+      dockerfile: Dockerfile.comb
+    # command: uvicorn app.main:app --host 0.0.0.0 --reload
+    # volumes:
+    #   - ./ml/model-api:/app # for auto reload
+    container_name: ml_container
+    expose:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mlapi.rule=Host(`${ML_DOMAIN}`)"
+      - "traefik.http.routers.mlapi.tls=true" # HTTPS
+      - "traefik.http.routers.mlapi.tls.certresolver=letsencrypt"
+
+#===================
+# PROD ENV
+#===================
+
+  web_prod:
+    build: 
+      context: ./server/project
+      dockerfile: Dockerfile.prod
+    container_name: web_prod
+    expose:
+      - 80
+    env_file:
+      - ./server/.env.prod
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastapi.rule=Host(`${PROD_DOMAIN}`)"
+      - "traefik.http.routers.fastapi.tls=true" # HTTPS
+      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
+
+  web_test:
+    build: ./server/project
+    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    container_name: web_test
+    volumes:
+      - ./server/project:/usr/src/app # for automatic reloading of container after code change
+    expose:
+      - 8000
+    env_file:
+      - ./server/.env.test
+    depends_on:
+      - postgres_db
+      - mongo_db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.testapi.rule=Host(`${TEST_DOMAIN}`)"
+      - "traefik.http.routers.testapi.tls=true" # HTTPS
+      - "traefik.http.routers.testapi.tls.certresolver=letsencrypt"
+
+  postgres_db:
+    build:
+      context: ./server/project/db
+      dockerfile: Dockerfile
+    container_name: postgres_db
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=flower_letter
+      - POSTGRES_PASSWORD=flower_letter
+
+  mongo_db:
+    image: mongo:5.0.4
+    container_name: mongo_db
+    expose:
+      - 27017
+    volumes:
+      - mongo_data_test:/var/lib/mongodb/data/
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=root
+      - MONGODB_INITDB_ROOT_PASSWORD=password123
+  
+  traefik:
+    image: traefik:v2.2
+    container_name: traefik
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/traefik-public-certificates:/certificates
+      - ./traefik.toml:/etc/traefik/traefik.toml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard-api.flowerletter.co.kr`) && PathPrefix(`/`)" # Dashboard can be accessed at $Host/dashboard/
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt" # Let's Encrypt
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth" # HTTP BasicAuth middleware
+      - "traefik.http.middlewares.auth.basicauth.users=testuser:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1" # Username & hashed password for login
+
+volumes:
+  postgres_data_test:
+  mongo_data_test:
+  traefik-public-certificates:
+

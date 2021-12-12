@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Stack,
-  Flex,
-  Button,
   Text,
   VStack,
   useBreakpointValue,
@@ -12,11 +9,7 @@ import {
   AccordionItem,
   AccordionIcon,
   AccordionPanel,
-  List,
-  ListIcon,
-  ListItem,
 } from '@chakra-ui/react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
 
 export default function Faq() {
   return (

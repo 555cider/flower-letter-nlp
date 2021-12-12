@@ -19,24 +19,22 @@ export default function BookCover() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user_flower, color } = useSelector((state) => ({
-    user_flower: state.user_flower,
+  //리덕스에서 불러온 초기값
+  const { color, font } = useSelector((state) => ({
     color: state.usercolor,
+    font: state.userfont,
   }));
-  const [userFont, setUserFont] = useState('');
+
+  const [userFont, setUserFont] = useState(font);
   const [userColor, setUserColor] = useState(color);
 
-  console.log('컬러 초기값', color);
-
   const clickNextButton = () => {
-    navigate('/create/freecontent');
     batch(() => {
       dispatch({ type: 'SAVE_FONT', userFont });
       dispatch({ type: 'SAVE_COLOR', userColor });
     });
+    navigate('/create/freecontent');
   };
-
-  //console.log('꽃말 리덕스 확인', user_flower);
 
   return (
     <div>
@@ -45,7 +43,7 @@ export default function BookCover() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          <Preview />
+          <Preview userfont={userFont} usercolor={userColor} />
         </Flex>
         <Flex
           w="40%"
@@ -71,7 +69,6 @@ export default function BookCover() {
                 backgroundColor={COLORS.option1}
                 onClick={() => {
                   setUserColor(COLORS.option1);
-                  dispatch({ type: 'SAVE_COLOR', userColor });
                 }}
               >
                 Beige
@@ -87,7 +84,6 @@ export default function BookCover() {
                 backgroundColor={COLORS.option2}
                 onClick={() => {
                   setUserColor(COLORS.option2);
-                  dispatch({ type: 'SAVE_COLOR', userColor });
                 }}
               >
                 White
@@ -103,7 +99,6 @@ export default function BookCover() {
                 backgroundColor={COLORS.option3}
                 onClick={() => {
                   setUserColor(COLORS.option3);
-                  dispatch({ type: 'SAVE_COLOR', userColor });
                 }}
               >
                 Black
@@ -124,7 +119,6 @@ export default function BookCover() {
                 fontSize="30px"
                 onClick={() => {
                   setUserFont(FONTS.option1);
-                  dispatch({ type: 'SAVE_FONT', userFont });
                 }}
               >
                 나눔 할아버지체
@@ -141,7 +135,6 @@ export default function BookCover() {
                 fontSize="30px"
                 onClick={() => {
                   setUserFont(FONTS.option2);
-                  dispatch({ type: 'SAVE_FONT', userFont });
                 }}
               >
                 나눔 엄마체

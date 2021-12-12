@@ -4,23 +4,24 @@ import StepsLetter from './StepsLetter';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import PoemContainer from './create/PoemContainer';
+import { Text } from '@chakra-ui/react';
 
 import { Button, HStack, VStack, Flex, Box, Spacer } from '@chakra-ui/react';
+import Preview from './Preview';
 
 function EditAnthology() {
   const navigate = useNavigate();
-  const { flowersList, poems } = useSelector((state) => ({
-    flowersList: state.flowersList,
+  const { poems, font, color } = useSelector((state) => ({
     poems: state.poems,
+    font: state.userfont,
+    color: state.usercolor,
   }));
 
-  //console.log('리덕스로 꽃말 잘 들어왔나 확인',flowersList)
-  //console.log('리덕스로 시데이터 잘 들어왔나 확인',poems)
-
-  const { title, content } = useSelector((state) => ({
-    title: state.letter_title,
-    content: state.letter_content,
-  }));
+  const keywordList = poems[0].keywords.map((keyword, index) => (
+    <p key={index} fontSize="100px">
+      <Text fontSize="3xl">"{keyword}"</Text>
+    </p>
+  ));
 
   return (
     <div>
@@ -29,7 +30,7 @@ function EditAnthology() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1" p="2">
           {/* 왼쪽 박스 */}
-          키워드 선택 단계
+          <Preview userfont={font} usercolor={color} />
         </Flex>
         <VStack
           justify="center"
@@ -41,6 +42,10 @@ function EditAnthology() {
           p="4"
         >
           {/* 오른쪽 박스 - 키워드 비율 조절 */}
+          <p>시집의 추천 키워드는</p>
+          {keywordList}
+          <p>입니다</p>
+          {/*}
           <HStack
             display="flex"
             m="1"
@@ -51,6 +56,7 @@ function EditAnthology() {
             align="center"
             border="1px"
           >
+        
             <Box w="100%" border="1px" h="100%" align="center" justify="center">
               <input className="keywordrange" type="range"></input>
             </Box>
@@ -63,6 +69,7 @@ function EditAnthology() {
             <Box w="100%" border="1px" h="100%">
               <input className="keywordrange" type="range"></input>
             </Box>
+ 
           </HStack>
           <HStack
             m="1"
@@ -87,6 +94,7 @@ function EditAnthology() {
               #가족
             </Box>
           </HStack>
+           */}
         </VStack>
       </HStack>
 

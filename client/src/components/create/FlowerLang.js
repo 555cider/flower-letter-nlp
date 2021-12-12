@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import Preview from '../Preview';
 
@@ -10,28 +10,33 @@ export default function FlowerLang() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { flowersList } = useSelector((state) => ({
+  const { flowersList, font, color } = useSelector((state) => ({
     flowersList: state.flowersList,
+    font: state.userfont,
+    color: state.usercolor,
   }));
 
   const saveFlower = (user_flower_id, user_flower_symbol) => {
     dispatch({ type: 'SAVE_USER_FLOWER', user_flower_id, user_flower_symbol });
   };
 
+  const [buttonColor, setButtonColor] = useState('skyblue');
+
   const flowerList = flowersList.map((content, index) => (
     <Button
+      variant="solid"
       key={index}
       m="2"
       w="90%"
       h="60px"
-      bg="skyblue"
+      bg={buttonColor}
       fontWeight="600"
       color="white"
       onClick={() => {
         saveFlower(content['_id'], content['symbol']);
       }}
     >
-      {content['name']}-{content['symbol']}
+      {content['flower']}-{content['symbol']}
     </Button>
   ));
 
@@ -42,7 +47,7 @@ export default function FlowerLang() {
         {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
         <Flex w="60%" h="100%" border="1px" borderRadius="10px" mr="1">
           {/* 왼쪽 박스 */}
-          <Preview />
+          <Preview userfont={font} usercolor={color} />
         </Flex>
         <Flex
           w="40%"
@@ -55,7 +60,6 @@ export default function FlowerLang() {
         >
           {/* 오른쪽 박스 */}
           <div className="scrollbox" align="center">
-            {/* 스크롤 박스. 스크롤 표시되도록 복붙으로 버튼 넣은 상태 */}
             <div>{flowerList}</div>
           </div>
         </Flex>

@@ -111,7 +111,7 @@ export default function QuestionForm() {
             borderColor={'black'}
             name="email"
             value={email}
-            onChange={onchange}
+            onChange={onChange}
           />
           <Input
             placeholder="제목"
@@ -130,7 +130,7 @@ export default function QuestionForm() {
             fontFamily={'EliceRegular'}
             name="content"
             value={content}
-            onChnage={onChange}
+            onChange={onChange}
           ></Textarea>
         </FormControl>
 
@@ -155,7 +155,7 @@ export default function QuestionForm() {
 
             <ModalFooter>
               <Button
-                onClick={onClose}
+                onClick={closeButton}
                 color="#D4BBDD"
                 backgroundColor={'white'}
                 border="2px"

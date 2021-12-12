@@ -79,9 +79,8 @@ async def pay(
     # 꽃 이름
     # TODO: clean up
     # flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
-    flower = await FlowerModel.get(PydanticObjectId("61b47fd5e48bd8e6fffceed4"))
 
-    background_tasks.add_task(send_email, config, order, book, flower.name)  # 이메일 전송
+    background_tasks.add_task(send_email, config, order, book, "해바라기")  # 이메일 전송
 
     redirect_url = f"{config.client_url}/checkout?order={order_id}"
     return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)

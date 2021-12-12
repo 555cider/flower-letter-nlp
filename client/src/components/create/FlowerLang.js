@@ -32,7 +32,10 @@ export default function FlowerLang() {
       fontWeight="600"
       color="white"
       onClick={() => {
-        saveFlower(content['_id'], content['symbol']);
+        saveFlower(
+          content['_id'],
+          content['flower'] + ', \n' + content['symbol']
+        );
       }}
     >
       {content['flower']}-{content['symbol']}

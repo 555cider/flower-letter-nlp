@@ -40,7 +40,9 @@ export default function FreeContent() {
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
         <StepsLetter />
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <CreatePageEx
+          exText={'자유롭게 페이지를 꾸며보세요. 직접 쓴 시는 어떨까요?'}
+        ></CreatePageEx>
 
         <HStack
           h="80vh"
@@ -77,10 +79,13 @@ export default function FreeContent() {
             <Textarea
               h="80%"
               _focus={{ borderColor: '' }}
-              borderColor="black"
+              borderColor="#fff"
               placeholder="자유롭게 글을 작성해보세요"
               onChange={handleChange}
               value={content}
+              resize={'none'}
+              backgroundColor={'#fff'}
+              boxShadow={'1px 1px 1px rgba(120, 120, 120, 0.2)'}
             />
           </Flex>
         </HStack>

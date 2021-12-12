@@ -21,22 +21,26 @@ function Fullpage() {
         //buttonName={"About us"}
 
         text={'편지를 쓰면, 시집이 됩니다.'}
-        contentText={`꽃편지는 세상에서 단 하나뿐인, 그사람만을 위한 시집을 만들어주는 서비스입니다. 
-        누군가에게 마음을 전하기 위해 편지를 써보세요. 
-        꽃편지의 AI는 당신의 편지 내용을 분석해서, 그 사람만을 위한 시집을 선물할 수 있도록 해줍니다.`}
+        // contentText={`꽃편지는 세상에서 단 하나뿐인, 그사람만을 위한 시집을 만들어주는 서비스입니다.
+        // 누군가에게 마음을 전하기 위해 편지를 써보세요.
+        // 꽃편지의 AI는 당신의 편지 내용을 분석해서, 그 사람만을 위한 시집을 선물할 수 있도록 해줍니다.`}
         textcolor={'white'}
+        textsize={'5rem'}
+        textFontWeight={'600'}
         bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
         isbutton={true}
         buttonName={'더 알아보기'}
         buttonColor={'#FBEDE0'}
         buttonUrl={'/about'}
-        buttonTextColor={'#A49393'}
+        // buttonTextColor={'#A49393'}
+        buttonTextColor={'#A39392'}
         hoverset={{ color: '#FBEDE0', bg: '#A49393' }}
       />
       {/* 두번째 스크롤 */}
       <RightImage
         w="full"
-        h="700px"
+        // h="700px"
+        h="full"
         imgUrl={'/img/landing_sunflower.jpg'}
         text={`'당신만을 바라봅니다.'`}
         text2={` - 해바라기 꽃말 -`}
@@ -45,13 +49,15 @@ function Fullpage() {
         폰트, 커버색상도 직접 골라, 맞춤 디자인 시집을 만들 수 있습니다. 
         
         자유글 추가 기능을 이용해 직접 쓴 시도 추가해, 특별한 커스텀 시집을 완성해보세요.`}
-        textColor="white"
-        bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
+        backgroundcolor="#fff"
+        textColor="#000"
+        // bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
       />
       {/* 세번째 스크롤 */}
       <LeftImage
         w="full"
-        h="700px"
+        // h="700px"
+        h="full"
         imgUrl={'/img/mainpageFirstImg.png'}
         text={'실시간 미리보기 & 검토'}
         text2={`단계별로 시집을 커스터마이징 해보세요`}
@@ -61,7 +67,9 @@ function Fullpage() {
         
         페이지 미리보기를 통해 시집의 목차를 검토 해 보세요.`}
         textColor="white"
-        backgroundcolor={'#FFE6A8'}
+        backgroundcolor="white"
+        // backgroundcolor={'#FFE6A8'}
+        bgGradient={'linear(to-b, #D4BBDD, #FFE6A8)'}
       />
       {/* 네번째 스크롤 */}
       <WritingAnima
@@ -70,11 +78,14 @@ function Fullpage() {
         backgroundImg={'/img/letterpaper.png'}
         isbutton={true}
         buttonName={'바로 시작하기'}
-        buttonColor={'#FBEDE0'}
+        // buttonColor={'#FBEDE0'}
+        buttonColor={'#F8DFAF'}
         buttonUrl={'/start'}
-        buttonTextColor={'#A49393'}
-        bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
-        hoverset={{ color: '#FBEDE0', bg: '#A49393' }}
+        // buttonTextColor={'#A49393'}
+        buttonTextColor={'#000'}
+        // bgGradient={'linear(to-b, #FFE6A8, #D4BBDD)'}
+        backgroundcolor="white"
+        hoverset={{ color: '#F8DFAF', bg: '#000' }}
       />
       {/* 다섯번째 스크롤 */}
       <ReviewComponent backgroundcolor={'#D4BBDD'} />
@@ -89,11 +100,12 @@ function Fullpage() {
         buttonName={'자주 묻는 질문'}
         buttonColor={'white'}
         buttonUrl={'/question'}
-        buttonBorder={'2px'}
-        buttonBorderColor={'#D4BBDD'}
-        buttonTextColor={'#D4BBDD'}
+        // buttonBorder={'2px'}
+        // buttonBorderColor={'#D4BBDD'}
+        // buttonTextColor={'#D4BBDD'}
+        buttonTextColor={'#7b5578'}
         bgGradient={'linear(to-b, #D4BBDD, #613659)'}
-        hoverset={{ color: 'white', bg: '#D4BBDD' }}
+        hoverset={{ bg: '#7b5578', color: '#fff' }}
       />
     </div>
   );

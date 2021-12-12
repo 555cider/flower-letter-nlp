@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 import {
   Flex,
   Box,
-  CloseButton,
   Input,
   Center,
   Button,
@@ -17,43 +16,7 @@ import {
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
-const testOrderInput = {
-  order: {
-    price: 47000,
-    name: '김철수',
-    delivery_name: '이영희',
-    address: '서울시 강남구 강남동 11번지',
-    post_code: '10101',
-    email: 'yuliekorea@gmail.com',
-    phone: '01012341234',
-  },
-  book: {
-    title: '너에게 보내는 시집',
-    letter: '편지 내용...',
-    flower_id: '61b065c6dd874c208dee0bc3',
-    contents: [
-      {
-        type: 'poem',
-        poem_id: '61b065c6dd874c208dee0bc3',
-      },
-      {
-        type: 'poem',
-        poem_id: '61b066202f194ac7dd807aef',
-      },
-      {
-        type: 'text',
-        text_content: '자유글 내용...',
-      },
-      {
-        type: 'text',
-        text_content: '자유글 내용 222...',
-      },
-    ],
-    font: '바른글씨체',
-    color: 'beige',
-  },
-};
+import FinalPreview from './FinalPreview';
 
 function OrderPay({ history }) {
   const navigate = useNavigate();
@@ -86,6 +49,7 @@ function OrderPay({ history }) {
     free_content,
     userfont,
     usercolor,
+    poems,
   } = useSelector((state) => ({
     title: state.title,
     letter_content: state.letter_content,
@@ -93,7 +57,22 @@ function OrderPay({ history }) {
     free_content: state.free_content,
     userfont: state.userfont,
     usercolor: state.usercolor,
+    poems: state.poems,
   }));
+
+  const trimmedLetter = letter_content.replace(/\n|\r/g, ' ');
+
+  const poemList = poems.map((content) => ({
+    type: 'poem',
+    poem_id: content['_id'],
+  }));
+
+  const freecontentList = free_content.map((content) => ({
+    type: 'text',
+    text_content: content,
+  }));
+
+  const contentList = [...poemList, ...freecontentList];
 
   const orderInfo = {
     order: {
@@ -104,25 +83,13 @@ function OrderPay({ history }) {
       post_code: post_code,
       email: email,
       phone: phone,
+      delivery_memo: memo,
     },
     book: {
       title: title,
-      letter: letter_content,
+      letter: trimmedLetter,
       flower_id: user_flower_id,
-      contents: [
-        {
-          type: 'poem',
-          poem_id: '61b065c6dd874c208dee0bc3',
-        },
-        {
-          type: 'poem',
-          poem_id: '61b066202f194ac7dd807aef',
-        },
-        {
-          type: 'text',
-          text_content: free_content,
-        },
-      ],
+      contents: contentList,
       font: userfont,
       color: usercolor,
     },
@@ -160,6 +127,10 @@ function OrderPay({ history }) {
       },
     });
   };
+
+  const free_content_count = free_content.length;
+  const free_content_price = free_content_count * 3000;
+  const totalPrice = 48000 + free_content_price;
 
   return (
     <>
@@ -300,10 +271,38 @@ function OrderPay({ history }) {
                 </Heading>
               </Box>
               <Box w="100%" h="200" border="1px">
-                시집이미지
+                {/*시집 이미지*/}
+                <FinalPreview userfont={userfont} usercolor={usercolor} />
               </Box>
               <Box w="100%" h="420" border="1px">
-                결제된 내용
+                <HStack>
+                  <Text fontSize="2xl" marginLeft="20px" marginTop="20px">
+                    시집 X 1 48000
+                  </Text>
+                </HStack>
+                <Text fontSize="2xl" marginLeft="20px" marginTop="20px">
+                  자유글 X {free_content_count} {free_content_price}
+                </Text>
+                <Divider w="80%" marginTop="100px" marginLeft="20px" />
+                <HStack marginTop="20px">
+                  <Text fontSize="2xl" marginLeft="20px">
+                    배송
+                  </Text>
+
+                  <Text fontSize="2xl" fontWeight="bold">
+                    무료
+                  </Text>
+                </HStack>
+                <Divider w="80%" marginTop="20px" marginLeft="20px" />
+                <HStack marginTop="20px">
+                  <Text fontSize="2xl" marginLeft="20px" fontWeight="bold">
+                    합계
+                  </Text>
+
+                  <Text fontSize="2xl" fontWeight="bold">
+                    {totalPrice}
+                  </Text>
+                </HStack>
               </Box>
               <Box w="100%" align="center" justify="center">
                 <Button
@@ -334,97 +333,3 @@ function OrderPay({ history }) {
   );
 }
 export default OrderPay;
-
-{
-  /* <div margin='25px'>
-      <Flex
-        p="2"
-        h="70"
-        justifyContent="center"
-        alignItems="center"
-        borderBottom="1px"
-        marginTop='50px'
-        marginLeft='100px'
-        
-      >
-        <Box p="4" w="90%">
-          <Text fontSize='4xl' fontWeight='bold'>결제하기</Text>
-        </Box>
-        <Box p="1" w="10%">
-          <CloseButton size="3xl" />
-        </Box>
-      </Flex>
-
-      <Flex marginLeft='100px' marginRight='100px'>
-        <Box p="4" w="67%" h="full">
-          <Box w="100%" h="10%" textAlign="left">
-            <Text fontSize='2xl' fontWeight='bold'>1. 주문자 정보</Text>
-          </Box>
-          <Box p="2" w="100%" h="25%" border="1px" borderColor="black" >
-            <Input w="80%" mb="3" borderColor="black" placeholder="이름" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="전화번호" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="이메일" />
-          </Box>
-          <Box w="100%" h="10%" textAlign="left" marginTop='15px'>
-            <Text fontSize='2xl' fontWeight='bold'>2. 배송 정보</Text>
-          </Box>
-          <Box p="2" w="100%" h="55%" border="1px" borderColor="black">
-            <Input w="80%" mb="3" borderColor="black" placeholder="이름" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="전화번호" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="이메일" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="이름" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="전화번호" />
-          </Box>
-
-        </Box>
-        <Box p="4" w="33%" h="730">
-          <Center p="2" w="100%" h="10%">
-            결제정보
-          </Center>
-          <Box p="2" w="100%" h="40%" border="1px" borderColor="black">
-            <Box p="2" w="100%" h="80%">
-              시집이름 등 정보
-            </Box>
-            <Box p="2" w="100%" h="20%">
-              가격 정보
-            </Box>
-          </Box>
-          <Center p="2" w="100%" h="10%">
-            결제수단선택
-          </Center>
-          <Flex
-            p="2"
-            w="100%"
-            h="30%"
-            justifyContent="center"
-            border="1px"
-            borderColor="black"
-          >
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              네이버페이
-            </Button>
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              카카오페이
-            </Button>
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              카드결제
-            </Button>
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              무통장입금
-            </Button>
-          </Flex>
-          <Flex
-            p="2"
-            w="100%"
-            h="10%"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Button colorScheme="blue" m="1" w="90%" onClick={onClickPayButton}>
-              결제하기
-            </Button>
-          </Flex>
-        </Box>
-      </Flex>
-    </div> */
-}

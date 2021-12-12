@@ -3,40 +3,37 @@ import styled from 'styled-components';
 import PreviewImageUrls from './PreviewImageUrls';
 import { useSelector } from 'react-redux';
 
-const PreviewFrame = styled.div`
-  width: 300px;
+const FinalPreviewFrame = styled.div`
+  left: 60px;
+  width: 140px;
   position: relative;
-  overflower:hidden .cover {
-    width: 300px;
+  .cover {
+    width: 150px;
     position: relative;
-    object-fit: cover;
   }
   .flower {
     position: absolute;
-    height: 240px;
-    left: 40px;
-    bottom: 30px;
-    object-fit: cover;
+    height: 120px;
+    left: 20px;
+    bottom: 15px;
   }
   .label {
     position: absolute;
-    width: 300px;
+    width: 150px;
     left: 0;
     bottom: 0;
-    object-fit: cover;
   }
   .title {
     position: absolute;
-    top: 80px;
-    right: 30px;
+    top: 40px;
+    right: 15px;
     font-family: ${(props) => props.font};
     font-size: 1.8rem;
     color: ${(props) => props.textColor};
-    object-fit: cover;
   }
 `;
 
-function Preview({ userfont, usercolor }) {
+function FinalPreview({ userfont, usercolor }) {
   // 사용자 선택, 폰트 불러오기
   const { title } = useSelector((state) => ({
     title: state.title,
@@ -47,13 +44,13 @@ function Preview({ userfont, usercolor }) {
   const flowers = PreviewImageUrls.flowers;
 
   return (
-    <PreviewFrame textColor={currentCover.textColor} font={userfont}>
+    <FinalPreviewFrame textColor={currentCover.textColor} font={userfont}>
       <img className="cover" src={currentCover.cover} />
       <img className="flower" src={flowers.rose} />
       <img className="label" src={currentCover.label} />
       <div className="title">{title}</div>
-    </PreviewFrame>
+    </FinalPreviewFrame>
   );
 }
 
-export default Preview;
+export default FinalPreview;

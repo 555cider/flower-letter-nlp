@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     testing: bool = os.getenv("TESTING", 0)  # whether testing mode
     allowed_origins: str = os.getenv("ALLOWED_ORIGINS")
     client_url: str = os.getenv("CLIENT_URL")
+    ml_api_url: str = os.getenv("ML_API_URL")
 
     # Database settings
     sqldb_uri: AnyUrl = os.getenv("SQL_DB_URL")

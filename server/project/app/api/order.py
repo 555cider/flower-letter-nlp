@@ -82,7 +82,7 @@ async def pay(
 
     background_tasks.add_task(send_email, config, order, book, "해바라기")  # 이메일 전송
 
-    redirect_url = f"{config.client_url}/checkout?order={order_id}"
+    redirect_url = f"{request.headers['origin']}/checkout?order={order_id}"
     return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
 
 

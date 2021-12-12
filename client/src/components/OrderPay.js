@@ -132,7 +132,7 @@ function OrderPay({ history }) {
     await axios({
       method: 'post',
       url: `${process.env.REACT_APP_API_URL}/orders`,
-      data: testOrderInput,
+      data: orderInfo,
       headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => {
@@ -150,14 +150,13 @@ function OrderPay({ history }) {
     console.log('SERVER AUTH STARTED');
     window.AUTHNICE.requestPay({
       clientId: process.env.REACT_APP_CLIENT_ID,
-      method: 'naverpayCard',
+      method: 'card',
       orderId: orderId,
       amount: orderAmount,
       goodsName: '꽃편지-시집',
-      returnUrl: 'http://127.0.0.1:8000/pay',
+      returnUrl: `${process.env.REACT_APP_API_URL}/pay`,
       fnError: function (result) {
-        console.log(result.errorMsg);
-        serverAuth(orderId, orderAmount);
+        console.log('임의에러발생: ', result.errorMsg);
       },
     });
   };

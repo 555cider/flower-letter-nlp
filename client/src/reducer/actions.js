@@ -14,3 +14,5 @@ export const SAVE_POEMS = 'SAVE_POEMS';
 export const SAVE_USER_FLOWER = 'SAVE_USER_FLOWER';
 // 시집 제목 저장
 export const SAVE_TITLE = 'SAVE_TITLE';
+// 편지 키워드 저장
+export const SAVE_KEYWORDS = 'SAVE_KEYWORDS';

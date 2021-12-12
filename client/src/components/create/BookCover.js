@@ -159,6 +159,22 @@ export default function BookCover() {
                 >
                   나눔 엄마체
                 </Button>
+                <Button
+                  className="flowerbutton"
+                  m="2"
+                  w="90%"
+                  h="60px"
+                  bg="skyblue"
+                  fontWeight="600"
+                  color="white"
+                  fontFamily={FONTS.option3}
+                  fontSize="30px"
+                  onClick={() => {
+                    setUserFont(FONTS.option3);
+                  }}
+                >
+                  성실체
+                </Button>
               </div>
             </VStack>
           </Flex>

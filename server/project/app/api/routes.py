@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from fastapi_mail import config
+from pydantic.types import Json
 
 from app.models.book import (
     PoemIn,
@@ -8,8 +10,12 @@ from app.models.book import (
     PoemFlowerList,
 )
 from app.models.schemas import ModelResults
+from app.config import Settings, get_config
 
 router = APIRouter(tags=["편지 분석"])
+
+from httpx import AsyncClient
+import json
 
 
 # ================
@@ -23,9 +29,20 @@ async def create_poem(request: PoemIn):
     return await poem.create()
 
 
+async def call_model_api(client: AsyncClient, letter: str, config: Settings):
+    print(config.ml_api_url)
+    api_url = f"{config.ml_api_url}/classify"
+    response = await client.post(
+        url=f"https://ml-testapi.flowerletter.co.kr/classify",
+        json={"text": letter},
+        timeout=None,
+    )
+    return response
+
+
 @router.post("/results", response_model=PoemFlowerList)
-async def get_analyzed_results(request: Letter):
-    fake_model_results = ["사랑", "희망", "도시", "자연", "감각"]
+async def get_analyzed_results(request: Letter, config: Settings = Depends(get_config)):
+    print(request.letter_content)
 
     fake_results = ModelResults(
         emotions={"high": ["사랑"], "medium": ["희망"], "low": []},
@@ -33,7 +50,11 @@ async def get_analyzed_results(request: Letter):
     )
 
     # 모델 API에서 편지 키워드 불러오기
-    model_results = fake_results
+    async with AsyncClient() as client:
+        response = await call_model_api(client, request.letter_content, config)
+
+    model_results = json.loads(response.text)
+    print(model_results)
 
     emotions = model_results.emotions
     keywords = model_results.keywords

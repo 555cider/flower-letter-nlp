@@ -11,13 +11,13 @@ import Preview from './Preview';
 
 function EditAnthology() {
   const navigate = useNavigate();
-  const { poems, font, color } = useSelector((state) => ({
-    poems: state.poems,
+  const { font, color, keywords } = useSelector((state) => ({
     font: state.userfont,
     color: state.usercolor,
+    keywords: state.keywords,
   }));
 
-  const keywordList = poems[0].keywords.map((keyword, index) => (
+  const keywordList = keywords.map((keyword, index) => (
     <p key={index} fontSize="100px">
       <Text fontSize="3xl">"{keyword}"</Text>
     </p>

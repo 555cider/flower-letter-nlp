@@ -72,13 +72,7 @@ function SidebarComponent() {
                   navigate('/');
                 }}
               >
-                <Image
-                  src="img/logoimg.png"
-                  alt="logo"
-                  borderRadius="15px"
-                  border="2px"
-                  borderColor="#A49393"
-                />
+                <Image src="img/logoimg.png" alt="logo" borderRadius="15px" />
               </Link>
               <Box
                 h="10"

@@ -154,9 +154,9 @@ function OrderPay({ history }) {
       orderId: orderId,
       amount: orderAmount,
       goodsName: '꽃편지-시집',
-      returnUrl: 'http://127.0.0.1:8000/pay',
+      returnUrl: `${process.env.REACT_APP_API_URL}/pay`,
       fnError: function (result) {
-        alert('개발자확인용 : ' + result.errorMsg + '');
+        console.log('임의에러발생: ', result.errorMsg);
       },
     });
   };

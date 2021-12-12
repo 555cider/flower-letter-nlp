@@ -18,3 +18,7 @@ RUN pip list
 
 # copy project
 COPY . .
+
+###############
+# NOTE: comment out transformer & pytorch from requirements.txt
+################

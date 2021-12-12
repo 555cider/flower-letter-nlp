@@ -1,7 +1,6 @@
 import {
   Drawer,
   DrawerBody,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
@@ -44,7 +43,6 @@ function SidebarComponent() {
           h={12}
           color={'black'}
           borderColor="black"
-          // backgroundColor={'#FBEDE0'}
           borderRadius="10px"
           border="2px"
           style={{ cursor: 'pointer' }}

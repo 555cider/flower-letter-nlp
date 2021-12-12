@@ -1,12 +1,10 @@
 import {
   Stack,
   Flex,
-  Button,
   Text,
   VStack,
   useBreakpointValue,
   Box,
-  Link,
   Container,
   Spacer,
   HStack,
@@ -24,7 +22,6 @@ export default function ReviewComponent({
     <VStack
       w={w}
       h={h}
-      //justify={"center"}
       display={'flex'}
       px={useBreakpointValue({ base: 4, md: 8 })}
       backgroundPosition="center"
@@ -44,15 +41,17 @@ export default function ReviewComponent({
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
           marginTop={'50px'}
+          fontFamily={'EliceBold'}
         >
           User Review
         </Text>
 
         <Text
           color={'white'}
-          //fontWeight={700}
           lineHeight={1.2}
           fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
+          fontFamily={'EliceRegular'}
+          textAlign={'center'}
           marginTop={'50px'}
         >
           고객의 생생한 후기를 들어보세요. <br />
@@ -127,18 +126,6 @@ export default function ReviewComponent({
             </HStack>
           </Flex>
         </Container>
-
-        {/* <Stack direction={"row"}> */}
-        {/*
-            <Button
-            bg={"blue.400"}
-            rounded={"full"}
-            color={"white"}
-            _hover={{ bg: "blue.500" }}
-          >
-            {buttonName}
-          </Button>
-            */}
       </Stack>
     </VStack>
   );

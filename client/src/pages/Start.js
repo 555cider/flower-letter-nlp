@@ -42,7 +42,7 @@ const Start = () => {
             fontWeight={700}
             lineHeight={1.2}
             fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
-            fontFamily={'EliceRegular'}
+            fontFamily={'EliceBold'}
           >
             지금부터 시집을 생성해보세요.
           </Text>
@@ -60,11 +60,14 @@ const Start = () => {
         </Box>
         <Box h="30%" w="10%" align="center">
           <Box h="90%"></Box>
-          <ChevronDownIcon w={10} h={10}></ChevronDownIcon>
+          <a href={'#SecondPage'}>
+            <ChevronDownIcon w={10} h={10} o></ChevronDownIcon>
+          </a>
         </Box>
       </VStack>
       {/* 두번째 스크롤 */}
       <VStack
+        id="SecondPage"
         w="full"
         h="full"
         justify={'center'}
@@ -87,7 +90,7 @@ const Start = () => {
                   color="black"
                   lineHeight={1.5}
                   fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
-                  fontFamily={'EnglishHandy'}
+                  fontFamily={'EliceRegular'}
                 >
                   꽃편지에서는 세상에 단 하나뿐인 시집을 만들 수 있습니다.
                   <br />
@@ -99,6 +102,7 @@ const Start = () => {
                   navigate('/create');
                 }}
                 color="#A49393"
+                fontFamily={'EliceRegular'}
                 backgroundColor={'#FBEDE0'}
                 w="200px"
                 h="50px"
@@ -147,6 +151,7 @@ const Start = () => {
               h="50px"
               borderRadius={'15px'}
               fontSize={'lg'}
+              fontFamily={'EliceRegular'}
               _hover={{ color: 'white', bg: '#D4BBDD' }}
             >
               사용법 보러가기
@@ -154,22 +159,22 @@ const Start = () => {
           </Box>
         </Flex>
         <VStack h="100%" w="60%">
-          <Box h="35%" w="100%"></Box>
+          <Box h="15%" w="100%"></Box>
           <Flex
             w="100%"
             h="65%"
             bg="white"
-            borderTopRadius={'30px'}
+            borderRadius={'30px'}
             justify={'center'}
             align={'center'}
           >
             <Text
               p="5"
-              fontSize="2xl"
+              fontSize="3xl"
               color="black"
               justifyContent="center"
               textAlign="center"
-              fontFamily={'HandWrite'}
+              fontFamily={'EliceRegular'}
             >
               🌼🌻🌼
               <br />

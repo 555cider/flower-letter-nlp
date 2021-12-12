@@ -78,8 +78,8 @@ const Start = () => {
       >
         <HStack w="80%" h="80%">
           <Flex h="80%" w="58%" align="center" justify="center">
-            <Box h="85%" w="58%" border="1px">
-              <Image src={''}></Image>이미지 추가 필요
+            <Box w="58%" border={'40px solid white'} borderRadius={'5px'}>
+              <Image src={'img/example.png'}></Image>
             </Box>
           </Flex>
           <Box h="80%" w="42%">

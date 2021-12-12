@@ -47,7 +47,6 @@ export default function WritingAnima({
     >
       <Box
         w="500px"
-        h="72%"
         backgroundSize="cover"
         backgroundImage={backgroundImg}
         p="9"

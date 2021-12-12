@@ -10,12 +10,18 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StepNav = styled.div`
+  width: 80vw;
+  height: 11vh;
+`;
 
 function StepsLetter() {
   const navigate = useNavigate();
 
   return (
-    <VStack w="100%" h="11vh" pl="7" pr="7" pt="2">
+    <StepNav>
       <Flex w="100%" h="30%" align="center" pl="6">
         {/* 닫기 버튼 */}
         <CloseButton
@@ -34,7 +40,7 @@ function StepsLetter() {
         h="65%"
         align="center"
         justify="center"
-        borderRadius="20px"
+        borderRadius="5px"
       >
         {/* 단계 박스 */}
         <Breadcrumb
@@ -116,7 +122,7 @@ function StepsLetter() {
           </BreadcrumbItem>
         </Breadcrumb>
       </Flex>
-    </VStack>
+    </StepNav>
   );
 }
 

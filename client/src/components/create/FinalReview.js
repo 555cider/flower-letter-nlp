@@ -16,6 +16,59 @@ import { useDispatch, useSelector } from 'react-redux';
 import PoemContainer from './PoemContainer';
 import Preview from '../Preview';
 import CreatePageEx from '../CreatePageEx';
+import styled from 'styled-components';
+
+const ReviewContainer = styled.div`
+  display: flex;
+  width: 70vw;
+  gap: 222px;
+  min-height: 420px;
+  height: 80vh;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: 'Sungsil';
+  font-size: 1.2rem;
+  .leftBox {
+    display: flex;
+    justify-content: center;
+  }
+  .rightBox {
+    width: 330px;
+    min-height: 420px;
+    height: 55vh;
+    overflow: auto;
+    padding: 40px;
+    padding-top: 20px;
+    border: 10px solid #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
+    .buttons {
+      cursor: pointer;
+      background-color: #d8bfd7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .input-field {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #efefef;
+    }
+    .right-box-content {
+      box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
+    }
+    .cover {
+      background-color: #fbe2ad;
+    }
+  }
+`;
 
 export default function FinalReview() {
   const navigate = useNavigate();
@@ -56,14 +109,9 @@ export default function FinalReview() {
   const contentsList = letter.concat(poems);
 
   const poemsTitleList = contentsList.map((content, index) => (
-    <Button
+    <div
       key={index}
-      m="2"
-      w="90%"
-      h="60px"
-      bg="skyblue"
-      fontWeight="600"
-      color="white"
+      className="buttons right-box-content"
       onClick={() => {
         setMainContent(content['content']);
 
@@ -78,7 +126,7 @@ export default function FinalReview() {
       }}
     >
       {content['title']}
-    </Button>
+    </div>
   ));
 
   const handleChange = (e) => {
@@ -97,27 +145,13 @@ export default function FinalReview() {
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
         <StepsLetter />
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
-
-        <HStack
-          h="80vh"
-          w="100%"
-          p="2"
-          ml="5"
-          mr="5"
-          align="center"
-          justify="center"
-        >
+        <CreatePageEx
+          exText={'마지막으로 시집의 제목과 목차를 검토해 주세요!'}
+        ></CreatePageEx>
+        /*
+        <ReviewContainer>
           {/* 왼쪽, 오른쪽 박스를 묶는 박스 */}
-          <Flex
-            w="47%"
-            h="100%"
-            borderRadius="10px"
-            mr="1"
-            p="2"
-            align={'center'}
-            justify="center"
-          >
+          <div className="leftBox">
             {/* 왼쪽 박스 */}
 
             {coverButton && <Preview userfont={font} usercolor={color} />}
@@ -128,59 +162,38 @@ export default function FinalReview() {
                 poem_title={poemTitle}
               />
             )}
-          </Flex>
-          <Flex
-            w="27%"
-            h="100%"
-            borderRadius="10px"
-            ml="1"
-            p="4"
-            justify="center"
-            align="center"
-          >
+          </div>
+          <div className="rightBox">
             {/* 오른쪽 박스 */}
-            <div className="scrollbox" align="center">
-              {/* 스크롤 박스. 스크롤 표시되도록 복붙으로 버튼 넣은 상태 */}
-              <Input
-                placeholder="시집 제목을 입력하세요"
-                onChange={handleChange}
-              />
-              <Button
-                m="2"
-                w="90%"
-                h="60px"
-                bg="skyblue"
-                fontWeight="600"
-                color="white"
+            {/* 스크롤 박스. 스크롤 표시되도록 복붙으로 버튼 넣은 상태 */}
+            <input
+              className="input-field right-box-content"
+              placeholder="시집 제목을 입력하세요"
+              onKeyUp={handleChange}
+            />
+            <div
+              className="buttons right-box-content cover"
+              onClick={() => {
+                setCoverButton(true);
+              }}
+            >
+              표지
+            </div>
+
+            {poemsTitleList}
+            {isFree && (
+              <div
+                className="buttons right-box-content free"
                 onClick={() => {
-                  setCoverButton(true);
+                  setMainContent(free_content);
+                  setCoverButton(false);
                 }}
               >
-                표지
-              </Button>
-
-              {poemsTitleList}
-              {isFree && (
-                <Button
-                  m="2"
-                  w="90%"
-                  h="60px"
-                  bg="skyblue"
-                  fontWeight="600"
-                  color="white"
-                  onClick={() => {
-                    setMainContent(free_content[0]);
-                    setAuthor('');
-                    setPoemTitle('');
-                    setCoverButton(false);
-                  }}
-                >
-                  자유글
-                </Button>
-              )}
-            </div>
-          </Flex>
-        </HStack>
+                자유글
+              </div>
+            )}
+          </div>
+        </ReviewContainer>
         <Flex pl="6" pr="6" h="10%" w="100%">
           <Box>
             <Button

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import {
@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const testOrderInput = {
   order: {
@@ -57,11 +58,81 @@ const testOrderInput = {
 function OrderPay({ history }) {
   const navigate = useNavigate();
 
+  const [inputs, setInputs] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    delivery_name: '',
+    address: '',
+    post_code: '',
+    memo: '',
+  });
+
+  const { name, phone, email, delivery_name, address, post_code, memo } =
+    inputs;
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const {
+    title,
+    letter_content,
+    user_flower_id,
+    free_content,
+    userfont,
+    usercolor,
+  } = useSelector((state) => ({
+    title: state.title,
+    letter_content: state.letter_content,
+    user_flower_id: state.user_flower_id,
+    free_content: state.free_content,
+    userfont: state.userfont,
+    usercolor: state.usercolor,
+  }));
+
+  const orderInfo = {
+    order: {
+      price: 47000,
+      name: name,
+      delivery_name: delivery_name,
+      address: address,
+      post_code: post_code,
+      email: email,
+      phone: phone,
+    },
+    book: {
+      title: title,
+      letter: letter_content,
+      flower_id: user_flower_id,
+      contents: [
+        {
+          type: 'poem',
+          poem_id: '61b065c6dd874c208dee0bc3',
+        },
+        {
+          type: 'poem',
+          poem_id: '61b066202f194ac7dd807aef',
+        },
+        {
+          type: 'text',
+          text_content: free_content,
+        },
+      ],
+      font: userfont,
+      color: usercolor,
+    },
+  };
+
   const onClickPayButton = async () => {
     await axios({
       method: 'post',
       url: `${process.env.REACT_APP_API_URL}/orders`,
-      data: testOrderInput,
+      data: orderInfo,
       headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => {
@@ -114,6 +185,9 @@ function OrderPay({ history }) {
                 mb="3"
                 borderColor="black"
                 placeholder="이름"
+                name="name"
+                value={name}
+                onChange={onChange}
               />
               <Input
                 h="30px"
@@ -122,6 +196,9 @@ function OrderPay({ history }) {
                 mb="3"
                 borderColor="black"
                 placeholder="전화번호"
+                name="phone"
+                value={phone}
+                onChange={onChange}
               />
               <Input
                 h="30px"
@@ -130,6 +207,9 @@ function OrderPay({ history }) {
                 mb="3"
                 borderColor="black"
                 placeholder="이메일"
+                name="email"
+                value={email}
+                onChange={onChange}
               />
             </Box>
             <Box m="10px" p="2">
@@ -145,13 +225,19 @@ function OrderPay({ history }) {
                   mb="3"
                   borderColor="black"
                   placeholder="받으시는 분"
+                  name="delivery_name"
+                  value={delivery_name}
+                  onChange={onChange}
                 />
                 <Input
                   h="30px"
                   w="200px"
                   mb="3"
                   borderColor="black"
-                  placeholder="받으실 곳"
+                  placeholder="우편번호"
+                  name="post_code"
+                  value={post_code}
+                  onChange={onChange}
                 />
 
                 <Input
@@ -160,14 +246,10 @@ function OrderPay({ history }) {
                   w="400px"
                   mb="3"
                   borderColor="black"
-                />
-                <Input
-                  display="block"
-                  h="30px"
-                  w="200px"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="전화번호"
+                  placeholder="주소"
+                  name="address"
+                  value={address}
+                  onChange={onChange}
                 />
 
                 <Input
@@ -177,6 +259,9 @@ function OrderPay({ history }) {
                   mb="3"
                   borderColor="black"
                   placeholder="배송메모"
+                  name="memo"
+                  value={memo}
+                  onChange={onChange}
                 />
               </Box>
             </Box>

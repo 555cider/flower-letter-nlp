@@ -7,4 +7,5 @@ export const COLORS = {
 export const FONTS = {
   option1: 'NanumGrandfather',
   option2: 'NanumMom',
+  option3: 'Sungsil',
 };

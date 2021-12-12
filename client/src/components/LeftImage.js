@@ -64,27 +64,30 @@ export default function LeftImage({
             lineHeight={1.2}
             color={textColor}
             fontWeight={600}
-            fontFamily={'EliceBold'}
-            fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}
+            fontFamily={'Sungsil'}
+            // fontSize={useBreakpointValue({ base: '2xl', md: '3xl' })}
+            fontSize={'3rem'}
           >
             {text}
           </Text>
           <Text
-            lineHeight={1.2}
+            lineHeight={1.8}
             color={textColor}
             fontWeight={600}
-            fontFamily={'EliceRegular'}
-            fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
+            fontFamily={'Sungsil'}
+            // fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
+            fontSize={'2rem'}
             textAlign={'right'}
           >
             {text2}
           </Text>
           <Text
             color={textColor}
-            fontFamily={'EliceRegular'}
-            fontWeight={600}
-            lineHeight={1.8}
-            fontSize={useBreakpointValue({ base: 'xl', md: 'xl' })}
+            fontFamily={'Sungsil'}
+            // fontWeight={600}
+            lineHeight={1.5}
+            // fontSize={useBreakpointValue({ base: 'xl', md: 'xl' })}
+            fontSize={'1.5rem'}
             textAlign={'initial'}
           >
             {contentText}

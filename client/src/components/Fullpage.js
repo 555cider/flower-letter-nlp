@@ -37,7 +37,7 @@ function Fullpage() {
       <RightImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageFirstImg.png'}
+        imgUrl={'/img/landing_sunflower.jpg'}
         text={`'당신만을 바라봅니다.'`}
         text2={` - 해바라기 꽃말 -`}
         contentText={`AI가 추천해주는 의미있는 꽃말 중에서 마음에 드는 것을 선택해 표지를 꾸며보세요.

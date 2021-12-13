@@ -52,7 +52,7 @@ services:
     build:
       context: ./server/project/db
       dockerfile: Dockerfile.post
-    container_name: postgres_db
+    container_name: postgres_db_prod
     volumes:
       - postgres_data_prod:/var/lib/postgresql/data/
     expose:
@@ -65,7 +65,7 @@ services:
     build:
       context: ./server/project/db
       dockerfile: Dockerfile.mongo
-    container_name: mongo_db
+    container_name: mongo_db_prod
     expose:
       - 27017
     volumes:

@@ -18,6 +18,151 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import FinalPreview from './FinalPreview';
+import styled from 'styled-components';
+
+const PaymentContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 60vw;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  font-size: 1.2rem;
+  .left-box {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    gap: 20px;
+    .title {
+      width: 100%;
+      padding-bottom: 5px;
+      border-bottom: 3px solid #aaa;
+      font-weight: bold;
+      font-size: 2rem;
+    }
+    .heading {
+      font-weight: bold;
+      font-size: 1.7rem;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+    .info {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .short {
+        border: 1px solid #aaa;
+        width: 250px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      .long {
+        border: 1px solid #aaa;
+        width: 450px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+    }
+    .payment-method {
+      padding: 10px;
+      .button-container {
+        display: flex;
+        gap: 20px;
+        .buttons {
+          width: 200px;
+          height: 50px;
+          border-radius: 5px;
+          border: 1px solid #aaa;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            border: 3px solid skyblue;
+          }
+        }
+        .selected {
+          font-weight: bold;
+          background-color: skyblue;
+          color: white;
+          border: none;
+        }
+      }
+    }
+  }
+
+  .right-box {
+    border: 1px solid #ddd;
+    width: 300px;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    .heading {
+      width: 100%;
+      font-weight: bold;
+      font-size: 1.5rem;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .preview {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      padding: 15px;
+    }
+    .confirm {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .sp-between {
+        padding: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .divider {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+    }
+    .payment {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      .buttons {
+        width: 230px;
+        height: 50px;
+        border: 1px solid #aaa;
+        cursor: pointer;
+        display: flex;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+      }
+      .pay {
+        border: none;
+        background-color: skyblue;
+        color: white;
+        font-weight: bold;
+      }
+      .cancel {
+      }
+    }
+  }
+`;
 
 function OrderPay({ history }) {
   const navigate = useNavigate();
@@ -31,6 +176,8 @@ function OrderPay({ history }) {
     post_code: '',
     memo: '',
   });
+
+  const [paymentMethod, setPaymentMethod] = useState();
 
   const { name, phone, email, delivery_name, address, post_code, memo } =
     inputs;
@@ -157,7 +304,7 @@ function OrderPay({ history }) {
     }
   };
 
-  const passCheck = () => {
+  const orderPassCheck = () => {
     if (
       name === '' ||
       phone === '' ||
@@ -174,211 +321,147 @@ function OrderPay({ history }) {
   };
 
   const handleCheck = () => {
-    if (passCheck() === true) {
+    if (orderPassCheck() === true) {
       onClickPayButton();
     } else {
       alert('필수 입력값이 비어있습니다. 확인해주세요');
     }
   };
-
+  const handlePaymentMethod = (method) => {
+    setPaymentMethod(method);
+  };
   return (
-    <>
+    <PaymentContainer>
       <Helmet>
         <script src="https://pay.nicepay.co.kr/v1/js/" type="text/javascript" />
       </Helmet>
-      <VStack w="100%" align="center" justify="center">
-        <Flex h="10"></Flex>
-        <HStack w="95%" h="100%" align="center" justify="center">
-          <Box w="500px" h="800px" p="3">
-            <Heading size="lg" pl="4">
-              결제하기
-            </Heading>
-            <FormControl id="orderInfo">
-              <Box m="10px" p="2">
-                <Heading size="md">1. 주문자 정보</Heading>
-                <Center p="10px">
-                  <Divider orientation="horizontal" />
-                </Center>
+      <div className="left-box">
+        <div className="title">결제하기</div>
+        {/* <FormControl id="orderInfo"> */}
+        <div className="info">
+          <div className="heading">1. 주문자 정보</div>
+          <input
+            className="short"
+            placeholder="이름"
+            name="name"
+            value={name}
+            onChange={onChange}
+          />
+          <input
+            className="short"
+            placeholder="전화번호"
+            name="phone"
+            value={phone}
+            onChange={onChange}
+          />
+          <input
+            className="short"
+            placeholder="이메일"
+            name="email"
+            value={email}
+            onChange={onChange}
+          />
+        </div>
+        <div className="info">
+          <div className="heading">2. 배송 정보</div>
 
-                <Input
-                  h="30px"
-                  w="200px"
-                  display="block"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="이름"
-                  name="name"
-                  value={name}
-                  onChange={onChange}
-                />
-                <Input
-                  h="30px"
-                  w="200px"
-                  display="block"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="전화번호"
-                  name="phone"
-                  value={phone}
-                  onChange={onChange}
-                />
-                <Input
-                  h="30px"
-                  w="200px"
-                  display="block"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="이메일"
-                  name="email"
-                  value={email}
-                  onChange={onChange}
-                />
-              </Box>
-              <Box m="10px" p="2">
-                <Heading size="md">2. 배송 정보</Heading>
-                <Center p="10px">
-                  <Divider orientation="horizontal" />
-                </Center>
-                <Box>
-                  <Input
-                    h="30px"
-                    w="200px"
-                    display="block"
-                    mb="3"
-                    borderColor="black"
-                    placeholder="받으시는 분"
-                    name="delivery_name"
-                    value={delivery_name}
-                    onChange={onChange}
-                  />
-                  <Input
-                    h="30px"
-                    w="200px"
-                    mb="3"
-                    borderColor="black"
-                    placeholder="우편번호"
-                    name="post_code"
-                    value={post_code}
-                    onChange={onChange}
-                  />
+          <input
+            className="short"
+            placeholder="받으시는 분"
+            name="delivery_name"
+            value={delivery_name}
+            onChange={onChange}
+          />
+          <input
+            className="short"
+            placeholder="우편번호"
+            name="post_code"
+            value={post_code}
+            onChange={onChange}
+          />
 
-                  <Input
-                    display="block"
-                    h="30px"
-                    w="400px"
-                    mb="3"
-                    borderColor="black"
-                    placeholder="주소"
-                    name="address"
-                    value={address}
-                    onChange={onChange}
-                  />
+          <input
+            className="long"
+            placeholder="주소"
+            name="address"
+            value={address}
+            onChange={onChange}
+          />
 
-                  <Input
-                    display="block"
-                    h="30px"
-                    w="400px"
-                    mb="3"
-                    borderColor="black"
-                    placeholder="배송메모"
-                    name="memo"
-                    value={memo}
-                    onChange={onChange}
-                  />
-                </Box>
-              </Box>
-            </FormControl>
+          <input
+            className="long"
+            borderColor="black"
+            placeholder="배송메모"
+            name="memo"
+            value={memo}
+            onChange={onChange}
+          />
+        </div>
+        {/* </FormControl> */}
 
-            <Box m="10px" p="2" pl="5">
-              <Heading size="md">3. 결제수단</Heading>
-              <Center p="10px">
-                <Divider orientation="horizontal" />
-              </Center>
-              <Button
-                size="md"
-                h="50px"
-                w="200px"
-                border="1px"
-                borderColor="gray"
-                m="2"
-              >
-                일반 결제
-              </Button>
-              <Button
-                size="md"
-                h="50px"
-                w="200px"
-                border="1px"
-                borderColor="gray"
-                m="2"
-              >
-                간편 결제
-              </Button>
-            </Box>
-          </Box>
-
-          <Box bg="#D4BBDD" w="300px" h="800">
-            <VStack p="4">
-              <Box w="100%" h="30">
-                <Heading size="md" align="center">
-                  결제정보
-                </Heading>
-              </Box>
-              <Box w="100%" h="200" border="1px">
-                {/*시집 이미지*/}
-                <FinalPreview userfont={userfont} usercolor={usercolor} />
-              </Box>
-              <Box w="100%" h="420" border="1px">
-                <HStack>
-                  <Text fontSize="2xl" marginLeft="20px" marginTop="20px">
-                    시집 X 1 48000
-                  </Text>
-                </HStack>
-                <Text fontSize="2xl" marginLeft="20px" marginTop="20px">
-                  자유글 X {free_content_count} {free_content_price}
-                </Text>
-                <Divider w="80%" marginTop="100px" marginLeft="20px" />
-                <HStack marginTop="20px">
-                  <Text fontSize="2xl" marginLeft="20px">
-                    배송
-                  </Text>
-
-                  <Text fontSize="2xl" fontWeight="bold">
-                    무료
-                  </Text>
-                </HStack>
-                <Divider w="80%" marginTop="20px" marginLeft="20px" />
-                <HStack marginTop="20px">
-                  <Text fontSize="2xl" marginLeft="20px" fontWeight="bold">
-                    합계
-                  </Text>
-
-                  <Text fontSize="2xl" fontWeight="bold">
-                    {totalPrice}
-                  </Text>
-                </HStack>
-              </Box>
-              <Box w="100%" align="center" justify="center">
-                <Button colorScheme="blue" m="1" w="90%" onClick={handleCheck}>
-                  결제하기
-                </Button>
-                <Button
-                  colorScheme="blue"
-                  m="1"
-                  w="90%"
-                  onClick={() => {
-                    navigate('/');
-                  }}
-                >
-                  결제취소
-                </Button>
-              </Box>
-            </VStack>
-          </Box>
-        </HStack>
-        <Flex h="5"></Flex>
-      </VStack>
-    </>
+        <div className="payment-method">
+          <div className="heading">3. 결제방법</div>
+          <div className="button-container">
+            <div
+              className={
+                paymentMethod === 'normal' ? 'buttons selected' : 'buttons'
+              }
+              onClick={() => handlePaymentMethod('normal')}
+            >
+              일반 결제
+            </div>
+            <div
+              className={
+                paymentMethod === 'simple' ? 'buttons selected' : 'buttons'
+              }
+              onClick={() => handlePaymentMethod('simple')}
+            >
+              간편 결제
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*End of left-box*/}
+      <div className="right-box">
+        <div className="heading">결제정보</div>
+        <div className="preview">
+          {/*시집 이미지*/}
+          <FinalPreview userfont={userfont} usercolor={usercolor} />
+        </div>
+        <div className="confirm">
+          <div className="sp-between">
+            <span>시집 x 1</span> <span>48,000원</span>
+          </div>
+          <div className="sp-between">
+            <span>자유글 x {free_content_count}</span>{' '}
+            <span>{free_content_price}원</span>
+          </div>
+          <div className="sp-between divider">
+            <span>배송</span>
+            <span>무료</span>
+          </div>
+          <div className="sp-between">
+            <span>합계</span>
+            <span>
+              <b>{totalPrice / 1000 + ',000'}</b>원
+            </span>
+          </div>
+        </div>
+        <div className="payment">
+          <div className="buttons pay" onClick={handleCheck}>
+            결제하기
+          </div>
+          <div
+            className="buttons cancel"
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            결제취소
+          </div>
+        </div>
+      </div>
+    </PaymentContainer>
   );
 }
 export default OrderPay;

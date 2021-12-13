@@ -39,12 +39,12 @@ const ReviewContainer = styled.div`
     overflow: auto;
     padding: 40px;
     padding-top: 20px;
-    border: 10px solid #fff;
+    border: 10px solid #fdfdfd;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-color: #fff;
+    background-color: #fdfdfd;
     box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
     .buttons {
       cursor: pointer;
@@ -54,6 +54,10 @@ const ReviewContainer = styled.div`
       align-items: center;
       padding: 10px;
       border-radius: 5px;
+    }
+    .buttons:hover {
+      border: 3px solid black;
+      font-weight: bold;
     }
     .input-field {
       margin-bottom: 20px;
@@ -67,6 +71,11 @@ const ReviewContainer = styled.div`
     .cover {
       background-color: #fbe2ad;
     }
+  }
+
+  .selected {
+    border: 3px solid black;
+    font-weight: bold;
   }
 `;
 
@@ -98,8 +107,10 @@ export default function FinalReview() {
   const [mainContent, setMainContent] = useState('');
   const [poemTitle, setPoemTitle] = useState('');
   const [author, setAuthor] = useState('');
-
+  const [currentButton, setCurrentButton] = useState('');
   const [finalTitle, setFinalTitle] = useState(title);
+  const [coverButton, setCoverButton] = useState(true);
+  const [isFree, setIsFree] = useState(false);
 
   const letter = [
     { title: '내가 작성한 편지', content: letter_content },
@@ -111,7 +122,11 @@ export default function FinalReview() {
   const poemsTitleList = contentsList.map((content, index) => (
     <div
       key={index}
-      className="buttons right-box-content"
+      className={
+        content['title'] === currentButton && !coverButton
+          ? 'buttons right-box-content selected'
+          : 'buttons right-box-content'
+      }
       onClick={() => {
         setMainContent(content['content']);
 
@@ -122,6 +137,7 @@ export default function FinalReview() {
           setPoemTitle('');
           setAuthor('');
         }
+        setCurrentButton(content['title']);
         setCoverButton(false);
       }}
     >
@@ -133,14 +149,6 @@ export default function FinalReview() {
     setFinalTitle(e.target.value);
     dispatch({ type: 'SAVE_TITLE', finalTitle });
   };
-
-  console.log('자유글', free_content);
-
-  const [coverButton, setCoverButton] = useState(true);
-
-  const [isFree, setIsFree] = useState(false);
-
-  console.log('자유글 길이', free_content.length);
 
   useEffect(() => {
     if (free_content.length !== 0) {
@@ -178,7 +186,11 @@ export default function FinalReview() {
               onKeyUp={handleChange}
             />
             <div
-              className="buttons right-box-content cover"
+              className={
+                coverButton
+                  ? 'buttons right-box-content cover selected'
+                  : 'buttons right-box-content cover'
+              }
               onClick={() => {
                 setCoverButton(true);
               }}

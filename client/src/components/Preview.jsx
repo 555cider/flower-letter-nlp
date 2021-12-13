@@ -36,7 +36,7 @@ const PreviewFrame = styled.div`
   }
 `;
 
-function Preview({ userfont, usercolor }) {
+function Preview({ userfont, usercolor, userflower = 'tulip' }) {
   // 사용자 선택, 폰트 불러오기
   const { title } = useSelector((state) => ({
     title: state.title,
@@ -49,7 +49,7 @@ function Preview({ userfont, usercolor }) {
   return (
     <PreviewFrame textColor={currentCover.textColor} font={userfont}>
       <img className="cover" src={currentCover.cover} />
-      <img className="flower" src={flowers.rose} />
+      <img className="flower" src={flowers[userflower]} />
       <img className="label" src={currentCover.label} />
       <div className="title">{title}</div>
     </PreviewFrame>

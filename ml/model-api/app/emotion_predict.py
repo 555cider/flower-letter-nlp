@@ -84,7 +84,7 @@ def predict(model, vocab, predict_sentence):
         label = label.long().to(device)
         out = model(token_ids, valid_length, segment_ids)
 
-    origin_label = ["희망", "사랑", "분노", "슬픔", "공포", "생각"]
+    origin_label = ["희망", "사랑", "분노", "슬픔", "공포"]
     high = []
     mid = []
     low = []

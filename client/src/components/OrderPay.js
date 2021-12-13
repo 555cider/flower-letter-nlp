@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import {
   Flex,
   Box,
-  CloseButton,
   Input,
   Center,
   Button,
@@ -13,47 +12,157 @@ import {
   HStack,
   Heading,
   Divider,
+  FormControl,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import FinalPreview from './FinalPreview';
+import styled from 'styled-components';
 
-const testOrderInput = {
-  order: {
-    price: 47000,
-    name: '김철수',
-    delivery_name: '이영희',
-    address: '서울시 강남구 강남동 11번지',
-    post_code: '10101',
-    email: 'yuliekorea@gmail.com',
-    phone: '01012341234',
-  },
-  book: {
-    title: '너에게 보내는 시집',
-    letter: '편지 내용...',
-    flower_id: '61b065c6dd874c208dee0bc3',
-    contents: [
-      {
-        type: 'poem',
-        poem_id: '61b065c6dd874c208dee0bc3',
-      },
-      {
-        type: 'poem',
-        poem_id: '61b066202f194ac7dd807aef',
-      },
-      {
-        type: 'text',
-        text_content: '자유글 내용...',
-      },
-      {
-        type: 'text',
-        text_content: '자유글 내용 222...',
-      },
-    ],
-    font: '바른글씨체',
-    color: 'beige',
-  },
-};
+const PaymentContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 60vw;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  font-size: 1.2rem;
+  .left-box {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    gap: 20px;
+    .title {
+      width: 100%;
+      padding-bottom: 5px;
+      border-bottom: 3px solid #aaa;
+      font-weight: bold;
+      font-size: 2rem;
+    }
+    .heading {
+      font-weight: bold;
+      font-size: 1.7rem;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+    .info {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .short {
+        border: 1px solid #aaa;
+        width: 250px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      .long {
+        border: 1px solid #aaa;
+        width: 450px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+    }
+    .payment-method {
+      padding: 10px;
+      .button-container {
+        display: flex;
+        gap: 20px;
+        .buttons {
+          width: 200px;
+          height: 50px;
+          border-radius: 5px;
+          border: 1px solid #aaa;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            border: 3px solid skyblue;
+          }
+        }
+        .selected {
+          font-weight: bold;
+          background-color: skyblue;
+          color: white;
+          border: none;
+        }
+      }
+    }
+  }
+
+  .right-box {
+    border: 1px solid #ddd;
+    width: 300px;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    .heading {
+      width: 100%;
+      font-weight: bold;
+      font-size: 1.5rem;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .preview {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      padding: 15px;
+    }
+    .confirm {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .sp-between {
+        padding: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .divider {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+    }
+    .payment {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      .buttons {
+        width: 230px;
+        height: 50px;
+        border: 1px solid #aaa;
+        cursor: pointer;
+        display: flex;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+      }
+      .pay {
+        border: none;
+        background-color: skyblue;
+        color: white;
+        font-weight: bold;
+      }
+      .cancel {
+      }
+    }
+  }
+`;
 
 function OrderPay({ history }) {
   const navigate = useNavigate();
@@ -67,6 +176,8 @@ function OrderPay({ history }) {
     post_code: '',
     memo: '',
   });
+
+  const [paymentMethod, setPaymentMethod] = useState();
 
   const { name, phone, email, delivery_name, address, post_code, memo } =
     inputs;
@@ -86,6 +197,7 @@ function OrderPay({ history }) {
     free_content,
     userfont,
     usercolor,
+    poems,
   } = useSelector((state) => ({
     title: state.title,
     letter_content: state.letter_content,
@@ -93,36 +205,43 @@ function OrderPay({ history }) {
     free_content: state.free_content,
     userfont: state.userfont,
     usercolor: state.usercolor,
+    poems: state.poems,
   }));
+
+  const trimmedLetter = letter_content.replace(/\n|\r/g, ' ');
+
+  const poemList = poems.map((content) => ({
+    type: 'poem',
+    poem_id: content['_id'],
+  }));
+
+  const freecontentList = free_content.map((content) => ({
+    type: 'text',
+    text_content: content,
+  }));
+
+  const contentList = [...poemList, ...freecontentList];
+
+  const free_content_count = free_content.length;
+  const free_content_price = free_content_count * 3000;
+  const totalPrice = 48000 + free_content_price;
 
   const orderInfo = {
     order: {
-      price: 47000,
+      price: totalPrice,
       name: name,
       delivery_name: delivery_name,
       address: address,
       post_code: post_code,
       email: email,
       phone: phone,
+      delivery_memo: memo,
     },
     book: {
       title: title,
-      letter: letter_content,
+      letter: trimmedLetter,
       flower_id: user_flower_id,
-      contents: [
-        {
-          type: 'poem',
-          poem_id: '61b065c6dd874c208dee0bc3',
-        },
-        {
-          type: 'poem',
-          poem_id: '61b066202f194ac7dd807aef',
-        },
-        {
-          type: 'text',
-          text_content: free_content,
-        },
-      ],
+      contents: contentList,
       font: userfont,
       color: usercolor,
     },
@@ -161,270 +280,165 @@ function OrderPay({ history }) {
     });
   };
 
+  const orderPassCheck = () => {
+    if (
+      name === '' ||
+      phone === '' ||
+      email === '' ||
+      memo === '' ||
+      delivery_name === '' ||
+      address === '' ||
+      post_code === ''
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleCheck = () => {
+    if (orderPassCheck() === true) {
+      onClickPayButton();
+    } else {
+      alert('필수 입력값이 비어있습니다. 확인해주세요');
+    }
+  };
+  const handlePaymentMethod = (method) => {
+    setPaymentMethod(method);
+  };
+
   return (
-    <>
+    <PaymentContainer>
       <Helmet>
         <script src="https://pay.nicepay.co.kr/v1/js/" type="text/javascript" />
       </Helmet>
-      <VStack w="100%" align="center" justify="center">
-        <Flex h="10"></Flex>
-        <HStack w="95%" h="100%" align="center" justify="center">
-          <Box w="500px" h="800px" p="3">
-            <Heading size="lg" pl="4">
-              결제하기
-            </Heading>
-            <Box m="10px" p="2">
-              <Heading size="md">1. 주문자 정보</Heading>
-              <Center p="10px">
-                <Divider orientation="horizontal" />
-              </Center>
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="이름"
-                name="name"
-                value={name}
-                onChange={onChange}
-              />
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="전화번호"
-                name="phone"
-                value={phone}
-                onChange={onChange}
-              />
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="이메일"
-                name="email"
-                value={email}
-                onChange={onChange}
-              />
-            </Box>
-            <Box m="10px" p="2">
-              <Heading size="md">2. 배송 정보</Heading>
-              <Center p="10px">
-                <Divider orientation="horizontal" />
-              </Center>
-              <Box>
-                <Input
-                  h="30px"
-                  w="200px"
-                  display="block"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="받으시는 분"
-                  name="delivery_name"
-                  value={delivery_name}
-                  onChange={onChange}
-                />
-                <Input
-                  h="30px"
-                  w="200px"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="우편번호"
-                  name="post_code"
-                  value={post_code}
-                  onChange={onChange}
-                />
+      <div className="left-box">
+        <div className="title">결제하기</div>
+        {/* <FormControl id="orderInfo"> */}
+        <div className="info">
+          <div className="heading">1. 주문자 정보</div>
+          <input
+            className="short"
+            placeholder="이름"
+            name="name"
+            value={name}
+            onChange={onChange}
+          />
+          <input
+            className="short"
+            placeholder="전화번호"
+            name="phone"
+            value={phone}
+            onChange={onChange}
+          />
+          <input
+            className="short"
+            placeholder="이메일"
+            name="email"
+            value={email}
+            onChange={onChange}
+          />
+        </div>
+        <div className="info">
+          <div className="heading">2. 배송 정보</div>
 
-                <Input
-                  display="block"
-                  h="30px"
-                  w="400px"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="주소"
-                  name="address"
-                  value={address}
-                  onChange={onChange}
-                />
+          <input
+            className="short"
+            placeholder="받으시는 분"
+            name="delivery_name"
+            value={delivery_name}
+            onChange={onChange}
+          />
+          <input
+            className="short"
+            placeholder="우편번호"
+            name="post_code"
+            value={post_code}
+            onChange={onChange}
+          />
 
-                <Input
-                  display="block"
-                  h="30px"
-                  w="400px"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="배송메모"
-                  name="memo"
-                  value={memo}
-                  onChange={onChange}
-                />
-              </Box>
-            </Box>
-            <Box m="10px" p="2" pl="5">
-              <Heading size="md">3. 결제수단</Heading>
-              <Center p="10px">
-                <Divider orientation="horizontal" />
-              </Center>
-              <Button
-                size="md"
-                h="50px"
-                w="200px"
-                border="1px"
-                borderColor="gray"
-                m="2"
-              >
-                일반 결제
-              </Button>
-              <Button
-                size="md"
-                h="50px"
-                w="200px"
-                border="1px"
-                borderColor="gray"
-                m="2"
-              >
-                간편 결제
-              </Button>
-            </Box>
-          </Box>
-          <Box bg="#D4BBDD" w="300px" h="800">
-            <VStack p="4">
-              <Box w="100%" h="30">
-                <Heading size="md" align="center">
-                  결제정보
-                </Heading>
-              </Box>
-              <Box w="100%" h="200" border="1px">
-                시집이미지
-              </Box>
-              <Box w="100%" h="420" border="1px">
-                결제된 내용
-              </Box>
-              <Box w="100%" align="center" justify="center">
-                <Button
-                  colorScheme="blue"
-                  m="1"
-                  w="90%"
-                  onClick={onClickPayButton}
-                >
-                  결제하기
-                </Button>
-                <Button
-                  colorScheme="blue"
-                  m="1"
-                  w="90%"
-                  onClick={() => {
-                    navigate('/');
-                  }}
-                >
-                  결제취소
-                </Button>
-              </Box>
-            </VStack>
-          </Box>
-        </HStack>
-        <Flex h="5"></Flex>
-      </VStack>
-    </>
+          <input
+            className="long"
+            placeholder="주소"
+            name="address"
+            value={address}
+            onChange={onChange}
+          />
+
+          <input
+            className="long"
+            borderColor="black"
+            placeholder="배송메모"
+            name="memo"
+            value={memo}
+            onChange={onChange}
+          />
+        </div>
+        {/* </FormControl> */}
+
+        <div className="payment-method">
+          <div className="heading">3. 결제방법</div>
+          <div className="button-container">
+            <div
+              className={
+                paymentMethod === 'normal' ? 'buttons selected' : 'buttons'
+              }
+              onClick={() => handlePaymentMethod('normal')}
+            >
+              일반 결제
+            </div>
+            <div
+              className={
+                paymentMethod === 'simple' ? 'buttons selected' : 'buttons'
+              }
+              onClick={() => handlePaymentMethod('simple')}
+            >
+              간편 결제
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*End of left-box*/}
+      <div className="right-box">
+        <div className="heading">결제정보</div>
+        <div className="preview">
+          {/*시집 이미지*/}
+          <FinalPreview userfont={userfont} usercolor={usercolor} />
+        </div>
+        <div className="confirm">
+          <div className="sp-between">
+            <span>시집 x 1</span> <span>48,000원</span>
+          </div>
+          <div className="sp-between">
+            <span>자유글 x {free_content_count}</span>{' '}
+            <span>{free_content_price}원</span>
+          </div>
+          <div className="sp-between divider">
+            <span>배송</span>
+            <span>무료</span>
+          </div>
+          <div className="sp-between">
+            <span>합계</span>
+            <span>
+              <b>{totalPrice / 1000 + ',000'}</b>원
+            </span>
+          </div>
+        </div>
+        <div className="payment">
+          <div className="buttons pay" onClick={handleCheck}>
+            결제하기
+          </div>
+          <div
+            className="buttons cancel"
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            결제취소
+          </div>
+        </div>
+      </div>
+    </PaymentContainer>
   );
 }
 export default OrderPay;
-
-{
-  /* <div margin='25px'>
-      <Flex
-        p="2"
-        h="70"
-        justifyContent="center"
-        alignItems="center"
-        borderBottom="1px"
-        marginTop='50px'
-        marginLeft='100px'
-        
-      >
-        <Box p="4" w="90%">
-          <Text fontSize='4xl' fontWeight='bold'>결제하기</Text>
-        </Box>
-        <Box p="1" w="10%">
-          <CloseButton size="3xl" />
-        </Box>
-      </Flex>
-
-      <Flex marginLeft='100px' marginRight='100px'>
-        <Box p="4" w="67%" h="full">
-          <Box w="100%" h="10%" textAlign="left">
-            <Text fontSize='2xl' fontWeight='bold'>1. 주문자 정보</Text>
-          </Box>
-          <Box p="2" w="100%" h="25%" border="1px" borderColor="black" >
-            <Input w="80%" mb="3" borderColor="black" placeholder="이름" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="전화번호" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="이메일" />
-          </Box>
-          <Box w="100%" h="10%" textAlign="left" marginTop='15px'>
-            <Text fontSize='2xl' fontWeight='bold'>2. 배송 정보</Text>
-          </Box>
-          <Box p="2" w="100%" h="55%" border="1px" borderColor="black">
-            <Input w="80%" mb="3" borderColor="black" placeholder="이름" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="전화번호" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="이메일" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="이름" />
-            <Input w="80%" mb="3" borderColor="black" placeholder="전화번호" />
-          </Box>
-
-        </Box>
-        <Box p="4" w="33%" h="730">
-          <Center p="2" w="100%" h="10%">
-            결제정보
-          </Center>
-          <Box p="2" w="100%" h="40%" border="1px" borderColor="black">
-            <Box p="2" w="100%" h="80%">
-              시집이름 등 정보
-            </Box>
-            <Box p="2" w="100%" h="20%">
-              가격 정보
-            </Box>
-          </Box>
-          <Center p="2" w="100%" h="10%">
-            결제수단선택
-          </Center>
-          <Flex
-            p="2"
-            w="100%"
-            h="30%"
-            justifyContent="center"
-            border="1px"
-            borderColor="black"
-          >
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              네이버페이
-            </Button>
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              카카오페이
-            </Button>
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              카드결제
-            </Button>
-            <Button colorScheme="blue" m="1" w="20%" fontSize="1rem">
-              무통장입금
-            </Button>
-          </Flex>
-          <Flex
-            p="2"
-            w="100%"
-            h="10%"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Button colorScheme="blue" m="1" w="90%" onClick={onClickPayButton}>
-              결제하기
-            </Button>
-          </Flex>
-        </Box>
-      </Flex>
-    </div> */
-}

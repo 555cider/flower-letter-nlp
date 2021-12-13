@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
-import { ChevronRightIcon } from '@chakra-ui/icons';
+import React from 'react';
 import StepsLetter from './StepsLetter';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
-import PoemContainer from './create/PoemContainer';
+
 import { Text } from '@chakra-ui/react';
 import CreatePageEx from './CreatePageEx';
 
@@ -12,13 +11,13 @@ import Preview from './Preview';
 
 function EditAnthology() {
   const navigate = useNavigate();
-  const { poems, font, color } = useSelector((state) => ({
-    poems: state.poems,
+  const { font, color, keywords } = useSelector((state) => ({
     font: state.userfont,
     color: state.usercolor,
+    keywords: state.keywords,
   }));
 
-  const keywordList = poems[0].keywords.map((keyword, index) => (
+  const keywordList = keywords.map((keyword, index) => (
     <p key={index} fontSize="100px">
       <Text fontSize="3xl">"{keyword}"</Text>
     </p>
@@ -28,7 +27,9 @@ function EditAnthology() {
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
         <StepsLetter></StepsLetter>
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <CreatePageEx
+          exText={'내가 쓴 편지의 키워드를 확인해보세요!'}
+        ></CreatePageEx>
 
         <HStack
           h="80vh"
@@ -66,56 +67,6 @@ function EditAnthology() {
               <Text fontFamily={'EliceRegular'}>{keywordList}</Text>
               <Text fontFamily={'EliceRegular'}>입니다.</Text>
             </VStack>
-            {/*}
-          <HStack
-            display="flex"
-            m="1"
-            p="2"
-            mb="0"
-            w="100%"
-            h="65%"
-            align="center"
-            border="1px"
-          >
-        
-            <Box w="100%" border="1px" h="100%" align="center" justify="center">
-              <input className="keywordrange" type="range"></input>
-            </Box>
-            <Box w="100%" border="1px" h="100%">
-              <input className="keywordrange" type="range"></input>
-            </Box>
-            <Box w="100%" border="1px" h="100%">
-              <input className="keywordrange" type="range"></input>
-            </Box>
-            <Box w="100%" border="1px" h="100%">
-              <input className="keywordrange" type="range"></input>
-            </Box>
- 
-          </HStack>
-          <HStack
-            m="1"
-            mt="0"
-            p="2"
-            w="100%"
-            h="12%"
-            align="center"
-            border="1px"
-            fontSize="1.5vw"
-          >
-            <Box w="25%" border="1px" h="100%" align="center">
-              #사랑
-            </Box>
-            <Box w="25%" border="1px" h="100%" align="center">
-              #우정
-            </Box>
-            <Box w="25%" border="1px" h="100%" align="center">
-              #인생
-            </Box>
-            <Box w="25%" border="1px" h="100%" align="center">
-              #가족
-            </Box>
-          </HStack>
-           */}
           </VStack>
         </HStack>
 

@@ -12,7 +12,7 @@ device = torch.device("cpu")
 
 class BERTClassifier(nn.Module):
     def __init__(
-        self, bert, hidden_size=768, num_classes=12, dr_rate=None, params=None
+        self, bert, hidden_size=768, num_classes=11, dr_rate=None, params=None
     ):
         super(BERTClassifier, self).__init__()
         self.bert = bert
@@ -90,7 +90,7 @@ def predict(saved_model, vocab, predict_sentence):
 
         outputs = saved_model(ids, mask, token_type_ids)
 
-    cols = ['생각', '죽음', '자연', '가족', '시간', '신체', '집', '문학', '감각', '공간', '도시', '숫자']
+    cols = ['생각', '죽음', '자연', '가족', '시간', '신체', '집', '문학', '감각', '공간', '도시']
     result = []
     outs_dict = {}
     for index, rate in enumerate(outputs.tolist()[0]):

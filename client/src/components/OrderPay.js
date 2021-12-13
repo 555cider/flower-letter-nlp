@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import {
@@ -12,6 +12,7 @@ import {
   HStack,
   Heading,
   Divider,
+  FormControl,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
@@ -132,6 +133,30 @@ function OrderPay({ history }) {
   const free_content_price = free_content_count * 3000;
   const totalPrice = 48000 + free_content_price;
 
+  const passCheck = () => {
+    if (
+      name === '' ||
+      phone === '' ||
+      email === '' ||
+      memo === '' ||
+      delivery_name === '' ||
+      address === '' ||
+      post_code === ''
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleCheck = () => {
+    if (passCheck() === true) {
+      onClickPayButton();
+    } else {
+      alert('필수 입력값이 비어있습니다. 확인해주세요');
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -144,98 +169,102 @@ function OrderPay({ history }) {
             <Heading size="lg" pl="4">
               결제하기
             </Heading>
-            <Box m="10px" p="2">
-              <Heading size="md">1. 주문자 정보</Heading>
-              <Center p="10px">
-                <Divider orientation="horizontal" />
-              </Center>
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="이름"
-                name="name"
-                value={name}
-                onChange={onChange}
-              />
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="전화번호"
-                name="phone"
-                value={phone}
-                onChange={onChange}
-              />
-              <Input
-                h="30px"
-                w="200px"
-                display="block"
-                mb="3"
-                borderColor="black"
-                placeholder="이메일"
-                name="email"
-                value={email}
-                onChange={onChange}
-              />
-            </Box>
-            <Box m="10px" p="2">
-              <Heading size="md">2. 배송 정보</Heading>
-              <Center p="10px">
-                <Divider orientation="horizontal" />
-              </Center>
-              <Box>
+            <FormControl id="orderInfo">
+              <Box m="10px" p="2">
+                <Heading size="md">1. 주문자 정보</Heading>
+                <Center p="10px">
+                  <Divider orientation="horizontal" />
+                </Center>
+
                 <Input
                   h="30px"
                   w="200px"
                   display="block"
                   mb="3"
                   borderColor="black"
-                  placeholder="받으시는 분"
-                  name="delivery_name"
-                  value={delivery_name}
+                  placeholder="이름"
+                  name="name"
+                  value={name}
                   onChange={onChange}
                 />
                 <Input
                   h="30px"
                   w="200px"
+                  display="block"
                   mb="3"
                   borderColor="black"
-                  placeholder="우편번호"
-                  name="post_code"
-                  value={post_code}
+                  placeholder="전화번호"
+                  name="phone"
+                  value={phone}
                   onChange={onChange}
                 />
-
                 <Input
-                  display="block"
                   h="30px"
-                  w="400px"
+                  w="200px"
+                  display="block"
                   mb="3"
                   borderColor="black"
-                  placeholder="주소"
-                  name="address"
-                  value={address}
-                  onChange={onChange}
-                />
-
-                <Input
-                  display="block"
-                  h="30px"
-                  w="400px"
-                  mb="3"
-                  borderColor="black"
-                  placeholder="배송메모"
-                  name="memo"
-                  value={memo}
+                  placeholder="이메일"
+                  name="email"
+                  value={email}
                   onChange={onChange}
                 />
               </Box>
-            </Box>
+              <Box m="10px" p="2">
+                <Heading size="md">2. 배송 정보</Heading>
+                <Center p="10px">
+                  <Divider orientation="horizontal" />
+                </Center>
+                <Box>
+                  <Input
+                    h="30px"
+                    w="200px"
+                    display="block"
+                    mb="3"
+                    borderColor="black"
+                    placeholder="받으시는 분"
+                    name="delivery_name"
+                    value={delivery_name}
+                    onChange={onChange}
+                  />
+                  <Input
+                    h="30px"
+                    w="200px"
+                    mb="3"
+                    borderColor="black"
+                    placeholder="우편번호"
+                    name="post_code"
+                    value={post_code}
+                    onChange={onChange}
+                  />
+
+                  <Input
+                    display="block"
+                    h="30px"
+                    w="400px"
+                    mb="3"
+                    borderColor="black"
+                    placeholder="주소"
+                    name="address"
+                    value={address}
+                    onChange={onChange}
+                  />
+
+                  <Input
+                    display="block"
+                    h="30px"
+                    w="400px"
+                    mb="3"
+                    borderColor="black"
+                    placeholder="배송메모"
+                    name="memo"
+                    value={memo}
+                    onChange={onChange}
+                  />
+                </Box>
+              </Box>
+            </FormControl>
+
             <Box m="10px" p="2" pl="5">
               <Heading size="md">3. 결제수단</Heading>
               <Center p="10px">
@@ -263,6 +292,7 @@ function OrderPay({ history }) {
               </Button>
             </Box>
           </Box>
+
           <Box bg="#D4BBDD" w="300px" h="800">
             <VStack p="4">
               <Box w="100%" h="30">
@@ -305,12 +335,7 @@ function OrderPay({ history }) {
                 </HStack>
               </Box>
               <Box w="100%" align="center" justify="center">
-                <Button
-                  colorScheme="blue"
-                  m="1"
-                  w="90%"
-                  onClick={onClickPayButton}
-                >
+                <Button colorScheme="blue" m="1" w="90%" onClick={handleCheck}>
                   결제하기
                 </Button>
                 <Button

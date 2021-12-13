@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import {
   Flex,
@@ -37,11 +37,23 @@ export default function BookCover() {
     navigate('/create/freecontent');
   };
 
+  const [passed, setPassed] = useState(false);
+  const passCheck = () => {
+    if (userColor !== '' && userFont !== '') {
+      setPassed(true);
+    }
+  };
+  useEffect(() => {
+    passCheck();
+  }, [userColor, userFont]);
+
   return (
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
         <StepsLetter />
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <CreatePageEx
+          exText={'폰트와 컬러 선택을 통해 시집을 멋지게 꾸며보세요!'}
+        ></CreatePageEx>
 
         <HStack
           h="80vh"
@@ -213,6 +225,7 @@ export default function BookCover() {
               border="2px"
               color="#D4BBDD"
               fontSize="3vh"
+              disabled={passed ? false : true}
               onClick={clickNextButton}
             >
               다음 단계

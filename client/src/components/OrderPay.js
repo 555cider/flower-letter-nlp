@@ -75,9 +75,13 @@ function OrderPay({ history }) {
 
   const contentList = [...poemList, ...freecontentList];
 
+  const free_content_count = free_content.length;
+  const free_content_price = free_content_count * 3000;
+  const totalPrice = 48000 + free_content_price;
+
   const orderInfo = {
     order: {
-      price: 47000,
+      price: totalPrice,
       name: name,
       delivery_name: delivery_name,
       address: address,
@@ -128,10 +132,6 @@ function OrderPay({ history }) {
       },
     });
   };
-
-  const free_content_count = free_content.length;
-  const free_content_price = free_content_count * 3000;
-  const totalPrice = 48000 + free_content_price;
 
   const passCheck = () => {
     if (

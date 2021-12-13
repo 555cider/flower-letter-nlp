@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PreviewImageUrls from './PreviewImageUrls';
 import { useSelector } from 'react-redux';
@@ -34,12 +34,9 @@ const FinalPreviewFrame = styled.div`
 `;
 
 function FinalPreview({ userfont, usercolor }) {
-  // 사용자 선택, 폰트 불러오기
   const { title } = useSelector((state) => ({
     title: state.title,
   }));
-
-  // useState 이용해서 해보기
   const currentCover = PreviewImageUrls.covers[usercolor];
   const flowers = PreviewImageUrls.flowers;
 

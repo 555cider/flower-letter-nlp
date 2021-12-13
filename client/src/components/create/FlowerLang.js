@@ -85,6 +85,7 @@ export default function FlowerLang() {
       setPassed(true);
     }
   };
+
   useEffect(() => {
     handleCheck();
   }, [checked]);

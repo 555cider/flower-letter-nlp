@@ -51,7 +51,9 @@ export default function BookCover() {
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
         <StepsLetter />
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <CreatePageEx
+          exText={'폰트와 컬러 선택을 통해 시집을 멋지게 꾸며보세요!'}
+        ></CreatePageEx>
 
         <HStack
           h="80vh"

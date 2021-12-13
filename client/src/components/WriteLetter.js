@@ -95,7 +95,9 @@ function WriteLetter({ history }) {
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #f8dfb1)'}>
         <StepsLetter></StepsLetter>
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <CreatePageEx
+          exText={'소중한 사람을 위한 편지를 써보세요!'}
+        ></CreatePageEx>
 
         <HStack
           h="80vh"

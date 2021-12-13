@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import {
   Flex,
@@ -134,13 +134,19 @@ export default function FinalReview() {
     dispatch({ type: 'SAVE_TITLE', finalTitle });
   };
 
+  console.log('자유글', free_content);
+
   const [coverButton, setCoverButton] = useState(true);
 
-  let isFree = false;
-  if (free_content !== '') {
-    isFree = true;
-  }
+  const [isFree, setIsFree] = useState(false);
 
+  console.log('자유글 길이', free_content.length);
+
+  useEffect(() => {
+    if (free_content.length !== 0) {
+      setIsFree(true);
+    }
+  }, []);
   return (
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
@@ -186,6 +192,8 @@ export default function FinalReview() {
                 className="buttons right-box-content free"
                 onClick={() => {
                   setMainContent(free_content[0]);
+                  setPoemTitle('');
+                  setAuthor('');
                   setCoverButton(false);
                 }}
               >

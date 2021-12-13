@@ -27,7 +27,9 @@ function EditAnthology() {
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #FBEED4)'}>
         <StepsLetter></StepsLetter>
-        <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+        <CreatePageEx
+          exText={'내가 쓴 편지의 키워드를 확인해보세요!'}
+        ></CreatePageEx>
 
         <HStack
           h="80vh"

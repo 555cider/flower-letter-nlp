@@ -4,9 +4,11 @@ from fastapi import (
 )
 from app.models.question import (
     Question,
+    QuestionModel,
     QuestionOut,
     create_question,
     read_all_questions,
+    read_question_by_id,
     update_question_status,
 )
 from app.db import get_db
@@ -18,14 +20,28 @@ question_router = APIRouter(tags=["문의"])
 
 
 @question_router.get(
-    "/question", summary="문의 조회", status_code=200, response_model=List[QuestionOut]
+    "/question", summary="모든 문의 조회", status_code=200, response_model=List[QuestionOut]
 )
 async def get_all_questions(db: AsyncSession = Depends(get_db)):
     """
-    스태프가 문의를 불러올 수 있는 기능
+    모든 문의 조회
     """
     all_questions = await read_all_questions(db)
     return all_questions
+
+
+@question_router.get(
+    "/question/{question_id}",
+    summary="문의 조회",
+    status_code=200,
+    response_model=QuestionOut,
+)
+async def get_question_by_id(question_id: int, db: AsyncSession = Depends(get_db)):
+    """
+    문의 조회
+    """
+    question = await read_question_by_id(question_id, db)
+    return question
 
 
 @question_router.post("/question", summary="문의 요청", status_code=201)
@@ -47,7 +63,7 @@ async def patch_question_status(
     db: AsyncSession = Depends(get_db),
 ):
     """
-    사용자가 문의를 제출하는 기능
+    문의 답변 완료
     """
 
     updated_question = await update_question_status(question_id, db)

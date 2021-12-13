@@ -1,11 +1,12 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
 from sqlalchemy.future import select
-from datetime import datetime
+from datetime import datetime, date
 from app.db import Base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import joinedload, relationship
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.book import Book
 from pydantic import BaseModel
+from typing import List
 
 
 class OrderModel(Base):
@@ -117,6 +118,8 @@ class OrderIn(BaseModel):
 
 class OrderOut(OrderDetail):
     id: int
+    order_date: date
+    order_status: int
 
     class Config:
         orm_mode = True
@@ -140,6 +143,32 @@ async def create_order(
 
 async def get_order(order_id: int, db: AsyncSession) -> OrderModel:
     return await db.get(OrderModel, order_id)
+
+
+async def order_get_all(db: AsyncSession):
+    query = select(OrderModel, OrderStatusModel).join(OrderStatusModel)
+    result = await db.execute(query)
+    all_orders = result.fetchall()
+    return_result = []
+    for order, order_status in all_orders:
+        return_result.append(
+            {
+                "id": order.id,
+                "name": order.name,
+                "order_date": order.order_date.date(),
+                "address": order.address,
+                "delivery_memo": order.delivery_memo,
+                "phone": order.phone,
+                "price": order.price,
+                "order_status": order_status.status_name,
+                "delivery_name": order.delivery_name,
+                "post_code": order.post_code,
+                "email": order.email,
+                "book_id": order.book_id,
+            }
+        )
+        print(order_status.status_name)
+    return return_result
 
 
 async def update_order_status(

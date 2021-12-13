@@ -80,7 +80,6 @@
           <th>문의제목</th>
           <th>문의자명</th>
           <th>이메일</th>
-          <th>전화번호</th>
           <th>문의날짜</th>
           <th>문의상태</th>
         </tr>
@@ -91,9 +90,8 @@
           <td>{{inquiry["title"]}}</td>
           <td>{{inquiry["name"]}}</td>
           <td>{{inquiry["email"]}}</td>
-          <td>{{inquiry["phone"]}}</td>
           <td>{{inquiry["date"]}}</td>
-          {% if inquiry["replied"] %}
+          {% if inquiry["answered"] == "True" %}
           <td>답변완료</td>
           {% else %}
           <td>

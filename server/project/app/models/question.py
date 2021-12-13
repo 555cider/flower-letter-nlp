@@ -6,7 +6,7 @@ from sqlalchemy import (
     Boolean,
     Text,
 )
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy.sql.expression import true
 
 from sqlalchemy.sql.sqltypes import Boolean
@@ -79,7 +79,7 @@ class QuestionOut(BaseModel):
     title: str
     content: str
     answered: str
-    date: datetime
+    date: date
 
     class Config:
         orm_mode = True
@@ -106,6 +106,10 @@ async def read_all_questions(db: AsyncSession) -> List[QuestionModel]:
     result = await db.execute(query)
     all_questions = result.scalars().all()
     return all_questions
+
+
+async def read_question_by_id(question_id: int, db: AsyncSession) -> QuestionModel:
+    return await db.get(QuestionModel, question_id)
 
 
 async def update_question_status(question_id: int, db: AsyncSession) -> QuestionModel:

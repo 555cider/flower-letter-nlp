@@ -61,6 +61,7 @@
     </style>
   </head>
   <body>
+    {% set url='http://127.0.0.1:5000/inquiry'%}
     <div class="container">
       <div class="inquiry">
         <div class="title"><b>Q.</b> {{inquiry_example["title"]}}</div>
@@ -69,7 +70,9 @@
       <div class="reply">
         <textarea name="" id="" cols="90" rows="10"> </textarea>
         <div class="buttonArea">
-          <div class="submit">답변 보내기</div>
+          <a href="{{url}}">
+            <div class="submit">답변 보내기</div>
+          </a>
         </div>
       </div>
     </div>

@@ -9,7 +9,16 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./project:/app # for automatic reloading
+    expose:
+      - 5000
     ports:
       - 5000:5000
     env_file:
       - .env.dev
+    networks:
+      - yulie-net
+
+networks:
+  yulie-net:
+    driver: bridge
+

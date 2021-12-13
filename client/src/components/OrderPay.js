@@ -157,6 +157,30 @@ function OrderPay({ history }) {
     }
   };
 
+  const passCheck = () => {
+    if (
+      name === '' ||
+      phone === '' ||
+      email === '' ||
+      memo === '' ||
+      delivery_name === '' ||
+      address === '' ||
+      post_code === ''
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleCheck = () => {
+    if (passCheck() === true) {
+      onClickPayButton();
+    } else {
+      alert('필수 입력값이 비어있습니다. 확인해주세요');
+    }
+  };
+
   return (
     <>
       <Helmet>

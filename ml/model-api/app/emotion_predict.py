@@ -5,7 +5,7 @@ import gluonnlp as nlp
 import numpy as np
 from kobert.utils import get_tokenizer
 
-NUM_CLASSES = 6  # 클래스 수
+NUM_CLASSES = 5  # 클래스 수
 SENT_IDX = 0  # 문장 컬럼
 LABEL_IDX = 1  # 레이블 컬럼
 MAX_LEN = 128  # 이 크기를 넘는 문장은 스킵
@@ -84,7 +84,7 @@ def predict(model, vocab, predict_sentence):
         label = label.long().to(device)
         out = model(token_ids, valid_length, segment_ids)
 
-    origin_label = ["희망", "사랑", "분노", "슬픔", "공포", "생각"]
+    origin_label = ["희망", "사랑", "분노", "슬픔", "공포"]
     high = []
     mid = []
     low = []

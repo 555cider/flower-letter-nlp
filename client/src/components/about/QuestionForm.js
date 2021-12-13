@@ -53,7 +53,7 @@ export default function QuestionForm() {
 
   const sendButton = async () => {
     await axios
-      .post('https://testapi.flowerletter.co.kr/question', formData, {
+      .post(`${process.env.REACT_APP_API_URL}/question`, formData, {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(function (response) {

@@ -236,6 +236,7 @@ export default function FinalReview() {
                 userfont={font}
                 usercolor={color}
                 userflower={userflower}
+                finalTitle={finalTitle}
               />
             )}
             {!coverButton && (
@@ -261,8 +262,8 @@ export default function FinalReview() {
               {/* 스크롤 박스. 스크롤 표시되도록 복붙으로 버튼 넣은 상태 */}
               <input
                 className="input-field right-box-content"
-                placeholder="시집 제목을 입력하세요"
-                onKeyUp={handleChange}
+                placeholder="너에게 쓰는 편지"
+                onChange={handleChange}
               />
               <div
                 className={

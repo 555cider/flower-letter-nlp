@@ -14,9 +14,9 @@ services:
       - 80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend-http.rule=HOST(`www.${TEST_DOMAIN}`,`${TEST_DOMAIN}`)"
-      - "traefik.http.routers.frontend-http.tls=true" # HTTPS
-      - "traefik.http.routers.frontend-http.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.flowerletter-test.rule=HOST(`www.${TEST_DOMAIN}`,`${TEST_DOMAIN}`)"
+      - "traefik.http.routers.flowerletter-test.tls=true" # HTTPS
+      - "traefik.http.routers.flowerletter-test.tls.certresolver=letsencrypt"
       
   test_api:
     build: ./server/project
@@ -33,14 +33,14 @@ services:
       - mongo_db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.testapi.rule=Host(`${TEST_API_DOMAIN}`)"
-      - "traefik.http.routers.testapi.tls=true" # HTTPS
-      - "traefik.http.routers.testapi.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.api-test.rule=Host(`${TEST_API_DOMAIN}`)"
+      - "traefik.http.routers.api-test.tls=true" # HTTPS
+      - "traefik.http.routers.api-test.tls.certresolver=letsencrypt"
 
   postgres_db:
     build:
       context: ./server/project/db
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.post
     container_name: postgres_db
     volumes:
       - postgres_data_test:/var/lib/postgresql/data/
@@ -51,7 +51,9 @@ services:
       - POSTGRES_PASSWORD=flower_letter
 
   mongo_db:
-    image: mongo:5.0.4
+    build:
+      context: ./server/project/db
+      dockerfile: Dockerfile.mongo
     container_name: mongo_db
     expose:
       - 27017
@@ -73,12 +75,11 @@ services:
       - 80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mlapi.rule=Host(`${TEST_ML_DOMAIN}`)"
-      - "traefik.http.routers.mlapi.tls=true" # HTTPS
-      - "traefik.http.routers.mlapi.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mlapi-test.rule=Host(`${TEST_ML_DOMAIN}`)"
+      - "traefik.http.routers.mlapi-test.tls=true" # HTTPS
+      - "traefik.http.routers.mlapi-test.tls.certresolver=letsencrypt"
 
 volumes:
   postgres_data_test:
   mongo_data_test:
-  traefik-public-certificates:
 

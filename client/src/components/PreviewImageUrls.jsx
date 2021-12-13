@@ -8,6 +8,10 @@ import rose from '../resources/rose.png';
 import tulip from '../resources/tulip.png';
 import lotus from '../resources/lotus.png';
 import lavender from '../resources/lavender.png';
+import lily from '../resources/lily.png';
+import sunflower from '../resources/sunflower.png';
+import cherryblossoms from '../resources/cherryblossoms.png';
+import blueflower from '../resources/blueflower.png';
 
 export default {
   covers: {
@@ -35,5 +39,9 @@ export default {
     tulip: tulip,
     lotus: lotus,
     lavender: lavender,
+    lily: lily,
+    sunflower: sunflower,
+    cherryblossoms: cherryblossoms,
+    blueflower: blueflower,
   },
 };

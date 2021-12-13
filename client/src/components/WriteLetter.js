@@ -114,12 +114,17 @@ function WriteLetter({ history }) {
             <Box p="6" w="100%">
               <Stack spacing={3} h="100%">
                 <Textarea
-                  border={'2px'}
+                  border={'none'}
                   h="100%"
+                  backgroundColor="white"
                   _focus={{ borderColor: '#613659' }}
                   _hover={{ borderColor: '#613659' }}
                   borderColor="black"
                   placeholder="편지작성"
+                  boxShadow={'1px 1px 1px rgba(120,120,120,0.2)'}
+                  resize={'none'}
+                  fontFamily={'Sungsil'}
+                  fontSize={'1.2rem'}
                   onChange={handleChange}
                   name="content"
                   value={content}

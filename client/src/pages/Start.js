@@ -104,9 +104,10 @@ const Start = () => {
                 color="#A49393"
                 fontFamily={'EliceRegular'}
                 backgroundColor={'#FBEDE0'}
-                w="200px"
-                h="50px"
-                borderRadius={'15px'}
+                w="400px"
+                h="80px"
+                fontSize={'2.1rem'}
+                borderRadius={'5px'}
                 _hover={{ color: '#FBEDE0', bg: '#A49393' }}
               >
                 편지쓰러가기

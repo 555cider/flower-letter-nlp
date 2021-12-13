@@ -13,8 +13,11 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StepNav = styled.div`
+  top: 20px;
   width: 80vw;
   height: 11vh;
+  position: relative;
+  font-family: 'EliceRegular';
 `;
 
 function StepsLetter() {
@@ -22,16 +25,19 @@ function StepsLetter() {
 
   return (
     <StepNav>
-      <Flex w="100%" h="30%" align="center" pl="6">
-        {/* 닫기 버튼 */}
-        <CloseButton
-          size="2xl"
-          color="black"
-          onClick={() => {
-            navigate('/');
-          }}
-        ></CloseButton>
-      </Flex>
+      {/* <Flex w="100%" h="30%" align="center" pl="6"> */}
+      {/* 닫기 버튼 */}
+      <CloseButton
+        size="2xl"
+        color="black"
+        position="absolute"
+        left="-30px"
+        top="15px"
+        onClick={() => {
+          navigate('/');
+        }}
+      ></CloseButton>
+      {/* </Flex> */}
       <Flex
         bgGradient={'linear(to-r, #FFE6A8, #D4BBDD)'}
         fontWeight="600"
@@ -41,6 +47,7 @@ function StepsLetter() {
         align="center"
         justify="center"
         borderRadius="5px"
+        boxShadow={'1px 1px 1px rgba(120,120,120,0.2)'}
       >
         {/* 단계 박스 */}
         <Breadcrumb

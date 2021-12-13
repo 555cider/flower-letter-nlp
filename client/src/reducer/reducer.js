@@ -25,6 +25,7 @@ const initialState = {
   poems: [],
   user_flower_id: '',
   user_flower_symbol: '',
+  user_flower_url: 'rose',
   title: '너에게 쓰는 편지',
   keywords: [],
 };
@@ -74,6 +75,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         user_flower_id: action.user_flower_id,
         user_flower_symbol: action.user_flower_symbol,
+        user_flower_url: action.user_flower_url,
       };
     }
     case SAVE_TITLE: {

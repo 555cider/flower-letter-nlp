@@ -7,10 +7,49 @@ import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import CreatePageEx from '../CreatePageEx';
 import { TriangleUpIcon } from '@chakra-ui/icons';
+import styled from 'styled-components';
+
+const RightBox = styled.div`
+  font-family: 'Sungsil';
+  font-size: 1.2rem;
+  width: 330px;
+  min-height: 420px;
+  height: 55vh;
+  overflow: auto;
+  padding: 40px;
+  padding-top: 20px;
+  border: 10px solid #fdfdfd;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fdfdfd;
+  box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
+  .buttons {
+    cursor: pointer;
+    background-color: #d8bfd7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .buttons:hover {
+    border: 3px solid black;
+    font-weight: bold;
+  }
+  .selected {
+    border: 3px solid black;
+    font-weight: bold;
+  }
+`;
 
 export default function FlowerLang() {
+  const [checked, setChecked] = useState(false);
+  const [passed, setPassed] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [currentKeyword, setCurrentKeyword] = useState();
 
   const { flowersList, font, color } = useSelector((state) => ({
     flowersList: state.flowersList,
@@ -23,30 +62,23 @@ export default function FlowerLang() {
   };
 
   const flowerList = flowersList.map((content, index) => (
-    <Button
-      variant="solid"
+    <div
       key={index}
-      m="2"
-      w="90%"
-      h="60px"
-      bg="skyblue"
-      fontWeight="600"
-      color="white"
+      className={
+        currentKeyword === content['_id'] ? 'buttons selected' : 'buttons'
+      }
       onClick={() => {
         saveFlower(
           content['_id'],
-          content['flower'] + ', \n' + content['symbol']
+          `${content['flower']}... ${content['symbol']}`
         );
         setChecked(true);
+        setCurrentKeyword(content['_id']);
       }}
     >
       {content['flower']}-{content['symbol']}
-    </Button>
+    </div>
   ));
-
-  const [checked, setChecked] = useState(false);
-
-  const [passed, setPassed] = useState(false);
 
   const handleCheck = () => {
     if (checked) {
@@ -98,9 +130,7 @@ export default function FlowerLang() {
             align={'center'}
           >
             {/* 오른쪽 박스 */}
-            <div className="scrollbox" align="center">
-              <div>{flowerList}</div>
-            </div>
+            <RightBox>{flowerList}</RightBox>
           </Flex>
         </HStack>
         <Flex pl="6" pr="6" h="10%" w="100%">

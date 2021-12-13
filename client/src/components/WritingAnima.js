@@ -47,7 +47,6 @@ export default function WritingAnima({
     >
       <Box
         w="500px"
-        h="72%"
         backgroundSize="cover"
         backgroundImage={backgroundImg}
         p="9"
@@ -95,6 +94,7 @@ export default function WritingAnima({
           h="50px"
           fontSize="xl"
           fontWeight="600"
+          fontFamily={'EliceRegular'}
           bg={buttonColor}
           border={buttonBorder}
           borderColor={buttonBorderColor}

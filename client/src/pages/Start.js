@@ -42,7 +42,7 @@ const Start = () => {
             fontWeight={700}
             lineHeight={1.2}
             fontSize={useBreakpointValue({ base: '3xl', md: '5xl' })}
-            fontFamily={'EliceRegular'}
+            fontFamily={'EliceBold'}
           >
             지금부터 시집을 생성해보세요.
           </Text>
@@ -60,11 +60,14 @@ const Start = () => {
         </Box>
         <Box h="30%" w="10%" align="center">
           <Box h="90%"></Box>
-          <ChevronDownIcon w={10} h={10}></ChevronDownIcon>
+          <a href={'#SecondPage'}>
+            <ChevronDownIcon w={10} h={10} o></ChevronDownIcon>
+          </a>
         </Box>
       </VStack>
       {/* 두번째 스크롤 */}
       <VStack
+        id="SecondPage"
         w="full"
         h="full"
         justify={'center'}
@@ -75,8 +78,8 @@ const Start = () => {
       >
         <HStack w="80%" h="80%">
           <Flex h="80%" w="58%" align="center" justify="center">
-            <Box h="85%" w="58%" border="1px">
-              <Image src={''}></Image>이미지 추가 필요
+            <Box w="58%" border={'40px solid white'} borderRadius={'5px'}>
+              <Image src={'img/example.png'}></Image>
             </Box>
           </Flex>
           <Box h="80%" w="42%">
@@ -87,7 +90,7 @@ const Start = () => {
                   color="black"
                   lineHeight={1.5}
                   fontSize={useBreakpointValue({ base: 'xl', md: '2xl' })}
-                  fontFamily={'EnglishHandy'}
+                  fontFamily={'EliceRegular'}
                 >
                   꽃편지에서는 세상에 단 하나뿐인 시집을 만들 수 있습니다.
                   <br />
@@ -99,10 +102,12 @@ const Start = () => {
                   navigate('/create');
                 }}
                 color="#A49393"
+                fontFamily={'EliceRegular'}
                 backgroundColor={'#FBEDE0'}
-                w="200px"
-                h="50px"
-                borderRadius={'15px'}
+                w="400px"
+                h="80px"
+                fontSize={'2.1rem'}
+                borderRadius={'5px'}
                 _hover={{ color: '#FBEDE0', bg: '#A49393' }}
               >
                 편지쓰러가기
@@ -147,6 +152,7 @@ const Start = () => {
               h="50px"
               borderRadius={'15px'}
               fontSize={'lg'}
+              fontFamily={'EliceRegular'}
               _hover={{ color: 'white', bg: '#D4BBDD' }}
             >
               사용법 보러가기
@@ -154,22 +160,22 @@ const Start = () => {
           </Box>
         </Flex>
         <VStack h="100%" w="60%">
-          <Box h="35%" w="100%"></Box>
+          <Box h="15%" w="100%"></Box>
           <Flex
             w="100%"
             h="65%"
             bg="white"
-            borderTopRadius={'30px'}
+            borderRadius={'30px'}
             justify={'center'}
             align={'center'}
           >
             <Text
               p="5"
-              fontSize="2xl"
+              fontSize="3xl"
               color="black"
               justifyContent="center"
               textAlign="center"
-              fontFamily={'HandWrite'}
+              fontFamily={'EliceRegular'}
             >
               🌼🌻🌼
               <br />

@@ -10,35 +10,50 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StepNav = styled.div`
+  top: 20px;
+  width: 80vw;
+  height: 11vh;
+  position: relative;
+  font-family: 'EliceRegular';
+`;
 
 function StepsLetter() {
   const navigate = useNavigate();
 
   return (
-    <VStack w="100%" h="20vh" pl="7" pr="7">
-      <Flex w="100%" h="35%" align="center" pl="6">
-        {/* 닫기 버튼 */}
-        <CloseButton
-          size="2xl"
-          onClick={() => {
-            navigate('/');
-          }}
-        ></CloseButton>
-      </Flex>
+    <StepNav>
+      {/* <Flex w="100%" h="30%" align="center" pl="6"> */}
+      {/* 닫기 버튼 */}
+      <CloseButton
+        size="2xl"
+        color="black"
+        position="absolute"
+        left="-30px"
+        top="15px"
+        onClick={() => {
+          navigate('/');
+        }}
+      ></CloseButton>
+      {/* </Flex> */}
       <Flex
-        bg="#D4BBDD"
+        bgGradient={'linear(to-r, #FFE6A8, #D4BBDD)'}
         fontWeight="600"
         color="white"
         w="100%"
         h="65%"
         align="center"
         justify="center"
-        borderRadius="20px"
+        borderRadius="5px"
+        boxShadow={'1px 1px 1px rgba(120,120,120,0.2)'}
       >
         {/* 단계 박스 */}
         <Breadcrumb
-          fontSize="2vw"
+          fontSize="1.5vw"
           spacing="17"
+          color="#A49393"
           separator={<ChevronRightIcon color="white" />}
         >
           <BreadcrumbItem>
@@ -114,7 +129,7 @@ function StepsLetter() {
           </BreadcrumbItem>
         </Breadcrumb>
       </Flex>
-    </VStack>
+    </StepNav>
   );
 }
 

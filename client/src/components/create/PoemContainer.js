@@ -1,52 +1,59 @@
 import React from 'react';
-import {
-  Box,
-  Popover,
-  Button,
-  Portal,
-  PopoverContent,
-  PopoverHeader,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverTrigger,
-} from '@chakra-ui/react';
-export default function PoemContainer({ poem_title, poem_content }) {
-  const sample_poem_title = '이별-도종환';
-  const sample_poem_contents = [
-    '당신이 처음 내 곁을 떠났을 떄',
-    '나는 이것이 이별이라 생각지 않았습니다',
-    '당신이 내 안에 있고',
-    '나 또한 언제나 당신이 돌아오는 길을 향해 있었으므로',
-    '나는 헤어지는 것이라 생각지 않았습니다',
-    '그러나 이렇게 자꾸 함께 있지 못하는 시간이 길어지면서',
-    '나는 이것이 이별이 아닌가 생각합니다',
-  ];
+import styled from 'styled-components';
 
-  const poemContentList = sample_poem_contents.map((content, index) => (
+const PoemWrapper = styled.div`
+  height: 55vh;
+  width: 300px;
+  position: relative;
+  font-family: 'Sungsil';
+  padding: 40px;
+  background-color: white;
+  .background {
+    position: relative;
+    width: 400px;
+    height: 60vh;
+  }
+  .wrapper {
+    height: 45vh;
+    width: 200px;
+    word-break: keep-all;
+    top: 30px;
+    left: 50px;
+    position: absolute;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .content {
+      text-align: center;
+    }
+  }
+`;
+export default function PoemContainer({
+  poem_title,
+  poem_author,
+  poem_content,
+}) {
+  const splitPoemList = poem_content.split('<br>');
+
+  const title = poem_title !== '' ? poem_title + '-' + poem_author : '';
+
+  const mainContentList = splitPoemList.map((content, index) => (
     <p key={index}>{content}</p>
   ));
 
   return (
-    <Box padding="2">
-      <Popover>
-        <PopoverTrigger>
-          <Button bg="skyblue" w="100%">
-            {sample_poem_title}
-          </Button>
-        </PopoverTrigger>
-        <Portal>
-          <PopoverContent w="100%">
-            <PopoverArrow />
-            <PopoverHeader>{sample_poem_title}</PopoverHeader>
-            <PopoverCloseButton />
-            <PopoverBody textAlign="center">
-              {poemContentList}
-              <Button colorScheme="blue">수정하기</Button>
-            </PopoverBody>
-          </PopoverContent>
-        </Portal>
-      </Popover>
-    </Box>
+    <PoemWrapper>
+      {/* <img className="background" src={poemBackground} /> */}
+      <div className="wrapper">
+        <div className="title">{title}</div>
+        <div className="content">{mainContentList}</div>
+      </div>
+    </PoemWrapper>
   );
 }

@@ -1,9 +1,16 @@
 import React from 'react';
 import { Box, VStack, Button, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import qs from 'qs';
 
 function OrderComplete({ history }) {
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const query = qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
+
   return (
     <>
       <VStack w="100%" h="100vh" align="center" justifyContent="center">
@@ -23,7 +30,7 @@ function OrderComplete({ history }) {
             <Box align="left">
               <Text m="3px">이메일로 주문내역이 발송되었습니다.</Text>
               <Text m="3px" fontWeight="600">
-                주문번호: #ELICE1234567
+                주문번호: {query.order}
               </Text>
               <Text m="3px">빠르게 제작하여 보내드릴게요!</Text>
             </Box>

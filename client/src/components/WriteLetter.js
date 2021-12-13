@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Center,
@@ -77,6 +77,20 @@ function WriteLetter({ history }) {
       });
   };
 
+  const [passed, setPassed] = useState(false);
+
+  const checkLetter = () => {
+    if (content.length >= 50) {
+      setPassed(true);
+    } else {
+      setPassed(false);
+    }
+  };
+
+  useEffect(() => {
+    checkLetter();
+  }, [content]);
+
   return (
     <div>
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #f8dfb1)'}>
@@ -115,6 +129,7 @@ function WriteLetter({ history }) {
 
         <Center w="100%" h="20%">
           <Spacer />
+
           <Button
             borderRadius={'15px'}
             w="25vh"
@@ -127,6 +142,7 @@ function WriteLetter({ history }) {
             mr="7"
             mb="2"
             fontSize="3vh"
+            disabled={passed ? false : true}
             onClick={clickNextButton}
           >
             다음으로

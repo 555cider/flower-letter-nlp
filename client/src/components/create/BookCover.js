@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import {
   Flex,
@@ -36,6 +36,16 @@ export default function BookCover() {
     });
     navigate('/create/freecontent');
   };
+
+  const [passed, setPassed] = useState(false);
+  const passCheck = () => {
+    if (userColor !== '' && userFont !== '') {
+      setPassed(true);
+    }
+  };
+  useEffect(() => {
+    passCheck();
+  }, [userColor, userFont]);
 
   return (
     <div>
@@ -213,6 +223,7 @@ export default function BookCover() {
               border="2px"
               color="#D4BBDD"
               fontSize="3vh"
+              disabled={passed ? false : true}
               onClick={clickNextButton}
             >
               다음 단계

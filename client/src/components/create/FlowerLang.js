@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StepsLetter from '../StepsLetter';
 import Preview from '../Preview';
 
@@ -6,6 +6,7 @@ import { Flex, HStack, Box, Button, Spacer, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import CreatePageEx from '../CreatePageEx';
+import { TriangleUpIcon } from '@chakra-ui/icons';
 
 export default function FlowerLang() {
   const navigate = useNavigate();
@@ -32,12 +33,29 @@ export default function FlowerLang() {
       fontWeight="600"
       color="white"
       onClick={() => {
-        saveFlower(content['_id'], content['symbol']);
+        saveFlower(
+          content['_id'],
+          content['flower'] + ', \n' + content['symbol']
+        );
+        setChecked(true);
       }}
     >
       {content['flower']}-{content['symbol']}
     </Button>
   ));
+
+  const [checked, setChecked] = useState(false);
+
+  const [passed, setPassed] = useState(false);
+
+  const handleCheck = () => {
+    if (checked) {
+      setPassed(true);
+    }
+  };
+  useEffect(() => {
+    handleCheck();
+  }, [checked]);
 
   return (
     <div>
@@ -114,6 +132,7 @@ export default function FlowerLang() {
               borderColor="#A49393"
               color="#A49393"
               fontSize="3vh"
+              disabled={passed ? false : true}
               onClick={() => {
                 navigate('/create/bookcover');
               }}

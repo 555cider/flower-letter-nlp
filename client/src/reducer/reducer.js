@@ -9,6 +9,7 @@ import {
   SAVE_USER_FLOWER,
   SAVE_POEMS,
   SAVE_TITLE,
+  SAVE_KEYWORDS,
 } from './actions';
 
 const initialState = {
@@ -17,14 +18,16 @@ const initialState = {
   email: '',
   phone: '',
   letter_content: '',
-  free_content: '',
+  free_content: [],
   userfont: '',
   usercolor: 'beige',
   flowersList: [],
   poems: [],
   user_flower_id: '',
   user_flower_symbol: '',
+  user_flower_url: 'rose',
   title: '너에게 쓰는 편지',
+  keywords: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,7 +41,7 @@ const reducer = (state = initialState, action) => {
     case SAVE_FREECONTENT: {
       return {
         ...state,
-        free_content: action.content,
+        free_content: state.free_content.concat(action.content),
       };
     }
 
@@ -72,12 +75,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         user_flower_id: action.user_flower_id,
         user_flower_symbol: action.user_flower_symbol,
+        user_flower_url: action.user_flower_url,
       };
     }
     case SAVE_TITLE: {
       return {
         ...state,
         title: action.finalTitle,
+      };
+    }
+    case SAVE_KEYWORDS: {
+      return {
+        ...state,
+        keywords: action.keywords,
       };
     }
     default:

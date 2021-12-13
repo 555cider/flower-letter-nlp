@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>문의 번호 - {{inquiry_example["id"]}}</title>
+    <style>
+      .container {
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 800px;
+        padding: 20px;
+        border: 1px solid #aaa;
+        border-radius: 20px;
+        box-shadow: 2px 2px 2px rgba(170, 170, 170, 0.2);
+      }
+      .title {
+        padding: 20px;
+        font-size: 1.2rem;
+        border-bottom: 1px dashed #aaa;
+      }
+      .content {
+        padding: 20px;
+        border-bottom: 1px dashed #aaa;
+        padding-bottom: 50px;
+        min-height: 200px;
+      }
+      .reply {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .buttonArea {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .submit {
+        cursor: pointer;
+        background-color: rosybrown;
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+      .submit:hover {
+        box-shadow: 2px 2px 2px rgba(22, 22, 22, 0.2);
+      }
+      textarea {
+        resize: none;
+      }
+      textarea:valid {
+        border: 1px solid #aaa;
+        border-radius: 2px;
+      }
+      textarea:focus {
+        outline: none !important;
+        border: 1px solid #666;
+      }
+    </style>
+  </head>
+  <body>
+    {% set url='http://127.0.0.1:5000/inquiry'%}
+    <div class="container">
+      <div class="inquiry">
+        <div class="title"><b>Q.</b> {{inquiry_example["title"]}}</div>
+        <div class="content">{{inquiry_example["content"]}}</div>
+      </div>
+      <div class="reply">
+        <textarea name="" id="" cols="90" rows="10"> </textarea>
+        <div class="buttonArea">
+          <a href="{{url}}">
+            <div class="submit">답변 보내기</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

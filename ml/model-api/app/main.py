@@ -12,8 +12,15 @@ class Letter(BaseModel):
     text: str
 
 
-class Keywords(BaseModel):
-    keywords: Dict[str, Dict[str, List[str]]]
+class Emotions(BaseModel):
+    high: List[str] = []
+    medium: List[str] = []
+    low: List[str] = []
+
+
+class ModelResults(BaseModel):
+    emotions: Emotions
+    keywords: List[str]
 
 
 app = FastAPI(title="API service for model")
@@ -30,9 +37,12 @@ model_e = BERTClassifier_e(model, dr_rate=0.5).to(device)
 model_k = BERTClassifier_k(model, dr_rate=0.5).to(device)
 
 
-@app.post("/classify", response_model=Keywords)
+@app.post("/classify")
 def classify_letter(data: Letter):
     print(data.text)
     emotion = predict_e(model_e, vocab, data.text)
     keyword = predict_k(model_k, vocab, data.text)
-    return {"keywords": {"emotion": emotion, "keyword": keyword}}
+
+    result = ModelResults(emotions=emotion, keywords=keyword)
+
+    return result

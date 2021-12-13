@@ -17,6 +17,7 @@ from requests.auth import HTTPBasicAuth
 
 from app.config import Settings, get_config
 
+from typing import List
 
 from app.models.book import (
     PoemPageModel,
@@ -28,6 +29,7 @@ from app.models.order import (
     create_order,
     update_order_status,
     get_order,
+    order_get_all,
 )
 from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -77,13 +79,11 @@ async def pay(
     await update_order_status(order_id, db, 2)  # 결제 완료 상태
 
     # 꽃 이름
-    # TODO: clean up
-    # flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
-    flower = await FlowerModel.get(PydanticObjectId("61b47fd5e48bd8e6fffceed4"))
+    flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
 
-    background_tasks.add_task(send_email, config, order, book, flower.name)  # 이메일 전송
+    background_tasks.add_task(send_email, config, order, book, flower.flower)  # 이메일 전송
 
-    redirect_url = f"{config.client_url}/checkout?order={order_id}"
+    redirect_url = f"{request.headers['origin']}/checkout?order={order_id}"
     return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
 
 
@@ -107,3 +107,12 @@ async def post_order(
     new_order = await create_order(request.order, str(new_book.id), db)
 
     return new_order
+
+
+@order_router.get("/orders", summary="모든 주문 리스트 조회")
+async def get_all_orders(db: AsyncSession = Depends(get_db)):
+    """
+    백오피스용 모든 주문 정보 조회.
+    """
+    all_orders = await order_get_all(db)
+    return all_orders

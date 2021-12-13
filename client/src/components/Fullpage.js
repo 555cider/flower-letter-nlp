@@ -58,7 +58,7 @@ function Fullpage() {
         w="full"
         // h="700px"
         h="full"
-        imgUrl={'/img/mainpageFirstImg.png'}
+        imgUrl={'/img/landing_review.jpg'}
         text={'실시간 미리보기 & 검토'}
         text2={`단계별로 시집을 커스터마이징 해보세요`}
         contentText={`각 단계별로 실시간 미리보기를 통해 시집의 디자인을 확인할 수 있습니다.

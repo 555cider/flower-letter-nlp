@@ -1,5 +1,5 @@
 from fastapi_mail import config
-from app.helpers.email import send_email
+from app.helpers.email import send_order_email
 from app.config import get_config
 from app.models.order import OrderModel
 from app.models.book import BookModel
@@ -39,5 +39,5 @@ async def test_send_email(test_app_with_db):
         }
     )
 
-    result = await send_email(config, order, book, "해바라기")
+    result = await send_order_email(config, order, book, "해바라기")
     assert result == "OK"

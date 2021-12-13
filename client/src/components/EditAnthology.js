@@ -11,10 +11,11 @@ import Preview from './Preview';
 
 function EditAnthology() {
   const navigate = useNavigate();
-  const { font, color, keywords } = useSelector((state) => ({
+  const { font, color, keywords, userflower } = useSelector((state) => ({
     font: state.userfont,
     color: state.usercolor,
     keywords: state.keywords,
+    userflower: state.user_flower_url,
   }));
 
   const keywordList = keywords.map((keyword, index) => (
@@ -51,7 +52,11 @@ function EditAnthology() {
             justify="center"
           >
             {/* 왼쪽 박스*/}
-            <Preview userfont={font} usercolor={color} />
+            <Preview
+              userfont={font}
+              usercolor={color}
+              userflower={userflower}
+            />
           </Flex>
           <VStack
             justify="center"

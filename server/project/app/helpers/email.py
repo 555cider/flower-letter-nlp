@@ -4,7 +4,7 @@ from app.models.book import BookModel
 from app.models.order import OrderModel
 
 
-async def send_email(
+async def send_order_email(
     config: Settings, order: OrderModel, book: BookModel, flower: str
 ) -> str:
 
@@ -29,9 +29,6 @@ async def send_email(
           <div style="font-size: 1.2rem; font-weight: bold; margin-left: auto; margin-right: auto; padding: 10px; text-align: center;">Order Summary</div>
           <div style="margin-left: auto; margin-right: auto; font-size: 0.9rem; text-align: center;">Order No. {order_id}</div>
           <div style="margin-left: auto; margin-right: auto; display:flex; width: 427px;">
-            <div>
-              <img src="https://flower-letter-resources.s3.ap-northeast-2.amazonaws.com/sample_img.png" style="height: 180px;"/>
-            </div>
             <div style="margin-left: 10px; border-bottom: 2px solid #846c6c; border-top: 2px solid #846c6c; padding:0; height: 176px;">
               <table style="width: 300px; min-width: 180px; border-bottom: 1px solid #846c6c; padding: 15px; display: flex; flex-direction: column;">
                 <tr style="display: flex; justify-content: space-between; width: 270px;">
@@ -87,7 +84,7 @@ async def send_email(
       <div style="display: flex; background-color: #f2c0c6; padding: 20px;">
         <div style="font-size: 0.7rem; text-align: center; color: #444; margin-left:auto; margin-right:auto; width:100%;">
           <div>010-1212-3434</div>
-          <div style="text-decoration: none !important;">yulie@flowerletter.co.kr</div>
+          <div style="text-decoration: none !important;">flowerpoetry03@gmail.com</div>
           <div>서울시 강남구 언주로 000, xx빌딩</div>
           <div>© 2021 꽃편지</div>
         </div>
@@ -112,6 +109,54 @@ async def send_email(
     message = MessageSchema(
         subject=f"[꽃편지] {order.name}님의 주문이 완료되었습니다. #{order.id}",
         recipients=[order.email],  # List of recipients
+        html=html,
+        subtype="html",
+    )
+
+    fm = FastMail(config.email_config)
+    await fm.send_message(message)
+    print("email sent successfully.")
+    return "OK"
+
+
+async def send_question_answer_email(
+    config: Settings, response: str, email: str
+) -> str:
+
+    html = """
+<html style="font-family:Arial, Helvetica, sans-serif; font-size: 0.8rem; width: 800px; height: 1500px">
+  <head>
+    <style>
+        @font-face {{font-family: "sungsil"; src: url(https://flower-letter-resources.s3.ap-northeast-2.amazonaws.com/sungsil.ttf);
+        }}
+    </style>
+  </head>
+  <body>
+    <div style="padding-left: 10vw; padding-right: 10vw;">
+      <div style="background-color: #f2c0c6; display:flex;">
+        <img style="width: 150px; margin-left: auto; margin-right: auto;" src="https://flower-letter-resources.s3.ap-northeast-2.amazonaws.com/logo_withoutbg.png" />
+      </div>
+      <div style="background-color: #faf4f4; padding: 20px; padding-left: 20%; padding-right: 20%;">
+        {response}
+      </div>
+      <div style="display: flex; background-color: #f2c0c6; padding: 20px;">
+        <div style="font-size: 0.7rem; text-align: center; color: #444; margin-left:auto; margin-right:auto; width:100%;">
+          <div>010-1212-3434</div>
+          <div style="text-decoration: none !important;">yulie@flowerletter.co.kr</div>
+          <div>서울시 강남구 언주로 000, xx빌딩</div>
+          <div>© 2021 꽃편지</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+    """.format(
+        response=response
+    )
+
+    message = MessageSchema(
+        subject=f"[꽃편지] 문의 답변",
+        recipients=[email],  # List of recipients
         html=html,
         subtype="html",
     )

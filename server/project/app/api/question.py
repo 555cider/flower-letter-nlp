@@ -1,10 +1,6 @@
-from fastapi import (
-    APIRouter,
-    Depends,
-)
+from fastapi import APIRouter, Depends, BackgroundTasks, Form, Header, status
 from app.models.question import (
     Question,
-    QuestionModel,
     QuestionOut,
     create_question,
     read_all_questions,
@@ -13,7 +9,10 @@ from app.models.question import (
 )
 from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import List
+from typing import List, Optional
+from app.helpers.email import send_question_answer_email
+from fastapi.responses import RedirectResponse
+from app.config import Settings, get_config
 
 
 question_router = APIRouter(tags=["문의"])
@@ -57,14 +56,24 @@ async def post_question(
     return new_order
 
 
-@question_router.patch("/question", summary="문의 답변 완료", status_code=200)
-async def patch_question_status(
-    question_id: int,
+@question_router.post("/question_answer", summary="문의 답변 완료", status_code=200)
+async def post_question_reply(
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
+    config: Settings = Depends(get_config),
+    inquiry_id: str = Form(...),
+    email: str = Form(...),
+    reply: str = Form(...),
+    origin: Optional[str] = Header(None),
 ):
     """
     문의 답변 완료
     """
+    background_tasks.add_task(
+        send_question_answer_email, config, reply, email
+    )  # 이메일 전송
 
-    updated_question = await update_question_status(question_id, db)
-    return updated_question
+    await update_question_status(int(inquiry_id), db)
+
+    redirect_url = f"{origin}/inquiry"
+    return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)

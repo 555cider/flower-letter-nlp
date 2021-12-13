@@ -7,12 +7,15 @@ from sqlalchemy import (
     Text,
 )
 from datetime import datetime
+from sqlalchemy.sql.expression import true
 
 from sqlalchemy.sql.sqltypes import Boolean
+from sqlalchemy.future import select
 
 from app.db import Base
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
+from typing import List
 
 
 class QuestionModel(Base):
@@ -69,12 +72,25 @@ class Question(BaseModel):
         }
 
 
+class QuestionOut(BaseModel):
+    id: int
+    name: str
+    email: str
+    title: str
+    content: str
+    answered: str
+    date: datetime
+
+    class Config:
+        orm_mode = True
+
+
 # ===========
 # CRUD
 # ===========
 
 
-async def create_question(question: Question, db: AsyncSession):
+async def create_question(question: Question, db: AsyncSession) -> QuestionModel:
     new_question = QuestionModel(
         question.name, question.email, question.title, question.content
     )
@@ -83,3 +99,19 @@ async def create_question(question: Question, db: AsyncSession):
     await db.commit()
     await db.refresh(new_question)
     return new_question
+
+
+async def read_all_questions(db: AsyncSession) -> List[QuestionModel]:
+    query = select(QuestionModel)
+    result = await db.execute(query)
+    all_questions = result.scalars().all()
+    return all_questions
+
+
+async def update_question_status(question_id: int, db: AsyncSession) -> QuestionModel:
+    question = await db.get(QuestionModel, question_id)
+    question.answered = True
+
+    await db.commit()
+    await db.refresh(question)
+    return question

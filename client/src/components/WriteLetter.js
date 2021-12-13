@@ -82,6 +82,7 @@ function WriteLetter({ history }) {
       <VStack h="100vh" bgGradient={'radial(white, #FDF5E6, #FBEBCD, #f8dfb1)'}>
         <StepsLetter></StepsLetter>
         <CreatePageEx exText={'tjfaud ansrnasdfaweoifj'}></CreatePageEx>
+
         <HStack
           h="80vh"
           p="2"

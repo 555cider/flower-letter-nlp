@@ -75,9 +75,13 @@ function OrderPay({ history }) {
 
   const contentList = [...poemList, ...freecontentList];
 
+  const free_content_count = free_content.length;
+  const free_content_price = free_content_count * 3000;
+  const totalPrice = 48000 + free_content_price;
+
   const orderInfo = {
     order: {
-      price: 47000,
+      price: totalPrice,
       name: name,
       delivery_name: delivery_name,
       address: address,
@@ -129,9 +133,29 @@ function OrderPay({ history }) {
     });
   };
 
-  const free_content_count = free_content.length;
-  const free_content_price = free_content_count * 3000;
-  const totalPrice = 48000 + free_content_price;
+  const passCheck = () => {
+    if (
+      name === '' ||
+      phone === '' ||
+      email === '' ||
+      memo === '' ||
+      delivery_name === '' ||
+      address === '' ||
+      post_code === ''
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleCheck = () => {
+    if (passCheck() === true) {
+      onClickPayButton();
+    } else {
+      alert('필수 입력값이 비어있습니다. 확인해주세요');
+    }
+  };
 
   const passCheck = () => {
     if (

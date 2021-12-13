@@ -33,6 +33,29 @@
       td:first-child {
         border-left: none;
       }
+      .buttonArea {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .submit {
+        cursor: pointer;
+        background-color: rosybrown;
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        border-style: none;
+      }
+      .submit:hover {
+        box-shadow: 2px 2px 2px rgba(22, 22, 22, 0.2);
+      }
+      a {
+        text-decoration: none;
+        color: #222;
+      }
     </style>
   </head>
   <body>
@@ -58,6 +81,11 @@
         </tr>
         {%endfor%}
       </table>
+      <div class="buttonArea">
+        <a href="/">
+          <div class="submit">홈으로</div>
+        </a>
+      </div>
     </div>
   </body>
 </html>

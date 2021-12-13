@@ -18,7 +18,7 @@ export default function HowToUse() {
       <LeftImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageThirdImg.png'}
+        imgUrl={'/img/howto_letter.jpg'}
         textColor={'gray'}
         text={`하나. 편지를 쓰세요.`}
         contentText={`시집을 선물하고자 하는 사람에게 편지를 써보세요. 
@@ -29,7 +29,7 @@ export default function HowToUse() {
       <RightImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageFirstImg.png'}
+        imgUrl={'/img/howto_keyword.jpg'}
         text={`둘. 키워드를 확인해보세요.`}
         contentText={`편지의 내용을 분석한 키워드를 확인해보세요.
         AI가 추천해준 키워드로 매칭된 시집을 받게 됩니다.`}
@@ -40,7 +40,7 @@ export default function HowToUse() {
       <LeftImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageThirdImg.png'}
+        imgUrl={'/img/howto_flower.jpg'}
         text={`셋. 꽃말을 선택하세요.`}
         contentText={`편지 내용에 맞는 꽃말을 선택해보세요.
         선택해주신 꽃말이 시집의 표지 디자인으로 들어가게 됩니다.`}
@@ -51,7 +51,7 @@ export default function HowToUse() {
       <RightImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageFirstImg.png'}
+        imgUrl={'/img/howto_cover.jpg'}
         text={`넷. 디자인을 선택하세요.`}
         contentText={`블랙, 화이트, 베이지 중에서 원하는 느낌의 컬러를 선택해보세요.
         폰트도 설정하고, 실시간 미리보기를 이용해 디자인을 확인해보세요.`}
@@ -62,7 +62,7 @@ export default function HowToUse() {
       <LeftImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageThirdImg.png'}
+        imgUrl={'/img/howto_free.jpg'}
         text={`다섯. 자유글을 추가해보세요.`}
         contentText={`자유글을 이용해 페이지를 원하는 글로 채워보세요. 그사람만을 위한 시인이 되어, 직접 쓴시를 추가해보는 것은 어떨까요?
         (자유글은 선택사항이며, 페이지당 추가 비용이 발생합니다.)`}
@@ -73,7 +73,7 @@ export default function HowToUse() {
       <RightImage
         w="full"
         h="700px"
-        imgUrl={'/img/mainpageFirstImg.png'}
+        imgUrl={'/img/howto_review.jpg'}
         text={`여섯. 시집을 검토해보세요.`}
         contentText={`시집의 제목을 정해보세요. 
         또한 시집의 목차를 클릭해서 각 페이지로 이동할 수 있습니다.`}

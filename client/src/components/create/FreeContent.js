@@ -21,9 +21,10 @@ export default function FreeContent() {
     free_content: state.free_content,
   }));
 
-  const { font, color } = useSelector((state) => ({
+  const { font, color, userflower } = useSelector((state) => ({
     font: state.userfont,
     color: state.usercolor,
+    userflower: state.user_flower_url,
   }));
 
   const [content, setContent] = useState([free_content]);
@@ -64,7 +65,11 @@ export default function FreeContent() {
             justify="center"
           >
             {/* 왼쪽 박스 */}
-            <Preview userfont={font} usercolor={color} />
+            <Preview
+              userfont={font}
+              usercolor={color}
+              userflower={userflower}
+            />
           </Flex>
           <Flex
             w="27%"

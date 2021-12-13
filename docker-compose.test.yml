@@ -79,6 +79,25 @@ services:
       - "traefik.http.routers.mlapi-test.tls=true" # HTTPS
       - "traefik.http.routers.mlapi-test.tls.certresolver=letsencrypt"
 
+  test_office:
+    build:
+      context: ./office/project
+      dockerfile: Dockerfile.prod
+    container_name: test_office_container
+    env_file:
+      - ./office/.env.test
+    expose:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.test-office.rule=Host(`${TEST_OFFICE_DOMAIN}`)"
+      - "traefik.http.routers.test-office.tls=true" # HTTPS
+      - "traefik.http.routers.test-office.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.test-office.middlewares=test-office-auth" # HTTP BasicAuth middleware
+      - "traefik.http.middlewares.test-office-auth.basicauth.users=admin:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1" # Username (password)
+  
+  
+
 volumes:
   postgres_data_test:
   mongo_data_test:

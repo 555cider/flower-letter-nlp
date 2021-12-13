@@ -23,27 +23,28 @@ import styled from 'styled-components';
 const PaymentContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
-  width: 60vw;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 70vw;
   display: flex;
   gap: 50px;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   .left-box {
     display: flex;
     flex-direction: column;
-    width: 30vw;
+    width: 40vw;
     gap: 20px;
     .title {
       width: 100%;
       padding-bottom: 5px;
       border-bottom: 3px solid #aaa;
       font-weight: bold;
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     .heading {
       font-weight: bold;
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       padding-bottom: 5px;
       border-bottom: 1px solid #ddd;
       margin-bottom: 20px;
@@ -103,12 +104,12 @@ const PaymentContainer = styled.div`
     box-shadow: 1px 1px 1px rgba(120, 120, 120, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     .heading {
       width: 100%;
       font-weight: bold;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       padding-bottom: 5px;
       border-bottom: 1px solid #eee;
     }
@@ -126,14 +127,16 @@ const PaymentContainer = styled.div`
       flex-direction: column;
       .sp-between {
         padding: 5px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         display: flex;
         justify-content: space-between;
       }
       .divider {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
         margin-bottom: 10px;
         margin-top: 10px;
       }

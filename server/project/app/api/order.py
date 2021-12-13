@@ -33,7 +33,7 @@ from app.models.order import (
 )
 from app.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.helpers.email import send_email
+from app.helpers.email import send_order_email
 from app.models.book import FlowerModel
 
 order_router = APIRouter(tags=["주문"])
@@ -81,7 +81,9 @@ async def pay(
     # 꽃 이름
     flower = await FlowerModel.get(PydanticObjectId(book.flower_id))
 
-    background_tasks.add_task(send_email, config, order, book, flower.flower)  # 이메일 전송
+    background_tasks.add_task(
+        send_order_email, config, order, book, flower.flower
+    )  # 이메일 전송
 
     redirect_url = f"{request.headers['origin']}/checkout?order={order_id}"
     return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)

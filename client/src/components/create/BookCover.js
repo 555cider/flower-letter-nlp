@@ -50,9 +50,10 @@ export default function BookCover() {
   const dispatch = useDispatch();
 
   //리덕스에서 불러온 초기값
-  const { color, font } = useSelector((state) => ({
+  const { color, font, userflower } = useSelector((state) => ({
     color: state.usercolor,
     font: state.userfont,
+    userflower: state.user_flower_url,
   }));
 
   const [userFont, setUserFont] = useState(font);
@@ -104,7 +105,11 @@ export default function BookCover() {
             justify="center"
           >
             {/* 왼쪽 박스 */}
-            <Preview userfont={userFont} usercolor={userColor} />
+            <Preview
+              userfont={userFont}
+              usercolor={userColor}
+              userflower={userflower}
+            />
           </Flex>
           <Flex
             w="27%"
@@ -133,6 +138,7 @@ export default function BookCover() {
                 backgroundColor={COLORS.option1}
                 onClick={() => {
                   setUserColor(COLORS.option1);
+                  dispatch({ type: 'SAVE_COLOR', userColor: COLORS.option1 });
                 }}
               >
                 Beige
@@ -152,6 +158,7 @@ export default function BookCover() {
                 backgroundColor={COLORS.option2}
                 onClick={() => {
                   setUserColor(COLORS.option2);
+                  dispatch({ type: 'SAVE_COLOR', userColor: COLORS.option2 });
                 }}
               >
                 White
@@ -172,12 +179,35 @@ export default function BookCover() {
                 backgroundColor={COLORS.option3}
                 onClick={() => {
                   setUserColor(COLORS.option3);
+                  dispatch({ type: 'SAVE_COLOR', userColor: COLORS.option3 });
                 }}
               >
                 Black
               </Button>
 
               <Text>폰트</Text>
+              <Button
+                className={
+                  userFont === FONTS.option3
+                    ? 'flowerbutton selected '
+                    : 'flowerbutton'
+                }
+                m="2"
+                w="90%"
+                h="50px"
+                bg="#d8bfd7"
+                fontWeight="100"
+                color="black"
+                fontFamily={FONTS.option3}
+                fontSize="1.4rem"
+                _hover={{}}
+                onClick={() => {
+                  setUserFont(FONTS.option3);
+                  dispatch({ type: 'SAVE_FONT', userFont: FONTS.option3 });
+                }}
+              >
+                성실체
+              </Button>
               <Button
                 className={
                   userFont === FONTS.option1
@@ -195,7 +225,7 @@ export default function BookCover() {
                 _hover={{}}
                 onClick={() => {
                   setUserFont(FONTS.option1);
-                  dispatch({ type: 'SAVE_FONT', userFont });
+                  dispatch({ type: 'SAVE_FONT', userFont: FONTS.option1 });
                 }}
               >
                 나눔 할아버지체
@@ -217,32 +247,10 @@ export default function BookCover() {
                 _hover={{}}
                 onClick={() => {
                   setUserFont(FONTS.option2);
-                  dispatch({ type: 'SAVE_FONT', userFont });
+                  dispatch({ type: 'SAVE_FONT', userFont: FONTS.option2 });
                 }}
               >
                 나눔 엄마체
-              </Button>
-              <Button
-                className={
-                  userFont === FONTS.option3
-                    ? 'flowerbutton selected '
-                    : 'flowerbutton'
-                }
-                m="2"
-                w="90%"
-                h="50px"
-                bg="#d8bfd7"
-                fontWeight="100"
-                color="black"
-                fontFamily={FONTS.option3}
-                fontSize="1.4rem"
-                _hover={{}}
-                onClick={() => {
-                  setUserFont(FONTS.option3);
-                  dispatch({ type: 'SAVE_FONT', userFont });
-                }}
-              >
-                성실체
               </Button>
             </RightBox>
           </Flex>

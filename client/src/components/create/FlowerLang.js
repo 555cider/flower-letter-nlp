@@ -51,14 +51,21 @@ export default function FlowerLang() {
   const dispatch = useDispatch();
   const [currentKeyword, setCurrentKeyword] = useState();
 
-  const { flowersList, font, color } = useSelector((state) => ({
+  const { flowersList, font, color, userflower } = useSelector((state) => ({
     flowersList: state.flowersList,
     font: state.userfont,
     color: state.usercolor,
+    userflower: state.user_flower_url,
   }));
+  const [currentFlower, setCurrentFlower] = useState(userflower);
 
-  const saveFlower = (user_flower_id, user_flower_symbol) => {
-    dispatch({ type: 'SAVE_USER_FLOWER', user_flower_id, user_flower_symbol });
+  const saveFlower = (user_flower_id, user_flower_symbol, user_flower_url) => {
+    dispatch({
+      type: 'SAVE_USER_FLOWER',
+      user_flower_id,
+      user_flower_symbol,
+      user_flower_url,
+    });
   };
 
   const flowerList = flowersList.map((content, index) => (
@@ -68,10 +75,43 @@ export default function FlowerLang() {
         currentKeyword === content['_id'] ? 'buttons selected' : 'buttons'
       }
       onClick={() => {
+        let flowerURL = 'rose';
+        if (content['flower'].includes('장미')) {
+          flowerURL = 'rose';
+        } else if (content['flower'].includes('튤립')) {
+          flowerURL = 'tulip';
+        } else if (content['flower'].includes('벚꽃')) {
+          flowerURL = 'cherryblossoms';
+        } else if (
+          content['flower'].includes('백합') ||
+          content['image_url'] === 'white'
+        ) {
+          flowerURL = 'lily';
+        } else if (
+          content['flower'].includes('라벤더') ||
+          content['image_url'] === 'purple'
+        ) {
+          flowerURL = 'lavender';
+        } else if (content['flower'].includes('연꽃')) {
+          flowerURL = 'lotus';
+        } else if (
+          content['flower'].includes('해바라기') ||
+          content['image_url'] === 'yellow'
+        ) {
+          flowerURL = 'sunflower';
+        } else if (content['image_url'] === 'blue') {
+          flowerURL = 'blueflower';
+        } else if (content['image_url'] === 'red') {
+          flowerURL = content['_id'] % 2 === 0 ? 'rose' : 'tulip';
+        } else if (content['image_url'] === 'pink') {
+          flowerURL = content['_id'] % 2 === 0 ? 'cherryblossoms' : 'lotus';
+        }
         saveFlower(
           content['_id'],
-          `${content['flower']}... ${content['symbol']}`
+          `${content['flower']}... ${content['symbol']}`,
+          flowerURL
         );
+        setCurrentFlower(flowerURL);
         setChecked(true);
         setCurrentKeyword(content['_id']);
       }}
@@ -119,7 +159,11 @@ export default function FlowerLang() {
           >
             {/* 왼쪽 박스 */}
 
-            <Preview userfont={font} usercolor={color} />
+            <Preview
+              userfont={font}
+              usercolor={color}
+              userflower={currentFlower}
+            />
           </Flex>
           <Flex
             justify="center"

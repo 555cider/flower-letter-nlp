@@ -86,7 +86,7 @@ export default function ReviewComponent({
               </Box>
               <Box h="2"></Box>
               <Avatar src="https://bit.ly/broken-link" />
-              <Text>Python님,</Text>
+              <Text>정율리</Text>
             </VStack>
             <Spacer />
             <VStack
@@ -100,13 +100,14 @@ export default function ReviewComponent({
               <Box w="100%">
                 <Text fontFamily={'EliceRegular'} fontSize={'lg'}>
                   "시집 커스텀 기능이 좋았어요. 시 내용은 좋은데 뭔가 커버나
-                  디자인이 별루인? ㅜㅜ 시집도 많아서 디자인도 편지내용이랑 딱
-                  맞게 커스텀하는 기능이 좋아여!!"
+                  디자인이 별로인 시집들이 많은데, 꽃편지에는 디자인도
+                  편지내용이랑 딱 맞게 커스텀할 수 있는 기능이 있어서
+                  좋았어요!!"
                 </Text>
               </Box>
               <Box h="2"></Box>
               <Avatar src="https://bit.ly/broken-link" />
-              <Text> Java님,</Text>
+              <Text> 김서정</Text>
             </VStack>
             <Spacer />
             <VStack
@@ -128,7 +129,7 @@ export default function ReviewComponent({
               </Box>
               <Box h="2"></Box>
               <Avatar src="https://bit.ly/broken-link" />
-              <Text>Docker님,</Text>
+              <Text>이무용</Text>
             </VStack>
           </HStack>
           {/* </Flex> */}

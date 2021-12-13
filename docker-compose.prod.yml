@@ -74,6 +74,23 @@ services:
       - MONGODB_INITDB_ROOT_USERNAME=root
       - MONGODB_INITDB_ROOT_PASSWORD=password123
   
+  prod_office:
+    build:
+      context: ./office/project
+      dockerfile: Dockerfile.prod
+    container_name: prod_office_container
+    env_file:
+      - ./office/.env.prod
+    expose:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prod-office.rule=Host(`${PROD_OFFICE_DOMAIN}`)"
+      - "traefik.http.routers.prod-office.tls=true" # HTTPS
+      - "traefik.http.routers.prod-office.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.prod-office.middlewares=prod-office-auth" # HTTP BasicAuth middleware
+      - "traefik.http.middlewares.prod-office-auth.basicauth.users=admin:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1" # Username (password)
+
 volumes:
   postgres_data_prod:
   mongo_data_prod:

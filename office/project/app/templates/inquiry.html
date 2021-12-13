@@ -69,6 +69,25 @@
         border-radius: 3px;
         box-shadow: 1px 1px 1px rgba(55, 55, 55, 0.2);
       }
+      .buttonArea {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .submit {
+        cursor: pointer;
+        background-color: rosybrown;
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        border-style: none;
+      }
+      .submit:hover {
+        box-shadow: 2px 2px 2px rgba(22, 22, 22, 0.2);
+      }
     </style>
   </head>
   <body>
@@ -83,8 +102,7 @@
           <th>문의날짜</th>
           <th>문의상태</th>
         </tr>
-        {%for inquiry in inquiries%} {% set
-        url='http://127.0.0.1:5000/inquiry/'~inquiry["id"]%}
+        {%for inquiry in inquiries%} {% set url='/inquiry/'~inquiry["id"]%}
         <tr>
           <td>{{inquiry["id"]}}</td>
           <td>{{inquiry["title"]}}</td>
@@ -103,6 +121,11 @@
         </tr>
         {%endfor%}
       </table>
+      <div class="buttonArea">
+        <a href="/">
+          <div class="submit">홈으로</div>
+        </a>
+      </div>
     </div>
   </body>
 </html>

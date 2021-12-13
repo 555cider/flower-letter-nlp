@@ -23,13 +23,12 @@ def inquiry_page():
     except:
         flash("문의 불러오기 실패.")
 
-    print(inquiries)
-
     return render_template("inquiry.html", inquiries=inquiries)
 
 
 @app.route("/inquiry/<inquiry_id>")
 def page(inquiry_id):
+
     url = f"{config.api_url}/question/{inquiry_id}"
     try:
         response = requests.get(url)
@@ -37,7 +36,7 @@ def page(inquiry_id):
     except:
         flash("문의 불러오기 실패.")
 
-    return render_template("inquiry_reply.html", inquiry_example=inquiry)
+    return render_template("inquiry_reply.html", inquiry=inquiry, apiurl=config.api_url)
 
 
 @app.route("/order")

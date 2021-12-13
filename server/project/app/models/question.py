@@ -85,6 +85,11 @@ class QuestionOut(BaseModel):
         orm_mode = True
 
 
+class QuestionAnswer(BaseModel):
+    inquiry_id: int
+    reply: str
+
+
 # ===========
 # CRUD
 # ===========

@@ -1,0 +1,110 @@
+<html>
+  <head>
+    <title>꽃편지-문의</title>
+    <style>
+      .title {
+        display: flex;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+      .inquiryCard {
+        width: 500px;
+        display: flex;
+        align-items: center;
+        border: 1px solid rgba(22, 22, 22, 0.2);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px rgba(22, 22, 22, 0.2);
+        gap: 5px;
+        cursor: pointer;
+      }
+      a {
+        text-decoration: none;
+        color: #222;
+      }
+
+      .title {
+        display: flex;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+      }
+      table {
+        width: 1000px;
+        border-spacing: 0;
+      }
+      th {
+        border-top: 1px solid #ccc;
+      }
+      th,
+      td {
+        font-size: 0.9rem;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        padding: 10px;
+      }
+      th:first-child,
+      td:first-child {
+        border-left: none;
+      }
+      .replyButton {
+        width: 50px;
+        text-align: center;
+        background-color: bisque;
+        border-radius: 3px;
+        box-shadow: 1px 1px 1px rgba(55, 55, 55, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">문의</div>
+      <table>
+        <tr>
+          <th>문의번호</th>
+          <th>문의제목</th>
+          <th>문의자명</th>
+          <th>이메일</th>
+          <th>전화번호</th>
+          <th>문의날짜</th>
+          <th>문의상태</th>
+        </tr>
+        {%for inquiry in inquiries%} {% set
+        url='http://127.0.0.1:5000/inquiry/'~inquiry["id"]%}
+        <tr>
+          <td>{{inquiry["id"]}}</td>
+          <td>{{inquiry["title"]}}</td>
+          <td>{{inquiry["name"]}}</td>
+          <td>{{inquiry["email"]}}</td>
+          <td>{{inquiry["phone"]}}</td>
+          <td>{{inquiry["date"]}}</td>
+          {% if inquiry["replied"] %}
+          <td>답변완료</td>
+          {% else %}
+          <td>
+            <a href="{{url}}">
+              <div class="replyButton">답변</div>
+            </a>
+          </td>
+          {% endif %}
+        </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+# Docker compose for local development
+
+version: '3.8'
+
+services:
+  web_office:
+    build:
+      context: ./project
+      dockerfile: Dockerfile
+    volumes:
+      - ./project:/app # for automatic reloading
+    ports:
+      - 5000:5000
+    env_file:
+      - .env.dev

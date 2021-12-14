@@ -272,7 +272,7 @@ function OrderPay({ history }) {
     console.log('SERVER AUTH STARTED');
     window.AUTHNICE.requestPay({
       clientId: process.env.REACT_APP_CLIENT_ID,
-      method: 'card',
+      method: paymentMethod === 'normal' ? 'card' : 'naverpayCard',
       orderId: orderId,
       amount: orderAmount,
       goodsName: '꽃편지-시집',

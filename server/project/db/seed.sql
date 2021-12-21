@@ -1,1 +1,0 @@
-insert into order_status (status_name) values ('결제대기'), ('결제완료'), ('배송대기'), ('배송중'), ('배송완료');

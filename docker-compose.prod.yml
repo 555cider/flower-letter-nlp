@@ -19,7 +19,7 @@ services:
   
   prod_api:
     build: 
-      context: ./server/project
+      context: ./server
       dockerfile: Dockerfile.prod
     container_name: prod_api_container
     expose:
@@ -37,7 +37,7 @@ services:
 
   prod_ml:
     build:
-      context: ./ml/model-api
+      context: ./ml
       dockerfile: Dockerfile.comb
     container_name: ml_container
     expose:
@@ -50,7 +50,7 @@ services:
 
   prod_postgres_db:
     build:
-      context: ./server/project/db
+      context: ./server/db
       dockerfile: Dockerfile.post
     container_name: postgres_db_prod
     volumes:
@@ -63,7 +63,7 @@ services:
 
   prod_mongo_db:
     build:
-      context: ./server/project/db
+      context: ./server/db
       dockerfile: Dockerfile.mongo
     container_name: mongo_db_prod
     expose:
@@ -76,7 +76,7 @@ services:
   
   prod_office:
     build:
-      context: ./office/project
+      context: ./office
       dockerfile: Dockerfile.prod
     container_name: prod_office_container
     env_file:

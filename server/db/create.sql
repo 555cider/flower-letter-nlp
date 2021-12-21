@@ -1,0 +1,1 @@
+CREATE DATABASE flower_letter_db;

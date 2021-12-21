@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <title>꽃편지-주문확인</title>
+    <style>
+      .title {
+        display: flex;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+      }
+      .orderTable {
+        width: 800px;
+        border-spacing: 0;
+      }
+      th {
+        border-top: 1px solid #ccc;
+      }
+      th,
+      td {
+        font-size: 0.9rem;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        padding: 10px;
+      }
+      th:first-child,
+      td:first-child {
+        border-left: none;
+      }
+      .buttonArea {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .submit {
+        cursor: pointer;
+        background-color: rosybrown;
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        border-style: none;
+      }
+      .submit:hover {
+        box-shadow: 2px 2px 2px rgba(22, 22, 22, 0.2);
+      }
+      a {
+        text-decoration: none;
+        color: #222;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">주문 목록</div>
+      <table class="orderTable">
+        <tr>
+          <th>주문번호</th>
+          <th>주문자</th>
+          <th>이메일</th>
+          <th>전화번호</th>
+          <th>주문날짜</th>
+          <th>상태</th>
+        </tr>
+        {%for order in orders%}
+        <tr>
+          <td>{{order.id}}</td>
+          <td>{{order.name}}</td>
+          <td>{{order.email}}</td>
+          <td>{{order.phone}}</td>
+          <td>{{order.order_date}}</td>
+          <td>{{order.order_status}}</td>
+        </tr>
+        {%endfor%}
+      </table>
+      <div class="buttonArea">
+        <a href="/">
+          <div class="submit">홈으로</div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -8,4 +8,4 @@
 
 ## Prod env
 - Dockerfile.prod
-- .env.production
+- .env.prod

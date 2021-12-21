@@ -3,7 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
-chrome_service = Service(r"C:\Programming\ChromeDriver\chromedriver.exe")
+# webdriver 설치 경로
+CHROMEDRIVER_PATH = r"...\chromedriver.exe"
+chrome_service = Service(CHROMEDRIVER_PATH)
 driver = webdriver.Chrome(service=chrome_service)
 
 # 최대 5초까지 대기

@@ -12,7 +12,7 @@ services:
     expose:
       - 80
     env_file:
-      - ./client/.env.production
+      - ./client/.env.prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend-http.rule=HOST(`www.flowerletter.co.kr`,`flowerletter.co.kr`)"
@@ -22,11 +22,11 @@ services:
 
   ml_service:
     build:
-      context: ./ml/model-api
+      context: ./ml
       dockerfile: Dockerfile.comb
     # command: uvicorn app.main:app --host 0.0.0.0 --reload
     # volumes:
-    #   - ./ml/model-api:/app # for auto reload
+    #   - ./ml:/app # for auto reload
     container_name: ml_container
     expose:
       - 80
@@ -42,7 +42,7 @@ services:
 
   web_prod:
     build: 
-      context: ./server/project
+      context: ./server
       dockerfile: Dockerfile.prod
     container_name: web_prod
     expose:
@@ -56,11 +56,11 @@ services:
       - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
 
   web_test:
-    build: ./server/project
+    build: ./server
     command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
     container_name: web_test
     volumes:
-      - ./server/project:/usr/src/app # for automatic reloading of container after code change
+      - ./server:/usr/src/app # for automatic reloading of container after code change
     expose:
       - 8000
     env_file:
@@ -76,7 +76,7 @@ services:
 
   postgres_db:
     build:
-      context: ./server/project/db
+      context: ./server/db
       dockerfile: Dockerfile
     container_name: postgres_db
     volumes:

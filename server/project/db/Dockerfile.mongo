@@ -1,6 +1,0 @@
-# pull official base image
-FROM mongo:5.0.4
-
-# run create.sql on init
-ADD add_flowers.js /docker-entrypoint-initdb.d
-ADD add_poems.js /docker-entrypoint-initdb.d
